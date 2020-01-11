@@ -12,9 +12,10 @@ class Register extends Component {
         event.preventDefault();
         if (isValid === false) {
             event.stopPropagation();
+        } else {
+            console.log("REDIRECT");
         }
         this.props.setValidated(true);
-        console.log("REDIRECT");
     };
 
     render() {
