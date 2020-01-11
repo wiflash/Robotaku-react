@@ -2,11 +2,16 @@ import createStore from "unistore";
 
 
 const initialState = {
+    corsHeroku: "https://cors-anywhere.herokuapp.com/",
+    userData: {},
+    email: "",
+    password: "",
     isLogin: false,
     category: "all",
     keyword: "",
     isLoading: true,
-    modalShow: false
+    modalShow: false,
+    isValidated: false
 };
 
 export const store = createStore(initialState);
@@ -20,5 +25,9 @@ export const actions = store => ({
     
     setModal: (state, status) => {
         store.setState({modalShow: status});
+    },
+
+    setValidated: (state, status) => {
+        store.setState({isValidated: status});
     }
 });

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
-import {actions, store} from "../store";
+import {actions} from "../store";
+import Login from "./login";
 import {Navbar, Nav, Form, Button, InputGroup, FormControl} from 'react-bootstrap';
-import SignIn from "../components/signIn";
-import SignUp from "../components/signUp";
+import {FaSearch} from "react-icons/fa"
 import logo from '../logo.svg';
 
 
@@ -20,23 +20,12 @@ class Navigation extends Component {
         }
     }
 
-    handleSubmit(event) {
+    handleSearch(event) {
         event.preventDefault();
         this.props.history.push("/:category/result")
     }
 
     render() {
-        const auth = localStorage.getItem("isLogin") ? ["Profile", "Logout"]
-            : ["Masuk", "Daftar"]
-        const authMenu = auth.map(authElement => {
-            return (
-                // <Button className="ml-2" variant="outline-warning" onClick={() => this.handleAuth(authElement)}>
-                <Button className="ml-2" variant="outline-warning" onClick={() => this.props.setModal(true)}>
-                    {authElement}
-                </Button>
-            )
-        });
-        
         const categories = [
             "Semua Kategori",
             "Aktuator & Power System",
@@ -71,7 +60,7 @@ class Navigation extends Component {
                 </Nav>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse>
-                    <Form onSubmit={(event) => this.handleSubmit(event)} className="mx-auto">
+                    <Form onSubmit={(event) => this.handleSearch(event)} className="mx-auto">
                         <InputGroup>
                             <InputGroup.Prepend as="select" className="custom-select">
                                 {selectCategory}
@@ -82,15 +71,19 @@ class Navigation extends Component {
                             />
                             <InputGroup.Append>
                                 <Button variant="warning" type="submit">
-                                    Cari
+                                    <FaSearch/>
                                 </Button>
                             </InputGroup.Append>
                         </InputGroup>
                     </Form>
                     <Nav className="ml-auto">
-                        {authMenu}
-                        <SignIn show={this.props.modalShow} onHide={() => this.props.setModal(false)}/>
-                        {/* <SignUp show={this.props.modalShow}/> */}
+                        <Button className="ml-2" variant="outline-warning" onClick={() => this.props.setModal(true)}>
+                            Masuk
+                        </Button>
+                        <Button href="/register" className="ml-2" variant="warning">
+                            Daftar
+                        </Button>
+                        <Login show={this.props.modalShow} onHide={() => this.props.setModal(false)}/>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
