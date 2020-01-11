@@ -6,18 +6,15 @@ import {Jumbotron, Container, Form, Col, Button, Row} from 'react-bootstrap';
 
 
 class Register extends Component {
-    state = {
-        password: "",
-        confirmPassword: ""
-    }
-
     handleRegister = event => {
         const form = event.currentTarget;
+        const isValid = this.props.password !== this.props.confirmPassword ? false : form.checkValidity()
         event.preventDefault();
-        if (form.checkValidity() === false) {
+        if (isValid === false) {
             event.stopPropagation();
         }
         this.props.setValidated(true);
+        console.log("REDIRECT");
     };
 
     render() {
@@ -31,7 +28,7 @@ class Register extends Component {
                                     <Form.Group as={Col} md="6">
                                         <Form.Label>Nama Depan</Form.Label>
                                         <Form.Control name="firstName" placeholder="Robo"
-                                            value={this.state.confirmPassword}
+                                            value={this.props.firstName}
                                             onChange={this.props.handleSetGlobal}
                                             required/>
                                         <Form.Control.Feedback type="invalid">Nama depan harus diisi</Form.Control.Feedback>
@@ -39,7 +36,7 @@ class Register extends Component {
                                     <Form.Group as={Col} md="6">
                                         <Form.Label>Nama Belakang</Form.Label>
                                         <Form.Control name="lastName" placeholder="Taku"
-                                            value={this.state.confirmPassword}
+                                            value={this.props.clastName}
                                             onChange={this.props.handleSetGlobal}
                                             required/>
                                         <Form.Control.Feedback type="invalid">Nama belakang harus diisi</Form.Control.Feedback>
@@ -49,7 +46,7 @@ class Register extends Component {
                                     <Form.Label>Alamat Email</Form.Label>
                                     <Form.Control name="email" type="email"
                                         placeholder="robo@robotaku.id"
-                                        value={this.state.confirmPassword}
+                                        value={this.props.email}
                                         onChange={this.props.handleSetGlobal}
                                         required/>
                                     <Form.Control.Feedback type="invalid">Email harus diisi</Form.Control.Feedback>
@@ -59,7 +56,7 @@ class Register extends Component {
                                         <Form.Label>Kata sandi</Form.Label>
                                         <Form.Control name="password" type="password"
                                             placeholder="Masukkan kata sandi"
-                                            value={this.state.confirmPassword}
+                                            value={this.props.password}
                                             onChange={this.props.handleSetGlobal}
                                             pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                                             required/>
@@ -71,11 +68,12 @@ class Register extends Component {
                                         <Form.Label>Konfirmasi kata sandi</Form.Label>
                                         <Form.Control name="confirmPassword" type="password"
                                             placeholder="Konfirmasi kata sandi"
-                                            value={this.state.confirmPassword}
+                                            value={this.props.confirmPassword}
                                             onChange={this.props.handleSetGlobal}
+                                            pattern={`^${this.props.password}$`}
                                             required/>
                                         <Form.Control.Feedback type="invalid">
-                                            Kata sandi harus minimal 8 karakter, terdapat huruf kapital, angka, dan karakter spesial
+                                            Kata sandi harus sama
                                         </Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
