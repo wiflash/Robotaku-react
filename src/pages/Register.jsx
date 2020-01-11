@@ -6,10 +6,15 @@ import {Jumbotron, Container, Form, Col, Button, Row} from 'react-bootstrap';
 
 
 class Register extends Component {
+    state = {
+        password: "",
+        confirmPassword: ""
+    }
+
     handleRegister = event => {
         const form = event.currentTarget;
+        event.preventDefault();
         if (form.checkValidity() === false) {
-            event.preventDefault();
             event.stopPropagation();
         }
         this.props.setValidated(true);
@@ -25,33 +30,50 @@ class Register extends Component {
                                 <Form.Row>
                                     <Form.Group as={Col} md="6">
                                         <Form.Label>Nama Depan</Form.Label>
-                                        <Form.Control name="firstName" placeholder="Robo" required/>
+                                        <Form.Control name="firstName" placeholder="Robo"
+                                            value={this.state.confirmPassword}
+                                            onChange={this.props.handleSetGlobal}
+                                            required/>
                                         <Form.Control.Feedback type="invalid">Nama depan harus diisi</Form.Control.Feedback>
                                     </Form.Group>
                                     <Form.Group as={Col} md="6">
                                         <Form.Label>Nama Belakang</Form.Label>
-                                        <Form.Control name="lastName" placeholder="Taku" required/>
+                                        <Form.Control name="lastName" placeholder="Taku"
+                                            value={this.state.confirmPassword}
+                                            onChange={this.props.handleSetGlobal}
+                                            required/>
                                         <Form.Control.Feedback type="invalid">Nama belakang harus diisi</Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
                                 <Form.Group>
                                     <Form.Label>Alamat Email</Form.Label>
-                                    <Form.Control name="email" type="email" placeholder="robo@robotaku.id" required/>
+                                    <Form.Control name="email" type="email"
+                                        placeholder="robo@robotaku.id"
+                                        value={this.state.confirmPassword}
+                                        onChange={this.props.handleSetGlobal}
+                                        required/>
                                     <Form.Control.Feedback type="invalid">Email harus diisi</Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Row>
                                     <Form.Group as={Col} md="6">
                                         <Form.Label>Kata sandi</Form.Label>
                                         <Form.Control name="password" type="password"
-                                            placeholder="Masukkan password" required/>
+                                            placeholder="Masukkan kata sandi"
+                                            value={this.state.confirmPassword}
+                                            onChange={this.props.handleSetGlobal}
+                                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                                            required/>
                                         <Form.Control.Feedback type="invalid">
-                                            Kata sandi harus minimal 8 karakter, terdapat huruf kapital, angka, dan karakter spesial
+                                            Kata sandi harus minimal 8 karakter, terdapat huruf kapital, huruf kecil, angka, dan karakter spesial
                                         </Form.Control.Feedback>
                                     </Form.Group>
                                     <Form.Group as={Col} md="6">
                                         <Form.Label>Konfirmasi kata sandi</Form.Label>
                                         <Form.Control name="confirmPassword" type="password"
-                                            placeholder="Masukkan konfirmasi password" required/>
+                                            placeholder="Konfirmasi kata sandi"
+                                            value={this.state.confirmPassword}
+                                            onChange={this.props.handleSetGlobal}
+                                            required/>
                                         <Form.Control.Feedback type="invalid">
                                             Kata sandi harus minimal 8 karakter, terdapat huruf kapital, angka, dan karakter spesial
                                         </Form.Control.Feedback>
@@ -70,4 +92,6 @@ class Register extends Component {
 }
 
 
-export default connect("keyword, category, modalShow, isValidated", actions)(withRouter(Register));
+export default connect(
+    "keyword, category, email, password, confirmPassword, firstName, lastName, isValidated",
+    actions)(withRouter(Register));
