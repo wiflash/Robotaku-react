@@ -3,6 +3,8 @@ import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
 import {Navbar, Nav, Form, Button, InputGroup, FormControl} from 'react-bootstrap';
+import SignIn from "../components/signIn";
+import SignUp from "../components/signUp";
 import logo from '../logo.svg';
 
 
@@ -24,14 +26,12 @@ class Navigation extends Component {
     }
 
     render() {
-        const [modalShow, setModalShow] = React.useState(false);
-
         const auth = localStorage.getItem("isLogin") ? ["Profile", "Logout"]
             : ["Masuk", "Daftar"]
         const authMenu = auth.map(authElement => {
-            let categoryPath;
             return (
-                <Button className="ml-2" variant="outline-warning" onClick={() => this.handleAuth(authElement)}>
+                // <Button className="ml-2" variant="outline-warning" onClick={() => this.handleAuth(authElement)}>
+                <Button className="ml-2" variant="outline-warning" onClick={() => this.props.setModal(true)}>
                     {authElement}
                 </Button>
             )
@@ -89,6 +89,8 @@ class Navigation extends Component {
                     </Form>
                     <Nav className="ml-auto">
                         {authMenu}
+                        <SignIn show={this.props.modalShow} onHide={() => this.props.setModal(false)}/>
+                        {/* <SignUp show={this.props.modalShow}/> */}
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
@@ -97,4 +99,4 @@ class Navigation extends Component {
 }
 
 
-export default connect("keyword, category", actions)(withRouter(Navigation));
+export default connect("keyword, category, modalShow", actions)(withRouter(Navigation));
