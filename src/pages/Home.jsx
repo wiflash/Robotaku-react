@@ -1,17 +1,19 @@
-import React from "react";
+import React, {Component, Fragment} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
 import Navigation from "../components/navbar";
+import SlideShow from "../components/carousel";
 
 
-class Home extends React.Component {
+class Home extends Component {
     render() {
         return (
-            <React.Fragment>
+            <Fragment>
                 <Navigation/>
+                <SlideShow/>
                 <h3 className="mt-5 text-center font-weight-bold">Home page</h3>
-            </React.Fragment>
+            </Fragment>
         );
     }
 }

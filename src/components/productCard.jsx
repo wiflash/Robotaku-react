@@ -12,30 +12,30 @@ class ProductCard extends Component {
     render() {
         return (
             <Fragment>
-                <Col xs="2" md="4">
+                <Col xs="12" sm="6" lg="4">
                     <Card>
                         <Card.Img as={Image} fluid variant="top" src={manipulator} />
                         <Card.Body>
                             <Card.Title>Product name</Card.Title>
                             <Card.Text>
-                                <p>Kode produk:</p>
-                                <p>rating</p>
-                                <p>Harga</p>
+                                <span>Kode produk:</span><br/>
+                                <span>rating</span><br/>
+                                <span>Harga</span><br/>
                             </Card.Text>
-                            <Row>
+                            <Row className="align-items-center">
                                 <Col xs="12" md="6">
-                                    <InputGroup className="mb-3">
+                                    <InputGroup>
                                         <InputGroup.Prepend>
-                                            <Button variant="light">-</Button>
+                                            <Button block variant="outline-warning">-</Button>
                                         </InputGroup.Prepend>
                                         {this.state.quantity}
                                         <InputGroup.Prepend>
-                                            <Button variant="light">+</Button>
+                                            <Button block variant="outline-warning">+</Button>
                                         </InputGroup.Prepend>
                                     </InputGroup>
                                 </Col>
                                 <Col xs="12" md="6">
-                                    <Button variant="warning">Tambah</Button>
+                                    <Button block variant="warning">Tambah</Button>
                                 </Col>
                             </Row>
                         </Card.Body>

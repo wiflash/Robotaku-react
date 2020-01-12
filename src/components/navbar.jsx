@@ -10,8 +10,15 @@ import logo from '../logo.svg';
 
 class Navigation extends Component {
     handleSearch(event) {
+        const categoryPath = this.props.category === "Semua Kategori" ? "all"
+            : this.props.category === "Aktuator & Power System" ? "actuator"
+            : this.props.category === "Baterai / Charger" ? "battery"
+            : this.props.category === "Komponen & Peralatan" ? "component"
+            : this.props.category === "Robotik & Kit" ? "robotic"
+            : this.props.category === "UAV / Drone" ? "uav"
+            : "ugv"
         event.preventDefault();
-        this.props.history.replace(`/${this.props.category}/result`)
+        this.props.history.replace(`/${categoryPath}/result`)
     }
 
     render() {
@@ -25,15 +32,8 @@ class Navigation extends Component {
             "UGV /RC Car"
         ]
         const selectCategory = categories.map(category => {
-            const value = category === "Semua Kategori" ? "all"
-                : category === "Aktuator & Power System" ? "actuator"
-                : category === "Baterai / Charger" ? "battery"
-                : category === "Komponen & Peralatan" ? "component"
-                : category === "Robotik & Kit" ? "robotic"
-                : category === "UAV / Drone" ? "uav"
-                : "ugv"
             return (
-                <option value={value} onClick={this.props.handleSetGlobal}>
+                <option value={category} onClick={this.props.handleSetGlobal}>
                     {category}
                 </option>
             )

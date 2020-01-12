@@ -9,7 +9,7 @@ const initialState = {
     confirmPassword: "",
     firstName: "",
     lastName: "",
-    category: "all",
+    category: "Semua Kategori",
     keyword: "",
     modalShow: false,
     isLoading: true,
