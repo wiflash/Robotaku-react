@@ -20,7 +20,8 @@ const initialState = {
     isEmailExists: false,
     existedEmail: "",
     isPhoneExists: false,
-    existedPhone: ""
+    existedPhone: "",
+    perPage: 12
 };
 
 export const store = createStore(initialState);

@@ -9,20 +9,9 @@ import logo from '../logo.svg';
 
 
 class Navigation extends Component {
-    handleAuth = menu => {
-        if (menu === "Logout") {
-            localStorage.removeItem("isLogin");;
-            this.props.history.push("/");
-        } else if (menu === "Home") {
-            this.props.history.push("/");
-        } else {
-            this.props.history.push(`/${menu}`)
-        }
-    }
-
     handleSearch(event) {
         event.preventDefault();
-        this.props.history.push("/:category/result")
+        this.props.history.replace(`/${this.props.category}/result`)
     }
 
     render() {
