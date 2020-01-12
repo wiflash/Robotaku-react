@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from "react";
-import {Carousel} from "react-bootstrap";
+import {Carousel, Image} from "react-bootstrap";
 
 import f1 from "../images/f1.jpg";
 import drone from "../images/drone.jpg";
@@ -14,21 +14,21 @@ class SlideShow extends Component {
         return (
             <Carousel>
                 <Carousel.Item>
-                    <img className="d-block w-100" style={slideStyle} src={f1} alt="F1 Car"/>
+                    <Image fluid className="d-block w-100" style={slideStyle} src={f1} alt="F1 Car"/>
                     <Carousel.Caption>
                         <h3>F1 Car</h3>
                         <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
                     </Carousel.Caption>
                 </Carousel.Item>
                 <Carousel.Item>
-                    <img className="d-block w-100" style={slideStyle} src={drone} alt="Drone"/>
+                    <Image fluid className="d-block w-100" style={slideStyle} src={drone} alt="Drone"/>
                     <Carousel.Caption>
                         <h3>Drone</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     </Carousel.Caption>
                 </Carousel.Item>
                 <Carousel.Item>
-                    <img className="d-block w-100" style={slideStyle} src={arm} alt="Third slide"/>
+                    <Image fluid className="d-block w-100" style={slideStyle} src={arm} alt="Third slide"/>
                     <Carousel.Caption>
                         <h3>Arm Robot</h3>
                         <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
