@@ -1,9 +1,9 @@
 import React, {Component, Fragment} from 'react';
 import axios from "axios";
-import {withRouter} from "react-router-dom";
+import {withRouter, Redirect} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {Jumbotron, Container, Form, Col, Button, Row} from 'react-bootstrap';
+import {Jumbotron, Container, Form, Col, Button, Row, Alert} from 'react-bootstrap';
 
 
 class Register extends Component {
@@ -26,20 +26,22 @@ class Register extends Component {
                     existedEmail: "",
                     emailRegex: '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$'
                 })
-                console.log(response.data);
+                alert("Berhasil mendaftarkan akun!");
+                this.props.history.push("/");
             })
             .catch((error) => {
                 event.persist();
-                console.log(error.response);
-                if (error.response.data.message === "Email already exists") {
-                    store.setState({
-                        isEmailExists: true,
-                        existedEmail: this.props.email,
-                        emailRegex: `^(?!${this.props.email})`+`(${this.props.emailRegex})`
-                    });
+                if (error.response) {
+                    if (error.response.data.message === "Email already exists") {
+                        store.setState({
+                            isEmailExists: true,
+                            existedEmail: this.props.email,
+                            emailRegex: `^(?!${this.props.email})`+`(${this.props.emailRegex})`
+                        });
+                    }
+                } else {
+                    alert("Terdapat kesalahan pada koneksi");
                 }
-                console.log(error.response);
-                console.log(this.props.existedEmail, this.props.isEmailExists);
             })
         }
         this.props.setValidated(true);
@@ -72,7 +74,7 @@ class Register extends Component {
                                 </Form.Row>
                                 <Form.Group>
                                     <Form.Label>Alamat Email</Form.Label>
-                                    <Form.Control name="email"
+                                    <Form.Control name="email" type="email"
                                         placeholder="robo@robotaku.id" value={this.props.email}
                                         onChange={this.props.handleSetGlobal}
                                         pattern={this.props.emailRegex}
