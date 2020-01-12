@@ -1,4 +1,5 @@
 import React, {Component, Fragment} from 'react';
+import axios from "axios";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
@@ -13,7 +14,33 @@ class Register extends Component {
         if (isValid === false) {
             event.stopPropagation();
         } else {
-            console.log("REDIRECT");
+            axios.post("http://localhost:5000/api/auth", {
+                nama_depan: this.props.firstName,
+                nama_belakang: this.props.lastName,
+                email: this.props.email,
+                password: this.props.password
+            })
+            .then((response) => {
+                store.setState({
+                    isEmailExists: false,
+                    existedEmail: "",
+                    emailRegex: '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$'
+                })
+                console.log(response.data);
+            })
+            .catch((error) => {
+                event.persist();
+                console.log(error.response);
+                if (error.response.data.message === "Email already exists") {
+                    store.setState({
+                        isEmailExists: true,
+                        existedEmail: this.props.email,
+                        emailRegex: `^(?!${this.props.email})`+`(${this.props.emailRegex})`
+                    });
+                }
+                console.log(error.response);
+                console.log(this.props.existedEmail, this.props.isEmailExists);
+            })
         }
         this.props.setValidated(true);
     };
@@ -45,12 +72,14 @@ class Register extends Component {
                                 </Form.Row>
                                 <Form.Group>
                                     <Form.Label>Alamat Email</Form.Label>
-                                    <Form.Control name="email" type="email"
-                                        placeholder="robo@robotaku.id"
-                                        value={this.props.email}
+                                    <Form.Control name="email"
+                                        placeholder="robo@robotaku.id" value={this.props.email}
                                         onChange={this.props.handleSetGlobal}
+                                        pattern={this.props.emailRegex}
                                         required/>
-                                    <Form.Control.Feedback type="invalid">Email harus diisi</Form.Control.Feedback>
+                                    <Form.Control.Feedback type="invalid">
+                                        {this.props.isEmailExists ? "Email sudah ada yang memakai" : "Email harus diisi"}
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Row>
                                     <Form.Group as={Col} md="6">
@@ -92,5 +121,5 @@ class Register extends Component {
 
 
 export default connect(
-    "keyword, category, email, password, confirmPassword, firstName, lastName, isValidated",
+    "keyword, category, email, password, confirmPassword, firstName, lastName, isValidated, isEmailExists, existedEmail, emailRegex",
     actions)(withRouter(Register));

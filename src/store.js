@@ -9,12 +9,18 @@ const initialState = {
     confirmPassword: "",
     firstName: "",
     lastName: "",
-    isLogin: false,
     category: "all",
     keyword: "",
-    isLoading: true,
     modalShow: false,
-    isValidated: false
+    isLoading: true,
+    isLogin: false,
+    emailRegex: '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
+    newEmailRegex: "",
+    isValidated: false,
+    isEmailExists: false,
+    existedEmail: "",
+    isPhoneExists: false,
+    existedPhone: ""
 };
 
 export const store = createStore(initialState);
