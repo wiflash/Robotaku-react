@@ -8,10 +8,17 @@ import ShopByCategory from "../components/shopByCategory";
 
 
 class Home extends Component {
+    handleRouteSearch(event) {
+        event.preventDefault();
+        this.props.categoryToPath();
+        console.log(store.getState().categoryPath);
+        this.props.history.replace(`/${store.getState().categoryPath}`);
+    }
+
     render() {
         return (
             <Fragment>
-                <Navigation/>
+                <Navigation handleSearch={event => this.handleRouteSearch(event)}/>
                 <SlideShow/>
                 <h3 className="mt-5 text-center font-weight-bold">Pilih Berdasarkan Kategori</h3>
                 <ShopByCategory className="mt-5"/>
@@ -21,4 +28,4 @@ class Home extends Component {
 }
 
 
-export default connect(actions)(withRouter(Home));
+export default connect("", actions)(withRouter(Home));

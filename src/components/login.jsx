@@ -7,17 +7,20 @@ import axios from 'axios';
 
 
 class Login extends Component {
-    handleLogin(event) {
+    async handleLogin(event) {
         store.setState({isLoading: true});
         event.preventDefault();
         // tembak api
-        axios.get("http://localhost:5000/api/auth", {
+        await axios.put("http://localhost:5000/api/auth", {
                 email: this.props.email,
                 password: this.props.password
             }
         )
         .then((response) => {
-            console.log(response.data);
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("isLogin", true);
+            console.log(localStorage.getItem("isLogin"));
+            this.props.history.push("/");
         })
         .catch((error) => console.warn(error))
         if (this.props.isLoading === false) {
@@ -52,7 +55,7 @@ class Login extends Component {
                                 onChange={this.props.handleSetGlobal}
                                 placeholder="Masukkan kata sandi" required/>
                         </Form.Group>
-                        <Button variant="warning" type="submit">
+                        <Button variant="warning" data-dismiss="modal" type="submit">
                             Masuk
                         </Button>
                     </Form>
