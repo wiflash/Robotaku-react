@@ -13,16 +13,18 @@ class ProductCard extends Component {
     render() {
         return (
             <Fragment>
-                <Col xs="12" sm="6" lg="4">
-                    <Card>
+                {/* <Col xs="12" sm="6" lg="4"> */}
+                    <Card className="mt-3">
                         <Card.Img as={Image} className="rounded-top" fluid variant="top" src={manipulator} />
                         <Card.Body className="p-md-2">
-                            <Card.Title>Product name</Card.Title>
+                            <Card.Title>{this.props.productName}</Card.Title>
                             <Card.Text>
-                                <span>Kode produk:</span><br/>
-                                <span>rating</span><br/>
-                                <span className="font-weight-bold">Harga</span><br/>
+                                <span>Kode Produk: 90{this.props.productId}1{this.props.productId}291{this.props.productId}</span><br/>
+                                <span>Rating: {this.props.productRating}</span><br/>
+                                <span className="font-weight-bold">Rp {this.props.productPrice}</span><br/>
                             </Card.Text>
+                        </Card.Body>
+                        <Card.Footer>
                             <Row className="align-items-center">
                                 <Col xs="12" md="6">
                                     <InputGroup className="align-items-center">
@@ -43,9 +45,9 @@ class ProductCard extends Component {
                                     <Button block variant="warning">Tambah</Button>
                                 </Col>
                             </Row>
-                        </Card.Body>
+                        </Card.Footer>
                     </Card>
-                </Col>
+                {/* </Col> */}
             </Fragment>
         )
     }

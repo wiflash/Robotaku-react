@@ -13,7 +13,7 @@ class Navigation extends Component {
         event.preventDefault();
         this.props.categoryToPath();
         console.log(store.getState().categoryPath);
-        this.props.history.replace(`/${store.getState().categoryPath}/result`)
+        this.props.history.replace(`/${store.getState().categoryPath}/result`);
     }
 
     render() {

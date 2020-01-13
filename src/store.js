@@ -22,7 +22,9 @@ const initialState = {
     isPhoneExists: false,
     existedPhone: "",
     page: 1,
-    perPage: 12
+    perPage: 12,
+    totalEntry: 0,
+    searchResult: []
 };
 
 export const store = createStore(initialState);
