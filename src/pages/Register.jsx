@@ -8,9 +8,9 @@ import {Jumbotron, Container, Form, Col, Button, Row, Alert} from 'react-bootstr
 
 class Register extends Component {
     handleRegister = event => {
+        event.preventDefault();
         const form = event.currentTarget;
         const isValid = this.props.password !== this.props.confirmPassword ? false : form.checkValidity()
-        event.preventDefault();
         if (isValid === false) {
             event.stopPropagation();
         } else {

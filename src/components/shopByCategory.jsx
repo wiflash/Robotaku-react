@@ -18,7 +18,7 @@ const categories = [
     "Aktuator & Power System", "Baterai / Charger",
     "Komponen & Peralatan", "Robotik & Kit",
     "UAV / Drone", "UGV /RC Car"
-]
+];
 
 
 class ShopByCategory extends Component {
@@ -29,8 +29,12 @@ class ShopByCategory extends Component {
                     <ListGroup>
                         <ListGroup.Item action className="p-0">
                             <Image fluid className="w-100 rounded-top" src={eachCategory}/>
-                                <p className="font-weight-bold">{categories[index]}</p>
-                            <Button variant="warning">Telusuri</Button>
+                            <h4 className="font-weight-bold position-relative">
+                                {categories[index]}
+                            </h4>
+                            <Button variant="warning" className="text-white font-weight-bold">
+                                Telusuri
+                            </Button>
                         </ListGroup.Item>
                     </ListGroup>
                 </Col>

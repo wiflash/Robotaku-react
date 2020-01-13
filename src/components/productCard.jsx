@@ -14,7 +14,7 @@ class ProductCard extends Component {
             <Fragment>
                 <Col xs="12" sm="6" lg="4">
                     <Card>
-                        <Card.Img as={Image} fluid variant="top" src={manipulator} />
+                        <Card.Img as={Image} className="rounded-top" fluid variant="top" src={manipulator} />
                         <Card.Body>
                             <Card.Title>Product name</Card.Title>
                             <Card.Text>

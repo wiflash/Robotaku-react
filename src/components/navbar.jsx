@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
-import {actions} from "../store";
+import {actions, store} from "../store";
 import Login from "./login";
 import {Navbar, Nav, Form, Button, InputGroup, FormControl} from 'react-bootstrap';
 import {FaSearch} from "react-icons/fa"
@@ -10,15 +10,10 @@ import logo from '../logo.svg';
 
 class Navigation extends Component {
     handleSearch(event) {
-        const categoryPath = this.props.category === "Semua Kategori" ? "all"
-            : this.props.category === "Aktuator & Power System" ? "actuator"
-            : this.props.category === "Baterai / Charger" ? "battery"
-            : this.props.category === "Komponen & Peralatan" ? "component"
-            : this.props.category === "Robotik & Kit" ? "robotic"
-            : this.props.category === "UAV / Drone" ? "uav"
-            : "ugv"
         event.preventDefault();
-        this.props.history.replace(`/${categoryPath}/result`)
+        this.props.categoryToPath();
+        console.log(store.getState().categoryPath);
+        this.props.history.replace(`/${store.getState().categoryPath}/result`)
     }
 
     render() {
@@ -43,8 +38,8 @@ class Navigation extends Component {
             <Navbar expand="lg" bg="dark">
                 <Nav className="mr-auto">
                     <Navbar.Brand href="/">
-                        <img src={logo} width="50" height="50" className="d-inline-block align-center" alt="logo"/>
-                        <span className="text-light font-weight-bold">Robotaku</span>
+                        <img src={logo} width="50" height="50" alt="logo" className="d-inline-block"/>
+                        <span className="h4 text-warning font-weight-bold align-middle m-0">RobotAku</span>
                     </Navbar.Brand>
                 </Nav>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
@@ -66,10 +61,10 @@ class Navigation extends Component {
                         </InputGroup>
                     </Form>
                     <Nav className="ml-auto">
-                        <Button className="ml-2" variant="outline-warning" onClick={() => this.props.setModal(true)}>
+                        <Button className="ml-2" variant="outline-warning font-weight-bold" onClick={() => this.props.setModal(true)}>
                             Masuk
                         </Button>
-                        <Button href="/register" className="ml-2" variant="warning">
+                        <Button href="/register" className="ml-2 text-dark font-weight-bold" variant="warning">
                             Daftar
                         </Button>
                         <Login show={this.props.modalShow} onHide={() => this.props.setModal(false)}/>
@@ -81,4 +76,4 @@ class Navigation extends Component {
 }
 
 
-export default connect("keyword, category, modalShow", actions)(withRouter(Navigation));
+export default connect("keyword, modalShow", actions)(withRouter(Navigation));

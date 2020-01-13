@@ -11,16 +11,12 @@ import Navigation from "../components/navbar";
 class SearchProduct extends Component {
     requestNews = () => {
         const categoryPath = this.props.match.params.category;
-        const perPage = `&rp=${this.props.perPage}`;
-        const category = categoryPath === "all" ? "Semua Kategori"
-            : categoryPath ===  "actuator" ? "Aktuator & Power System"
-            : categoryPath === "battery" ? "Baterai / Charger"
-            : categoryPath === "component" ? "Komponen & Peralatan"
-            : categoryPath === "robotic" ?"Robotik & Kit"
-            : categoryPath === "uav" ? "UAV / Drone"
-            : "UGV / RC Car"
         console.log(categoryPath);
-        // Axios.get(`http://localhost:5000/api/product/?keyword=${this.props.keyword}`, {
+        this.props.pathToCategory(categoryPath);
+        const perPage = `&rp=${store.getState().perPage}`;
+        const category = `&kategori=${store.getState().category}`;
+        console.log(store.getState().category);
+        // Axios.get(`http://localhost:5000/api/product/?keyword=${store.getState().keyword}`, {
         //     params: {
 
         //     }
@@ -39,6 +35,7 @@ class SearchProduct extends Component {
     
     handleSetperPage = (event) => {
         store.setState({ perPage: event.target.value });
+        console.log(this.props.perPage);
         this.requestNews();
     };
 
@@ -53,20 +50,28 @@ class SearchProduct extends Component {
 
         return (
             <Fragment>
-                <Navigation/>
+                <Navigation {...this.props}/>
                 <Container>
                     <Row>
-                        <Col xs="12" md="3">
+                        <Col xs="12" md="3" className="mt-4">
                             {/* filter bar */}
                         </Col>
-                        <Col xs="12" md="9">
-                            <Row className="align-items-center">
-                                <InputGroup>
-                                    Tampilkan:
-                                    <InputGroup.Append as="select" className="custom-select">
+                        <Col xs="12" md="9" className="mt-4">
+                            <Row className="align-items-center bg-warning rounded-top">
+                                <Col xs="4" md="3" lg="2" className="p-2">
+                                    <span className="text-right">
+                                        Total x produk
+                                    </span>
+                                </Col>
+                                <Col xs="4" md="5" lg="6" className="p-2"></Col>
+                                <Col xs="2" lg="2" className="p-2 text-right">
+                                    <span>Tampilkan:</span>
+                                </Col>
+                                <Col xs="2" lg="2" className="p-2">
+                                    <select className="custom-select">
                                         {selectPerPage}
-                                    </InputGroup.Append>
-                                </InputGroup>
+                                    </select>
+                                </Col>
                             </Row>
                             <Row><ProductCard/></Row>
                         </Col>
