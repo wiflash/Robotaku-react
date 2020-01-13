@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
@@ -9,11 +9,9 @@ import logo from '../logo.svg';
 
 
 class Navigation extends Component {
-    handleSearch(event) {
-        event.preventDefault();
-        this.props.categoryToPath();
-        console.log(store.getState().categoryPath);
-        this.props.history.replace(`/${store.getState().categoryPath}/result`);
+    signOut = () => {
+        localStorage.removeItem("isLogin");;
+        this.props.history.push("/");
     }
 
     render() {
@@ -25,14 +23,40 @@ class Navigation extends Component {
             "Robotik & Kit",
             "UAV / Drone",
             "UGV /RC Car"
-        ]
+        ];
         const selectCategory = categories.map(category => {
             return (
                 <option value={category} onClick={this.props.handleSetGlobal}>
                     {category}
                 </option>
             )
-        })
+        });
+
+        const LoginCheck = () => {
+            if (localStorage.getItem("isLogin") === "true") {
+                return (
+                    <Fragment>
+                        <Button href="/profile" className="ml-md-2 text-dark font-weight-bold" variant="warning">
+                            Profil
+                        </Button>
+                        <Button className="ml-md-2" variant="outline-warning font-weight-bold" onClick={this.signOut}>
+                            Keluar
+                        </Button>
+                    </Fragment>
+                )
+            } else {
+                return (
+                    <Fragment>
+                        <Button className="ml-md-2" variant="outline-warning font-weight-bold" onClick={() => this.props.setModal(true)}>
+                            Masuk
+                        </Button>
+                        <Button href="/register" className="ml-md-2 text-dark font-weight-bold" variant="warning">
+                            Daftar
+                        </Button>
+                    </Fragment>
+                )
+            }
+        };
         
         return (
             <Navbar expand="lg" bg="dark">
@@ -44,7 +68,7 @@ class Navigation extends Component {
                 </Nav>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse>
-                    <Form onSubmit={(event) => this.handleSearch(event)} className="mx-auto">
+                    <Form onSubmit={(event) => this.props.handleSearch(event)} className="mx-auto">
                         <InputGroup>
                             <InputGroup.Prepend as="select" className="custom-select">
                                 {selectCategory}
@@ -61,12 +85,7 @@ class Navigation extends Component {
                         </InputGroup>
                     </Form>
                     <Nav className="ml-auto">
-                        <Button className="ml-2" variant="outline-warning font-weight-bold" onClick={() => this.props.setModal(true)}>
-                            Masuk
-                        </Button>
-                        <Button href="/register" className="ml-2 text-dark font-weight-bold" variant="warning">
-                            Daftar
-                        </Button>
+                        <LoginCheck />
                         <Login show={this.props.modalShow} onHide={() => this.props.setModal(false)}/>
                     </Nav>
                 </Navbar.Collapse>

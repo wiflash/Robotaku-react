@@ -1,14 +1,21 @@
 import React, {Component, Fragment} from "react";
-import {Image, Row, Col, Button, Card, InputGroup} from "react-bootstrap";
+import {withRouter} from "react-router-dom";
+import {connect} from "unistore/react";
+import {actions, store} from "../store";
+import {Image, Row, Col, Button, Card, InputGroup, Nav} from "react-bootstrap";
 import {FiStar} from "react-icons/fi";
 import manipulator from "../images/manipulator.jpg";
 
 
 class ProductCard extends Component {
     state = {
-        quantity: 1,
-        productId: 1
+        quantity: 1
     };
+
+    handleDetail = productId => {
+        store.setState({productId: productId});
+        this.props.history.push("/product/detail/"+this.props.productId);
+    }
 
     render() {
         return (
@@ -17,7 +24,11 @@ class ProductCard extends Component {
                     <Card className="mt-3">
                         <Card.Img as={Image} className="rounded-top" fluid variant="top" src={manipulator} />
                         <Card.Body className="p-md-2">
-                            <Card.Title>{this.props.productName}</Card.Title>
+                            <Card.Title>
+                                <Nav.Link className="p-0 text-body" onClick={() => this.handleDetail(this.props.productId)}>
+                                    {this.props.productName}
+                                </Nav.Link>
+                            </Card.Title>
                             <Card.Text>
                                 <span>Kode Produk: 90{this.props.productId}1{this.props.productId}291{this.props.productId}</span><br/>
                                 <span>Rating: {this.props.productRating}</span><br/>
@@ -54,4 +65,4 @@ class ProductCard extends Component {
 }
 
 
-export default ProductCard;
+export default connect("productId", actions)(withRouter(ProductCard));

@@ -24,7 +24,8 @@ const initialState = {
     page: 1,
     perPage: 12,
     totalEntry: 0,
-    searchResult: []
+    searchResult: [],
+    productId: 1
 };
 
 export const store = createStore(initialState);
@@ -34,8 +35,8 @@ export const actions = store => ({
         event.target.name === undefined ?
             store.setState({ category: event.target.value })
             : store.setState({ [event.target.name]: event.target.value })
-        console.log("event.name:", event.target.name);
-        console.log("event:", event.target.value);
+        // console.log("event.name:", event.target.name);
+        // console.log("event:", event.target.value);
         // console.log("category:", store.getState().category);
     },
     

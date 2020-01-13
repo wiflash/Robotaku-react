@@ -1,15 +1,15 @@
 import React, {Component, Fragment} from "react";
+import Axios from "axios";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {Container, Row, Col, CardGroup, InputGroup, Accordion, Card} from "react-bootstrap";
-import Axios from "axios";
+import {Container, Row, Col, CardGroup} from "react-bootstrap";
 import ProductCard from "../components/productCard";
 import Navigation from "../components/navbar";
 
 
 class SearchProduct extends Component {
-    requestNews = async () => {
+    requestProducts = async () => {
         const categoryPath = this.props.match.params.category;
         this.props.pathToCategory(categoryPath);
         store.setState({isLoading: true});
@@ -34,31 +34,40 @@ class SearchProduct extends Component {
             console.log(error);
             alert("Terdapat kesalahan pada koneksi");
         })
-        console.log(this.props.searchResult);
-        console.log(this.props.isLoading);
+        // console.log(this.props.searchResult);
+        // console.log(this.props.isLoading);
     }
     
     componentDidMount = () => {
-        this.requestNews();
+        this.requestProducts();
     };
     
-    handleSetperPage = (event) => {
+    handleSetperPage(event) {
         store.setState({ perPage: event.target.value });
         console.log(this.props.perPage);
-        this.requestNews();
+        this.requestProducts();
     };
+
+    handleRouteSearch(event) {
+        event.preventDefault();
+        this.props.categoryToPath();
+        // console.log(store.getState().category);
+        // console.log(store.getState().categoryPath);
+        this.props.history.replace(`/${this.props.categoryPath}`);
+        this.requestProducts();
+    }
 
     render() {
         const selectPerPage = [12,24,32,48,60].map(perPage => {
             return (
-                <option value={perPage} onClick={this.handleSetPerPage}>
+                <option value={perPage} onChange={this.handleSetPerPage}>
                     {perPage}
                 </option>
             )
         });
 
         const showResult = this.props.searchResult.map((eachResult, key) => {
-            console.log(key,eachResult);
+            // console.log(key,eachResult);
             return (
                 <ProductCard
                     productName={eachResult.nama}
@@ -71,7 +80,7 @@ class SearchProduct extends Component {
 
         return (
             <Fragment>
-                <Navigation/>
+                <Navigation {...this.props} handleSearch={event => this.handleRouteSearch(event)}/>
                 <Container>
                     <Row>
                         <Col xs="12" md="3" className="mt-4">
@@ -112,4 +121,4 @@ class SearchProduct extends Component {
 }
 
 
-export default connect("totalEntry, page, perPage, keyword, category, searchResult, isLoading", actions)(withRouter(SearchProduct));
+export default connect("totalEntry, page, perPage, keyword, category, categoryPath, searchResult, isLoading", actions)(withRouter(SearchProduct));
