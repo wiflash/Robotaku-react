@@ -29,9 +29,12 @@ export const store = createStore(initialState);
 
 export const actions = store => ({
     handleSetGlobal: (state, event) => {
-        event.target.name == null ?
+        event.target.name === undefined ?
             store.setState({ category: event.target.value })
             : store.setState({ [event.target.name]: event.target.value })
+        console.log("event.name:", event.target.name);
+        console.log("event:", event.target.value);
+        // console.log("category:", store.getState().category);
     },
     
     setModal: (state, status) => {
@@ -42,14 +45,14 @@ export const actions = store => ({
         store.setState({isValidated: status});
     },
 
-    categoryToPath: (state) => {
-        const categoryPath = store.getState().category === "Semua Kategori" ? "all"
-        : store.getState().category === "Aktuator & Power System" ? "actuator"
-        : store.getState().category === "Baterai / Charger" ? "battery"
-        : store.getState().category === "Komponen & Peralatan" ? "component"
-        : store.getState().category === "Robotik & Kit" ? "robotic"
-        : store.getState().category === "UAV / Drone" ? "uav"
-        : "ugv"
+    categoryToPath: (state, category=store.getState().category) => {
+        const categoryPath = category === "Semua Kategori" ? "all"
+            : category === "Aktuator & Power System" ? "actuator"
+            : category === "Baterai / Charger" ? "battery"
+            : category === "Komponen & Peralatan" ? "component"
+            : category === "Robotik & Kit" ? "robotic"
+            : category === "UAV / Drone" ? "uav"
+            : "ugv"
         store.setState({categoryPath: categoryPath});
     },
 

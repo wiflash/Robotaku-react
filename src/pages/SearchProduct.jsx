@@ -2,7 +2,7 @@ import React, {Component, Fragment} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {Container, Row, Col, InputGroup, Accordion, Card} from "react-bootstrap";
+import {Container, Row, Col, CardDeck, InputGroup, Accordion, Card} from "react-bootstrap";
 import Axios from "axios";
 import ProductCard from "../components/productCard";
 import Navigation from "../components/navbar";
@@ -50,7 +50,7 @@ class SearchProduct extends Component {
 
         return (
             <Fragment>
-                <Navigation {...this.props}/>
+                <Navigation/>
                 <Container>
                     <Row>
                         <Col xs="12" md="3" className="mt-4">
@@ -59,13 +59,13 @@ class SearchProduct extends Component {
                         <Col xs="12" md="9" className="mt-4">
                             <Row className="align-items-center bg-warning rounded-top">
                                 <Col xs="4" md="3" lg="2" className="p-2">
-                                    <span className="text-right">
+                                    <small className="text-right">
                                         Total x produk
-                                    </span>
+                                    </small>
                                 </Col>
                                 <Col xs="4" md="5" lg="6" className="p-2"></Col>
                                 <Col xs="2" lg="2" className="p-2 text-right">
-                                    <span>Tampilkan:</span>
+                                    <small>Tampilkan:</small>
                                 </Col>
                                 <Col xs="2" lg="2" className="p-2">
                                     <select className="custom-select">
@@ -73,7 +73,11 @@ class SearchProduct extends Component {
                                     </select>
                                 </Col>
                             </Row>
-                            <Row><ProductCard/></Row>
+                            <Row>
+                                <CardDeck>
+                                    <ProductCard/>
+                                </CardDeck>
+                            </Row>
                         </Col>
                     </Row>
                 </Container>

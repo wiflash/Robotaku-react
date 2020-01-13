@@ -1,4 +1,7 @@
 import React, {Component, Fragment} from "react";
+import {withRouter} from "react-router-dom";
+import {connect} from "unistore/react";
+import {actions, store} from "../store";
 import {Container, Row, Col, Image, ListGroup, Card, Button} from "react-bootstrap";
 
 import actuator_default from "../images/actuator_default.jpg";
@@ -22,18 +25,26 @@ const categories = [
 
 
 class ShopByCategory extends Component {
+    handleToCategory(category) {
+        this.props.categoryToPath(category);
+        console.log(store.getState().categoryPath);
+        this.props.history.replace(`/${store.getState().categoryPath}/result`)
+    }
+
     render() {
-        const imageCategoryGroup = imageCategory.map((eachCategory, index) => {
+        const imageCategoryGroup = imageCategory.map((eachImageCategory, index) => {
             return (
                 <Col xs="12" md="6" className="mb-4">
                     <Card className="text-white">
-                        <Card.Img src={eachCategory} alt={categories[index]} />
+                        <Card.Img src={eachImageCategory} alt={categories[index]} />
                         <Card.ImgOverlay>
                             <Card.Body>
-                                <h4 className="font-weight-bold position-relative">
+                                <h4 className="font-weight-bold">
                                     {categories[index]}
                                 </h4>
-                                <Button variant="warning" className="text-white font-weight-bold">
+                                <Button variant="warning"
+                                    onClick={() => this.handleToCategory(categories[index])}
+                                    className="text-white font-weight-bold">
                                     Telusuri
                                 </Button>
                             </Card.Body>
@@ -54,4 +65,4 @@ class ShopByCategory extends Component {
 }
 
 
-export default ShopByCategory;
+export default connect("",actions)(withRouter(ShopByCategory));
