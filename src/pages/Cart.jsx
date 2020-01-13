@@ -7,7 +7,7 @@ import {Container, Row, Col, CardGroup, InputGroup, Accordion, Card, Button} fro
 import Navigation from "../components/navbar";
 
 
-class Profile extends Component {
+class Cart extends Component {
     render() {
         return (
             <Fragment>
@@ -17,4 +17,4 @@ class Profile extends Component {
 }
 
 
-export default connect("",actions)(withRouter(Profile));
+export default connect("",actions)(withRouter(Cart));

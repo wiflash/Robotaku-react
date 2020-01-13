@@ -15,6 +15,11 @@ class ProductCard extends Component {
     handleDetail = productId => {
         store.setState({productId: productId});
         this.props.history.push("/product/detail/"+this.props.productId);
+    };
+
+    quantityUpdate = isIncrement => {
+        const updatedQuantity = isIncrement ? this.state.quantity+1 : this.state.quantity-1
+        this.setState({quantity: updatedQuantity <= 0 ? 1 : updatedQuantity})
     }
 
     render() {
@@ -40,7 +45,7 @@ class ProductCard extends Component {
                                 <Col xs="12" md="6">
                                     <InputGroup className="align-items-center">
                                         <InputGroup.Prepend>
-                                            <Button variant="outline-warning">-</Button>
+                                            <Button onClick={()=>this.quantityUpdate(false)} variant="outline-warning">-</Button>
                                         </InputGroup.Prepend>
                                         <Button disabled variant="outline-warning rounded-0">
                                             <span className="text-body font-weight-bold">
@@ -48,7 +53,7 @@ class ProductCard extends Component {
                                             </span>
                                         </Button>
                                         <InputGroup.Append>
-                                            <Button variant="outline-warning">+</Button>
+                                            <Button onClick={()=>this.quantityUpdate(true)} variant="outline-warning">+</Button>
                                         </InputGroup.Append>
                                     </InputGroup>
                                 </Col>

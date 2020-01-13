@@ -10,7 +10,8 @@ import logo from '../logo.svg';
 
 class Navigation extends Component {
     signOut = () => {
-        localStorage.removeItem("isLogin");;
+        localStorage.removeItem("isLogin");
+        localStorage.removeItem("token");
         this.props.history.push("/");
     }
 
