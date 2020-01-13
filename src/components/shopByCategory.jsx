@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from "react";
-import {Container, Row, Col, Image, ListGroup, Button} from "react-bootstrap";
+import {Container, Row, Col, Image, ListGroup, Card, Button} from "react-bootstrap";
 
 import actuator_default from "../images/actuator_default.jpg";
 import battery_default from "../images/battery_default.jpg";
@@ -26,17 +26,19 @@ class ShopByCategory extends Component {
         const imageCategoryGroup = imageCategory.map((eachCategory, index) => {
             return (
                 <Col xs="12" md="6" className="mb-4">
-                    <ListGroup>
-                        <ListGroup.Item action className="p-0">
-                            <Image fluid className="w-100 rounded-top" src={eachCategory}/>
-                            <h4 className="font-weight-bold position-relative">
-                                {categories[index]}
-                            </h4>
-                            <Button variant="warning" className="text-white font-weight-bold">
-                                Telusuri
-                            </Button>
-                        </ListGroup.Item>
-                    </ListGroup>
+                    <Card className="text-white">
+                        <Card.Img src={eachCategory} alt={categories[index]} />
+                        <Card.ImgOverlay>
+                            <Card.Body>
+                                <h4 className="font-weight-bold position-relative">
+                                    {categories[index]}
+                                </h4>
+                                <Button variant="warning" className="text-white font-weight-bold">
+                                    Telusuri
+                                </Button>
+                            </Card.Body>
+                        </Card.ImgOverlay>
+                    </Card>
                 </Col>
             )
         })

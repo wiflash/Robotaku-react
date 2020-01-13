@@ -13,7 +13,7 @@ class Home extends Component {
             <Fragment>
                 <Navigation/>
                 <SlideShow/>
-                <h3 className="mt-5 text-center font-weight-bold">Home page</h3>
+                <h3 className="mt-5 text-center font-weight-bold">Pilih Berdasarkan Kategori</h3>
                 <ShopByCategory className="mt-5"/>
             </Fragment>
         );
