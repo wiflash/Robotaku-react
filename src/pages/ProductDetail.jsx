@@ -11,20 +11,30 @@ import Navigation from "../components/navbar";
 
 class ProductDetail extends Component {
     state = {
-        quantity: 1
-    }
+        quantity: 1,
+        productDetail: {}
+    };
 
     handleRouteSearch(event) {
         event.preventDefault();
         this.props.categoryToPath();
         console.log(store.getState().categoryPath);
         this.props.history.replace(`/${store.getState().categoryPath}`);
-    }
+    };
 
     requestDetailProduct = async () => {
         const productId = this.props.match.params.productId;
-        this.props.requestDetailProduct(productId);
-    }
+        store.setState({isLoading: true});
+        await Axios.get("http://localhost:5000/api/product/"+productId.slice(-1))
+        .then((response) => {
+            this.setState({productDetail: response.data})
+            store.setState({isLoading: false});
+        })
+        .catch((error) => {
+            console.log(error);
+            alert("Terdapat kesalahan pada koneksi");
+        })
+    };
 
     componentDidMount = () => {
         this.requestDetailProduct();
@@ -36,8 +46,12 @@ class ProductDetail extends Component {
     }
     
     addToCart = () => {
+        const productDataToAdd = {
+            quantity: this.state.quantity,
+            productId: this.state.productDetail.id
+        }
         localStorage.getItem("isLogin") === "true" ?
-            this.props.addToCart(this.state)
+            this.props.addToCart(productDataToAdd)
             : this.props.setModal(true)
     }
 
@@ -55,18 +69,18 @@ class ProductDetail extends Component {
                             <Card>
                                 <Card.Body>
                                     <Card.Title>
-                                        {this.props.productDetail.nama}
+                                        {this.state.productDetail.nama}
                                         <Row className="align-items-center">
                                             <Col xs="6">
-                                                <small>Rating: {this.props.productDetail.rating}</small>
+                                                <small>Rating: {this.state.productDetail.rating}</small>
                                             </Col>
                                             <Col xs="6">
-                                                <small>Kode Produk: 90{this.props.productDetail.id}89{this.props.productDetail.id}291{this.props.productDetail.id}</small><br/>
+                                                <small>Kode Produk: 90{this.state.productDetail.id}89{this.state.productDetail.id}291{this.state.productDetail.id}</small><br/>
                                             </Col>
                                         </Row>
                                     </Card.Title>
                                     <Card.Text>
-                                        <span className="font-weight-bold">Rp {this.props.productDetail.harga}</span><br/>
+                                        <span className="font-weight-bold">Rp {this.state.productDetail.harga}</span><br/>
                                     </Card.Text>
                                 </Card.Body>
                                 <Card.Footer>
@@ -106,4 +120,4 @@ class ProductDetail extends Component {
 }
 
 
-export default connect("productId, productDetail", actions)(withRouter(ProductDetail));
+export default connect("", actions)(withRouter(ProductDetail));

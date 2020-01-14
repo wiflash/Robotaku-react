@@ -27,7 +27,6 @@ const initialState = {
     totalEntry: 0,
     searchResult: [],
     productId: 1,
-    productDetail: {},
     categories: [
         "Semua Kategori",
         "Aktuator & Power System",
@@ -38,7 +37,8 @@ const initialState = {
         "UGV /RC Car"
     ],
     minPrice: 0,
-    maxPrice: 9999999999
+    maxPrice: 9999999999,
+    cartItems: []
 };
 
 export const store = createStore(initialState);
@@ -83,8 +83,8 @@ export const actions = store => ({
         store.setState({category: category});
     },
 
-    addToCart: (state, inputBody) => {
-        Axios.post("http://localhost:5000/api/user/cart",
+    addToCart: async (state, inputBody) => {
+        await Axios.post("http://localhost:5000/api/user/cart",
             {
                 product_id: inputBody.productId,
                 jumlah: inputBody.quantity
@@ -99,21 +99,15 @@ export const actions = store => ({
         .then((response) => {
             alert("Berhasil ditambahkan ke keranjang");
         })
-        .catch((error) => alert("Terdapat kesalahan pada koneksi"));
-    },
-
-    requestDetailProduct: async (state, productId) => {
-        store.setState({isLoading: true});
-        await Axios.get("http://localhost:5000/api/product/"+productId.slice(-1))
-        .then((response) => {
-            store.setState({isLoading: false});
-            store.setState({
-                productDetail: response.data
-            });
-        })
         .catch((error) => {
-            console.log(error);
-            alert("Terdapat kesalahan pada koneksi");
-        })
+            if(error.response.status === 500) {
+                alert("Terdapat kesalahan pada koneksi")
+            } else {
+                alert("Terdapat kesalahan pada proses verifikasi, silahkan masuk kembali");
+                localStorage.removeItem("isLogin");
+                localStorage.removeItem("token");
+                store.setState({modalShow: true});
+            }
+        });
     }
 });

@@ -17,11 +17,11 @@ class Login extends Component {
         .then((response) => {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("isLogin", true);
+            this.props.history.replace("/");
+            // this.props.history.replace(this.props.location.pathname);
             this.props.setModal(false);
         })
         .catch((error) => {
-            // console.warn(error.response);
-            // console.warn(error.response.status === 401);
             error.response.status === 401 ? alert("Email atau kata sandi salah")
                 : alert("Terdapat kesalahan pada koneksi")
         })

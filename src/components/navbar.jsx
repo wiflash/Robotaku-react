@@ -12,7 +12,7 @@ class Navigation extends Component {
     signOut = () => {
         localStorage.removeItem("isLogin");
         localStorage.removeItem("token");
-        this.props.history.replace(this.props.location.pathname);
+        this.props.history.replace("/");
     }
 
     render() {

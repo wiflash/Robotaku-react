@@ -5,9 +5,30 @@ import {connect} from "unistore/react";
 import {actions, store} from "../store";
 import {Container, Row, Col, CardGroup, InputGroup, Accordion, Card, Button} from "react-bootstrap";
 import Navigation from "../components/navbar";
+import CartItem from "../components/cartItem";
 
 
 class Cart extends Component {
+    state = {
+        subTotal: 0
+    };
+
+    requestDetailProduct = async () => {
+        store.setState({isLoading: true});
+        await Axios.get("http://localhost:5000/api/product/"+this.state.productId)
+        .then((response) => {
+            this.setState({
+                productName: response.data.nama,
+                pricePerItem: response.data.harga
+            })
+            store.setState({isLoading: false});
+        })
+        .catch((error) => {
+            console.log(error);
+            alert("Terdapat kesalahan pada koneksi");
+        })
+    };
+
     requestCurrentCart = async () => {
         store.setState({isLoading: true});
         await Axios.get("http://localhost:5000/api/user/cart", {
@@ -17,21 +38,22 @@ class Cart extends Component {
             }
         })
         .then((response) => {
-            console.log(response.data);
-            // store.setState({
-            //     searchResult: response.data.data,
-            //     page: response.data.page,
-            //     perPage: response.data.per_page,
-            //     totalEntry: response.data.total_entry,
-            //     isLoading: false
-            // });
+            store.setState({
+                cartItems: response.data,
+                isLoading: false
+            });
         })
         .catch((error) => {
-            console.log(error);
-            alert("Terdapat kesalahan pada koneksi");
+            console.log("ERROR:",error);
+            if(error.response.status === 500) {
+                alert("Terdapat kesalahan pada koneksi")
+            } else {
+                alert("Terdapat kesalahan pada proses verifikasi, silahkan masuk kembali");
+                localStorage.removeItem("isLogin");
+                localStorage.removeItem("token");
+                store.setState({modalShow: true});
+            }
         })
-        // console.log(this.props.searchResult);
-        // console.log(this.props.isLoading);
     }
 
     componentDidMount = () => {
@@ -46,14 +68,33 @@ class Cart extends Component {
     }
 
     render() {
+        const showResult = this.props.cartItems.map((eachResult, key) => {
+            // this.setState({subTotal: this.state.subTotal+eachResult.subtotal});
+            return (
+                <CartItem
+                    productId={eachResult.product_id}
+                    productName={eachResult.nama_produk}
+                    pricePerItem={eachResult.harga_satuan}
+                    productQuantity={eachResult.jumlah}
+                    totalPricePerProduct={eachResult.subtotal}
+                />
+            );
+        });
+
         return (
             <Fragment>
                 <Navigation handleSearch={event => this.handleRouteSearch(event)}/>
-                Cart
+                <Row className="align-items-center mx-auto">
+                    {
+                        this.props.isLoading ?
+                            <p className="text-center font-weight-bold">Loading...</p> 
+                            : showResult
+                    }
+                </Row>
             </Fragment>
         )
     }
 }
 
 
-export default connect("",actions)(withRouter(Cart));
+export default connect("cartItems, isLoading",actions)(withRouter(Cart));

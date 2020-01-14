@@ -8,6 +8,10 @@ import Navigation from "../components/navbar";
 
 
 class Profile extends Component {
+    // selalu cek response apakah token valid atau tidak, kalo tidak, login ulang:
+    // localStorage.removeItem("isLogin");
+    // localStorage.removeItem("token");
+    // store.setState({modalShow: true});
     render() {
         return (
             <Fragment>

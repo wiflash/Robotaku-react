@@ -34,7 +34,7 @@ class SearchProduct extends Component {
         .catch((error) => {
             console.log(error);
             alert("Terdapat kesalahan pada koneksi");
-        })
+        });
         // console.log(this.props.searchResult);
         // console.log(this.props.isLoading);
     }
