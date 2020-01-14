@@ -16,16 +16,7 @@ class Navigation extends Component {
     }
 
     render() {
-        const categories = [
-            "Semua Kategori",
-            "Aktuator & Power System",
-            "Baterai / Charger",
-            "Komponen & Peralatan",
-            "Robotik & Kit",
-            "UAV / Drone",
-            "UGV /RC Car"
-        ];
-        const selectCategory = categories.map(category => {
+        const selectCategory = this.props.categories.map(category => {
             return (
                 <option value={category} onClick={this.props.handleSetGlobal}>
                     {category}
@@ -96,4 +87,4 @@ class Navigation extends Component {
 }
 
 
-export default connect("keyword, modalShow", actions)(withRouter(Navigation));
+export default connect("keyword, modalShow, categories", actions)(withRouter(Navigation));

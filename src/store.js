@@ -25,7 +25,18 @@ const initialState = {
     perPage: 12,
     totalEntry: 0,
     searchResult: [],
-    productId: 1
+    productId: 1,
+    categories: [
+        "Semua Kategori",
+        "Aktuator & Power System",
+        "Baterai / Charger",
+        "Komponen & Peralatan",
+        "Robotik & Kit",
+        "UAV / Drone",
+        "UGV /RC Car"
+    ],
+    minPrice: 0,
+    maxPrice: 9999999999
 };
 
 export const store = createStore(initialState);

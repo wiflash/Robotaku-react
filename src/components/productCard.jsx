@@ -14,7 +14,7 @@ class ProductCard extends Component {
 
     handleDetail = productId => {
         store.setState({productId: productId});
-        this.props.history.push("/product/detail/"+this.props.productId);
+        this.props.history.push("/product/detail/"+`90${productId}1${productId}291${productId}`);
     };
 
     quantityUpdate = isIncrement => {
@@ -58,7 +58,7 @@ class ProductCard extends Component {
                                     </InputGroup>
                                 </Col>
                                 <Col xs="12" md="6">
-                                    <Button block variant="warning">Tambah</Button>
+                                    <Button block onClick={()=>this.addToCart(true)} variant="warning">Tambah</Button>
                                 </Col>
                             </Row>
                         </Card.Footer>
@@ -70,4 +70,4 @@ class ProductCard extends Component {
 }
 
 
-export default connect("productId", actions)(withRouter(ProductCard));
+export default connect("", actions)(withRouter(ProductCard));

@@ -3,9 +3,10 @@ import Axios from "axios";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {Container, Row, Col, CardGroup} from "react-bootstrap";
+import {Container, Row, Col, CardGroup, Accordion, Card} from "react-bootstrap";
 import ProductCard from "../components/productCard";
 import Navigation from "../components/navbar";
+import SideBarFilter from "../components/sideBarFilter";
 
 
 class SearchProduct extends Component {
@@ -81,37 +82,39 @@ class SearchProduct extends Component {
         return (
             <Fragment>
                 <Navigation {...this.props} handleSearch={event => this.handleRouteSearch(event)}/>
-                <Container>
+                <Container fluid>
                     <Row>
                         <Col xs="12" md="3" className="mt-4">
-                            filter bar
+                            <SideBarFilter/>
                         </Col>
                         <Col xs="12" md="9" className="mt-4">
-                            <Row className="align-items-center bg-warning rounded-top">
-                                <Col xs="4" md="3" lg="2" className="p-2">
-                                    <small className="text-right">
-                                        Total {this.props.totalEntry} produk
-                                    </small>
-                                </Col>
-                                <Col xs="4" md="5" lg="6" className="p-2"></Col>
-                                <Col xs="2" lg="2" className="p-2 text-right">
-                                    <small>Tampilkan:</small>
-                                </Col>
-                                <Col xs="2" lg="2" className="p-2">
-                                    <select className="custom-select">
-                                        {selectPerPage}
-                                    </select>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <CardGroup>
-                                    {
-                                        this.props.isLoading ?
-                                            <p className="text-center font-weight-bold">Loading...</p> 
-                                            : showResult
-                                    }
-                                </CardGroup>
-                            </Row>
+                            {/* <Container> */}
+                                <Row className="align-items-center bg-warning rounded-top mx-auto">
+                                    <Col xs="4" md="3" lg="2" className="p-2">
+                                        <small className="text-right">
+                                            Total {this.props.totalEntry} produk
+                                        </small>
+                                    </Col>
+                                    <Col xs="4" md="5" lg="6" className="p-2"></Col>
+                                    <Col xs="2" lg="2" className="p-2 text-right">
+                                        <small>Tampilkan:</small>
+                                    </Col>
+                                    <Col xs="2" lg="2" className="p-2">
+                                        <select className="custom-select">
+                                            {selectPerPage}
+                                        </select>
+                                    </Col>
+                                </Row>
+                                <Row className="align-items-center mx-auto">
+                                    <CardGroup>
+                                        {
+                                            this.props.isLoading ?
+                                                <p className="text-center font-weight-bold">Loading...</p> 
+                                                : showResult
+                                        }
+                                    </CardGroup>
+                                </Row>
+                            {/* </Container> */}
                         </Col>
                     </Row>
                 </Container>
