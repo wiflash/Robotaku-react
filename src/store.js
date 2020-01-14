@@ -14,6 +14,7 @@ const initialState = {
     keyword: "",
     modalShow: false,
     isLoading: true,
+    isLoadingShipment: true,
     isLogin: false,
     emailRegex: '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
     newEmailRegex: "",
@@ -38,7 +39,8 @@ const initialState = {
     ],
     minPrice: 0,
     maxPrice: 9999999999,
-    cartItems: []
+    cartItems: [],
+    shipmentDetails: {}
 };
 
 export const store = createStore(initialState);
@@ -109,5 +111,30 @@ export const actions = store => ({
                 store.setState({modalShow: true});
             }
         });
+    },
+
+    updateShipment: (state) => {
+        store.setState({isLoadingShipment: true});
+        Axios.put("http://localhost:5000/api/user/shipment",
+            {
+                shipment_method_id: 1,
+                payment_method_id: 1
+            },
+            {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json"
+                }
+            }
+        )
+        .then((response) => {
+            // console.log(response.data);
+            store.setState({
+                shipmentDetails: response.data,
+                isLoadingShipment: false
+            });
+            console.log(store.getState().shipmentDetails);
+        })
+        .catch((error) => console.log("ERROR:",error));
     }
 });

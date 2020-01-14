@@ -9,13 +9,9 @@ import CartItem from "../components/cartItem";
 
 
 class Cart extends Component {
-    state = {
-        subTotal: 0
-    };
-
-    componentDidMount = async () => {
+    componentDidMount = () => {
         store.setState({isLoading: true});
-        await Axios.get("http://localhost:5000/api/user/cart", {
+        Axios.get("http://localhost:5000/api/user/cart", {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
@@ -41,8 +37,9 @@ class Cart extends Component {
                 this.props.history.push("/");
                 store.setState({modalShow: true});
             }
-        })
-    }
+        });
+        this.props.updateShipment();
+    };
 
     handleRouteSearch(event) {
         event.preventDefault();
@@ -53,7 +50,6 @@ class Cart extends Component {
 
     render() {
         const showResult = this.props.cartItems.map((eachResult, key) => {
-            // this.setState({subTotal: this.state.subTotal+eachResult.subtotal});
             return (
                 <CartItem
                     productId={eachResult.product_id}
@@ -68,16 +64,16 @@ class Cart extends Component {
         return (
             <Fragment>
                 <Navigation handleSearch={event => this.handleRouteSearch(event)}/>
-                <Row className="align-items-center mx-auto">
+                <Row className="mx-auto mt-3">
                     <Col md="5" className="ml-auto">
+                        shipment
+                    </Col>
+                    <Col md="5" className="mr-auto">
                         {
                             this.props.isLoading ?
                                 <p className="text-center font-weight-bold">Loading...</p> 
                                 : showResult
                         }
-                    </Col>
-                    <Col md="5" className="mr-auto">
-                        shipment
                     </Col>
                 </Row>
             </Fragment>
@@ -86,4 +82,4 @@ class Cart extends Component {
 }
 
 
-export default connect("cartItems, isLoading",actions)(withRouter(Cart));
+export default connect("cartItems, shipmentDetails, isLoading, isLoadingShipment",actions)(withRouter(Cart));
