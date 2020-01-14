@@ -10,8 +10,9 @@ import FilterBar from "../components/filterBar";
 
 
 class SearchProduct extends Component {
-    requestProducts = async () => {
+    componentDidMount = async () => {
         const categoryPath = this.props.match.params.category;
+        console.log(categoryPath);
         this.props.pathToCategory(categoryPath);
         store.setState({isLoading: true});
         await Axios.get("http://localhost:5000/api/product", {
@@ -39,29 +40,22 @@ class SearchProduct extends Component {
         // console.log(this.props.isLoading);
     }
     
-    componentDidMount = () => {
-        this.requestProducts();
-    };
-    
-    handleSetperPage(event) {
+    handleSetPerPage = (event) => {
         store.setState({ perPage: event.target.value });
-        console.log(this.props.perPage);
-        this.requestProducts();
+        this.componentDidMount();
     };
 
-    handleRouteSearch(event) {
+    handleRouteSearch = (event) => {
         event.preventDefault();
         this.props.categoryToPath();
-        // console.log(store.getState().category);
-        // console.log(store.getState().categoryPath);
-        this.props.history.replace(`/${this.props.categoryPath}`);
-        this.requestProducts();
+        this.props.history.replace(`/${store.getState().categoryPath}`);
+        this.componentDidMount();
     }
 
     render() {
         const selectPerPage = [12,24,32,48,60].map(perPage => {
             return (
-                <option value={perPage} onChange={this.handleSetPerPage}>
+                <option value={perPage} onClick={this.handleSetPerPage}>
                     {perPage}
                 </option>
             )
@@ -81,7 +75,7 @@ class SearchProduct extends Component {
 
         return (
             <Fragment>
-                <Navigation {...this.props} handleSearch={event => this.handleRouteSearch(event)}/>
+                <Navigation handleSearch={event => this.handleRouteSearch(event)}/>
                 <Container fluid>
                     <Row>
                         <Col xs="12" md="3" className="mt-4">

@@ -13,23 +13,7 @@ class Cart extends Component {
         subTotal: 0
     };
 
-    requestDetailProduct = async () => {
-        store.setState({isLoading: true});
-        await Axios.get("http://localhost:5000/api/product/"+this.state.productId)
-        .then((response) => {
-            this.setState({
-                productName: response.data.nama,
-                pricePerItem: response.data.harga
-            })
-            store.setState({isLoading: false});
-        })
-        .catch((error) => {
-            console.log(error);
-            alert("Terdapat kesalahan pada koneksi");
-        })
-    };
-
-    requestCurrentCart = async () => {
+    componentDidMount = async () => {
         store.setState({isLoading: true});
         await Axios.get("http://localhost:5000/api/user/cart", {
             headers: {
@@ -47,18 +31,18 @@ class Cart extends Component {
             console.log("ERROR:",error);
             if(error.response.status === 500) {
                 alert("Terdapat kesalahan pada koneksi")
+            } else if(error.response.status === 404) {
+                alert("Keranjang belanja kosong, silahkan berbelanja terlebih dahulu");
+                this.props.history.push("/all");
             } else {
                 alert("Terdapat kesalahan pada proses verifikasi, silahkan masuk kembali");
                 localStorage.removeItem("isLogin");
                 localStorage.removeItem("token");
+                this.props.history.push("/");
                 store.setState({modalShow: true});
             }
         })
     }
-
-    componentDidMount = () => {
-        this.requestCurrentCart();
-    };
 
     handleRouteSearch(event) {
         event.preventDefault();
@@ -85,11 +69,16 @@ class Cart extends Component {
             <Fragment>
                 <Navigation handleSearch={event => this.handleRouteSearch(event)}/>
                 <Row className="align-items-center mx-auto">
-                    {
-                        this.props.isLoading ?
-                            <p className="text-center font-weight-bold">Loading...</p> 
-                            : showResult
-                    }
+                    <Col md="5" className="ml-auto">
+                        {
+                            this.props.isLoading ?
+                                <p className="text-center font-weight-bold">Loading...</p> 
+                                : showResult
+                        }
+                    </Col>
+                    <Col md="5" className="mr-auto">
+                        shipment
+                    </Col>
                 </Row>
             </Fragment>
         )

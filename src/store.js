@@ -50,7 +50,7 @@ export const actions = store => ({
             : store.setState({ [event.target.name]: event.target.value })
         // console.log("event.name:", event.target.name);
         // console.log("event:", event.target.value);
-        // console.log("category:", store.getState().category);
+        console.log("category:", store.getState().category);
     },
     
     setModal: (state, status) => {
