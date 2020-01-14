@@ -1,4 +1,5 @@
 import createStore from "unistore";
+import Axios from "axios";
 
 
 const initialState = {
@@ -26,6 +27,7 @@ const initialState = {
     totalEntry: 0,
     searchResult: [],
     productId: 1,
+    productDetail: {},
     categories: [
         "Semua Kategori",
         "Aktuator & Power System",
@@ -79,5 +81,39 @@ export const actions = store => ({
             : path === "uav" ? "UAV / Drone"
             : "UGV / RC Car"
         store.setState({category: category});
+    },
+
+    addToCart: (state, inputBody) => {
+        Axios.post("http://localhost:5000/api/user/cart",
+            {
+                product_id: inputBody.productId,
+                jumlah: inputBody.quantity
+            },
+            {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json"
+                }
+            }
+        )
+        .then((response) => {
+            alert("Berhasil ditambahkan ke keranjang");
+        })
+        .catch((error) => alert("Terdapat kesalahan pada koneksi"));
+    },
+
+    requestDetailProduct: async (state, productId) => {
+        store.setState({isLoading: true});
+        await Axios.get("http://localhost:5000/api/product/"+productId.slice(-1))
+        .then((response) => {
+            store.setState({isLoading: false});
+            store.setState({
+                productDetail: response.data
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+            alert("Terdapat kesalahan pada koneksi");
+        })
     }
 });

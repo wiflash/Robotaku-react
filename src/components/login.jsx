@@ -8,9 +8,7 @@ import axios from 'axios';
 
 class Login extends Component {
     async handleLogin(event) {
-        store.setState({isLoading: true});
         event.preventDefault();
-        // tembak api
         await axios.put("http://localhost:5000/api/auth", {
                 email: this.props.email,
                 password: this.props.password
@@ -19,14 +17,14 @@ class Login extends Component {
         .then((response) => {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("isLogin", true);
-            console.log(localStorage.getItem("isLogin"));
-            this.props.history.push("/");
-        })
-        .catch((error) => console.warn(error))
-        if (this.props.isLoading === false) {
             this.props.setModal(false);
-            this.props.history.push("/");
-        }
+        })
+        .catch((error) => {
+            // console.warn(error.response);
+            // console.warn(error.response.status === 401);
+            error.response.status === 401 ? alert("Email atau kata sandi salah")
+                : alert("Terdapat kesalahan pada koneksi")
+        })
     }
 
     render() {

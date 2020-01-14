@@ -105,7 +105,7 @@ class Register extends Component {
                                             pattern={`^${this.props.password}$`}
                                             required/>
                                         <Form.Control.Feedback type="invalid">
-                                            Kata sandi harus sama
+                                            Konfirmasi kata sandi harus sama dengan kata sandi yang dimasukkan
                                         </Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
