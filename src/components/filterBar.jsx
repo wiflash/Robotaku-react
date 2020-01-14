@@ -6,7 +6,7 @@ import {actions, store} from "../store";
 import {FormControl, Accordion, Card, Nav, InputGroup} from "react-bootstrap";
 
 
-class SideBarFilter extends Component {
+class FilterBar extends Component {
     render () {
         const filterCategory = this.props.categories.map(category => {
             return (
@@ -84,4 +84,4 @@ class SideBarFilter extends Component {
 }
 
 
-export default connect("categories, minPrice, maxPrice", actions)(withRouter(SideBarFilter));
+export default connect("categories, minPrice, maxPrice", actions)(withRouter(FilterBar));
