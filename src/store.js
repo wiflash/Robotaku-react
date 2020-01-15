@@ -40,7 +40,9 @@ const initialState = {
     minPrice: 0,
     maxPrice: 9999999999,
     cartItems: [],
-    shipmentDetails: {}
+    shipmentDetails: {},
+    shipmentMethod: {id: 1, price: 18000},
+    paymentMethod: {id: 1, price: 100}
 };
 
 export const store = createStore(initialState);
@@ -50,9 +52,22 @@ export const actions = store => ({
         event.target.name === undefined ?
             store.setState({ category: event.target.value })
             : store.setState({ [event.target.name]: event.target.value })
-        // console.log("event.name:", event.target.name);
-        // console.log("event:", event.target.value);
-        console.log("category:", store.getState().category);
+    },
+
+    handleShipping: (state, event) => {
+        const id = event.target.value;
+        const price = id === "1" ? 18000
+            : id === "2" ? 15000
+            : 7000
+        store.setState({shipmentMethod: {id: id, price: price}});
+    },
+
+    handlePayment: (state, event) => {
+        const id = event.target.value;
+        const price = id === "1" ? 100
+            : id === "2" ? 300
+            : 200
+        store.setState({paymentMethod: {id: id, price: price}});
     },
     
     setModal: (state, status) => {
