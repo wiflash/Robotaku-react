@@ -35,7 +35,7 @@ class ProductCard extends Component {
                 <Col xs="12" sm="6" lg="4" className="px-0">
                     <Card className="mt-3">
                         <Card.Img as={Image} className="rounded-top" fluid variant="top" src={manipulator} />
-                        <Card.Body className="p-md-2">
+                        <Card.Body>
                             <Card.Title  style={{height: "48px"}}>
                                 <Nav.Link className="p-0 text-body" onClick={() => this.handleDetail(this.props.productId)}>
                                     {this.props.productName}
@@ -49,8 +49,8 @@ class ProductCard extends Component {
                         </Card.Body>
                         <Card.Footer>
                             <Row className="align-items-center">
-                                <Col xs="12" md="6">
-                                    <InputGroup className="align-items-center">
+                                <Col xs="6">
+                                    <InputGroup>
                                         <InputGroup.Prepend>
                                             <Button onClick={()=>this.quantityUpdate(false)} variant="outline-warning">-</Button>
                                         </InputGroup.Prepend>
@@ -64,7 +64,7 @@ class ProductCard extends Component {
                                         </InputGroup.Append>
                                     </InputGroup>
                                 </Col>
-                                <Col xs="12" md="6">
+                                <Col xs="6">
                                     <Button block onClick={()=>this.addToCart()} variant="warning">Tambah</Button>
                                 </Col>
                             </Row>

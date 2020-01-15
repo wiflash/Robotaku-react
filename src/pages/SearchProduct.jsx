@@ -89,11 +89,11 @@ class SearchProduct extends Component {
                                             Total {this.props.totalEntry} produk
                                         </small>
                                     </Col>
-                                    <Col xs="3" md="5" lg="6" className="p-2"></Col>
-                                    <Col xs="2" lg="2" className="p-2 text-right">
+                                    <Col xs="2" md="4" lg="6" className="p-2"></Col>
+                                    <Col xs="3" lg="2" className="p-2 text-right">
                                         <small>Tampilkan:</small>
                                     </Col>
-                                    <Col xs="3" lg="2" className="p-2">
+                                    <Col xs="3" md="2" lg="2" className="p-2">
                                         <select className="custom-select">
                                             {selectPerPage}
                                         </select>

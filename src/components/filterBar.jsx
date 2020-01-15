@@ -20,7 +20,7 @@ class FilterBar extends Component {
             <Accordion defaultActiveKey="filter">
                 <Card>
                     <Accordion.Toggle as={Card.Header} eventKey="filter" className="h-4 bg-warning font-weight-bold">
-                        FILTER BERDASARKAN KATEGORI
+                        FILTER BERDASARKAN
                     </Accordion.Toggle>
                     <Accordion.Collapse eventKey="filter">
                         <Card.Body className="p-0">

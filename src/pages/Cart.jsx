@@ -3,15 +3,15 @@ import Axios from "axios";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {Container, Row, Col, CardGroup, InputGroup, Accordion, Card, Button} from "react-bootstrap";
+import {Container, Row, Col, ListGroup, Card, Button} from "react-bootstrap";
 import Navigation from "../components/navbar";
 import CartItem from "../components/cartItem";
 
 
 class Cart extends Component {
-    componentDidMount = () => {
+    componentDidMount = async () => {
         store.setState({isLoading: true});
-        Axios.get("http://localhost:5000/api/user/cart", {
+        await Axios.get("http://localhost:5000/api/user/cart", {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
@@ -38,7 +38,7 @@ class Cart extends Component {
                 store.setState({modalShow: true});
             }
         });
-        this.props.updateShipment();
+        await this.props.updateShipment();
     };
 
     handleRouteSearch(event) {
@@ -66,7 +66,28 @@ class Cart extends Component {
                 <Navigation handleSearch={event => this.handleRouteSearch(event)}/>
                 <Row className="mx-auto mt-3">
                     <Col md="5" className="ml-auto">
-                        shipment
+                        <Card>
+                            <Card.Header className="bg-warning">
+                                <Card.Title className="m-0 font-weight-bold">CHECKOUT</Card.Title>
+                            </Card.Header>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item>
+                                    <span className="font-weight-bold">Alamat</span><br/>
+                                </ListGroup.Item>
+                                <ListGroup.Item className="font-weight-bold d-flex justify-content-between align-items-center">
+                                    <span>Total Harga (x barang)</span><br/>
+                                    <span>Rp 100</span>
+                                </ListGroup.Item>
+                                <ListGroup.Item className="d-flex justify-content-between align-items-center">
+                                    <span className="font-weight-bold">Metode Pembayaran</span><br/>
+                                    <span>+ Rp 100</span><br/>
+                                </ListGroup.Item>
+                                <ListGroup.Item className="d-flex justify-content-between align-items-center">
+                                    <span className="font-weight-bold">Pengiriman</span><br/>
+                                    <span>+ Rp 100</span><br/>
+                                </ListGroup.Item>
+                            </ListGroup>
+                        </Card>
                     </Col>
                     <Col md="5" className="mr-auto">
                         {
