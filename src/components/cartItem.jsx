@@ -20,6 +20,11 @@ class CartItem extends Component {
     quantityUpdate = isIncrement => {
         const updatedQuantity = isIncrement ? this.state.quantity+1 : this.state.quantity-1
         this.setState({quantity: updatedQuantity <= 0 ? 1 : updatedQuantity})
+    };
+
+    updateCart = (updatedCart) => {
+        this.props.addToCart(updatedCart);
+        this.props.rerenderParentCallback();
     }
 
     render() {
@@ -67,7 +72,7 @@ class CartItem extends Component {
                                                 </InputGroup>
                                             </Col>
                                             <Col xs="12" sm="6">
-                                                <Button block className="mb-3" onClick={()=>this.props.addToCart(this.state)} variant="warning">Perbaharui</Button>
+                                                <Button block className="mb-3" onClick={()=>this.updateCart(this.state)} variant="warning">Perbaharui</Button>
                                             </Col>
                                         </Row>
                                     </Card.Footer>

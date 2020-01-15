@@ -10,7 +10,11 @@ import Shipment from "../components/shipment";
 
 
 class Cart extends Component {
-    componentDidMount = async () => {
+    state = {
+        toggleRerender: false
+    };
+
+    requestCart = async () => {
         store.setState({isLoading: true});
         await Axios.get("http://localhost:5000/api/user/cart", {
             headers: {
@@ -42,11 +46,21 @@ class Cart extends Component {
         // this.props.updateShipment();
     };
 
+    componentDidMount = () => {
+        this.requestCart();
+    }
+
     handleRouteSearch(event) {
         event.preventDefault();
         this.props.categoryToPath();
         console.log(store.getState().categoryPath);
         this.props.history.replace(`/${store.getState().categoryPath}`);
+    }
+
+    rerenderParentCallback = () => {
+        // this.setState({ toggleRerender: !this.state.toggleRerender });
+        // this.forceUpdate();
+        this.requestCart();
     }
 
     render() {
@@ -58,6 +72,7 @@ class Cart extends Component {
                     pricePerItem={eachResult.harga_satuan}
                     productQuantity={eachResult.jumlah}
                     totalPricePerProduct={eachResult.subtotal}
+                    rerenderParentCallback={this.rerenderParentCallback}
                 />
             );
         });
@@ -67,7 +82,7 @@ class Cart extends Component {
                 <Navigation handleSearch={event => this.handleRouteSearch(event)}/>
                 <Row className="mx-auto mt-3">
                     <Col xs="12" lg="5" className="ml-auto mb-3">
-                        <Shipment/>
+                        <Shipment status={true}/>
                     </Col>
                     <Col xs="12" lg="5" className="mr-auto">
                         {

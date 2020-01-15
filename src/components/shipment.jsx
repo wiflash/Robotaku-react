@@ -6,6 +6,10 @@ import {Container, Row, Col, ListGroup, Card, Button} from "react-bootstrap";
 
 
 class Shipment extends Component {
+    state = {
+        toggleRender: this.props.status
+    };
+
     componentDidMount = async () => {
         await this.props.updateShipment();
     };
@@ -62,21 +66,36 @@ class Shipment extends Component {
                         <span>Total Harga ({this.props.shipmentDetails.total_product} barang)</span><br/>
                         <span className="ml-auto">Rp {this.props.shipmentDetails.total_harga}</span>
                     </ListGroup.Item>
-                    <ListGroup.Item className="d-flex justify-content-between">
-                        <span className="font-weight-bold">Metode Pembayaran</span><br/>
-                        <span className="ml-auto">+ Rp {this.props.paymentMethod.price}</span><br/>
-                        <select className="custom-select">
+                    <ListGroup.Item>
+                        <div className="d-flex justify-content-between">
+                            <span className="font-weight-bold">Metode Pembayaran</span><br/>
+                            <span className="ml-auto">+ Rp {this.props.paymentMethod.price}</span><br/>
+                        </div>
+                        <select className="custom-select" style={{maxWidth: "12rem"}}>
                             {selectPaymentMethod}
                         </select>
                     </ListGroup.Item>
-                    <ListGroup.Item className="d-flex justify-content-between">
-                        <span className="font-weight-bold">Pengiriman</span><br/>
-                        <span className="ml-auto">+ Rp {this.props.shipmentMethod.price}</span><br/>
-                        <select className="custom-select">
+                    <ListGroup.Item>
+                        <div className="d-flex justify-content-between">
+                            <span className="font-weight-bold">Pengiriman</span><br/>
+                            <span className="ml-auto">+ Rp {this.props.shipmentMethod.price}</span><br/>
+                        </div>
+                        <select className="custom-select" style={{maxWidth: "12rem"}}>
                             {selectShippingMethod}
                         </select>
                     </ListGroup.Item>
+                    <ListGroup.Item>
+                        <div className="d-flex justify-content-between">
+                            <span className="font-weight-bold">Total</span><br/>
+                            <span className="ml-auto">
+                                Rp {this.props.shipmentDetails.total_harga + this.props.paymentMethod.price + this.props.shipmentMethod.price}
+                            </span><br/>
+                        </div>
+                    </ListGroup.Item>
                 </ListGroup>
+                <Card.Footer>
+                        <Button block onClick={()=>this.props.payNow()} variant="warning">Bayar Sekarang</Button>
+                </Card.Footer>
             </Card>
         )
     }

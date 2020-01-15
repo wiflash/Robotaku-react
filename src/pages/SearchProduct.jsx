@@ -50,7 +50,13 @@ class SearchProduct extends Component {
         this.props.categoryToPath();
         this.props.history.replace(`/${store.getState().categoryPath}`);
         this.componentDidMount();
-    }
+    };
+
+    handleFilterCategory = () => {
+        this.props.categoryToPath();
+        this.props.history.replace(`/${store.getState().categoryPath}`);
+        this.componentDidMount();
+    };
 
     render() {
         const selectPerPage = [12,24,32,48,60].map(perPage => {
@@ -79,7 +85,7 @@ class SearchProduct extends Component {
                 <Container fluid>
                     <Row>
                         <Col xs="12" md="3" className="mt-4">
-                            <FilterBar/>
+                            <FilterBar filterCategory={() => this.handleFilterCategory()}/>
                         </Col>
                         <Col xs="12" md="9" className="mt-4">
                             {/* <Container> */}

@@ -49,6 +49,7 @@ export const store = createStore(initialState);
 
 export const actions = store => ({
     handleSetGlobal: (state, event) => {
+        console.log(event.target.value)
         event.target.name === undefined ?
             store.setState({ category: event.target.value })
             : store.setState({ [event.target.name]: event.target.value })
@@ -132,8 +133,8 @@ export const actions = store => ({
         store.setState({isLoadingShipment: true});
         Axios.put("http://localhost:5000/api/user/shipment",
             {
-                shipment_method_id: 1,
-                payment_method_id: 1
+                shipment_method_id: store.getState().shipmentMethod.id,
+                payment_method_id: store.getState().paymentMethod.id
             },
             {
                 headers: {
@@ -149,6 +150,28 @@ export const actions = store => ({
                 isLoadingShipment: false
             });
             console.log(store.getState().shipmentDetails);
+        })
+        .catch((error) => console.log("ERROR:",error));
+    },
+
+    payNow: async () => {
+        store.setState({isLoading: true});
+        await Axios.post("http://localhost:5000/api/user/shipment",
+            {
+                shipment_method_id: store.getState().shipmentMethod.id,
+                payment_method_id: store.getState().paymentMethod.id
+            },
+            {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json"
+                }
+            }
+        )
+        .then((response) => {
+            console.log(response.data);
+            store.setState({isLoading: false});
+            alert("Pesanan berhasil dibuat! Silahkan lakukan pembayaran agar barang dapat diproses.");
         })
         .catch((error) => console.log("ERROR:",error));
     }

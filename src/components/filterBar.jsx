@@ -7,10 +7,15 @@ import {FormControl, Accordion, Card, Nav, InputGroup} from "react-bootstrap";
 
 
 class FilterBar extends Component {
+    handleFilterCategory = (category) => {
+        store.setState({category: category});
+        this.props.filterCategory();
+    };
+
     render () {
         const filterCategory = this.props.categories.map(category => {
             return (
-                <Nav.Link className="text-body px-0 py-1">
+                <Nav.Link name={category} className="text-body px-0 py-1" onClick={()=>this.handleFilterCategory(category)}>
                     {category}
                 </Nav.Link>
             )
