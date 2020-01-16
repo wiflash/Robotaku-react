@@ -11,16 +11,14 @@ class Home extends Component {
     handleSearch = (event) => {
         event.preventDefault();
         this.props.categoryToPathGlobal(store.getState().category);
-        this.props.history.replace(`/${store.getState().categoryPath}`);
+        this.props.history.push(`/${store.getState().categoryPath}`);
     };
 
     handleLogin = () => {
         this.props.handleLoginGlobal();
-        this.forceUpdate();
     };
 
     render() {
-        console.warn("RENDER");
         return (
             <Fragment>
                 <Navigation {...this.props}

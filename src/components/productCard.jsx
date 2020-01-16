@@ -10,11 +10,11 @@ import manipulator from "../images/manipulator.jpg";
 class ProductCard extends Component {
     state = {
         quantity: 1,
-        productId: this.props.productId
+        productId: this.props.productId,
+        isAdd: true
     };
 
     handleDetail = productId => {
-        // store.setState({productId: productId});
         this.props.history.push("/product/detail/"+`90${productId}1${productId}291${productId}`);
     };
 
@@ -25,8 +25,8 @@ class ProductCard extends Component {
 
     addToCart = () => {
         localStorage.getItem("isLogin") === "true" ?
-            this.props.addToCart(this.state)
-            : this.props.setModal(true)
+            this.props.addToCartGlobal(this.state)
+            : this.props.setModalGlobal(true)
     }
 
     render() {
@@ -66,7 +66,7 @@ class ProductCard extends Component {
                                     </InputGroup>
                                 </Col>
                                 <Col xs="6">
-                                    <Button block onClick={()=>this.addToCart()} variant="warning">Tambah</Button>
+                                    <Button block onClick={this.addToCart} variant="warning">Tambah</Button>
                                 </Col>
                             </Row>
                         </Card.Footer>

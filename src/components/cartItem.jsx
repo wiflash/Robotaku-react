@@ -10,7 +10,8 @@ import Axios from "axios";
 class CartItem extends Component {
     state = {
         quantity: this.props.productQuantity,
-        productId: this.props.productId
+        productId: this.props.productId,
+        isAdd: false
     };
 
     handleDetail = productId => {
@@ -21,11 +22,6 @@ class CartItem extends Component {
         const updatedQuantity = isIncrement ? this.state.quantity+1 : this.state.quantity-1
         this.setState({quantity: updatedQuantity <= 0 ? 1 : updatedQuantity})
     };
-
-    updateCart = (updatedCart) => {
-        this.props.addToCart(updatedCart);
-        this.props.rerenderParentCallback();
-    }
 
     render() {
         return (
@@ -67,12 +63,12 @@ class CartItem extends Component {
                                                         </span>
                                                     </InputGroup.Text>
                                                     <InputGroup.Append>
-                                                        <Button onClick={()=>this.quantityUpdate(true)} variant="outline-warning">+</Button>
+                                                        <Button onClick={() => this.quantityUpdate(true)} variant="outline-warning">+</Button>
                                                     </InputGroup.Append>
                                                 </InputGroup>
                                             </Col>
                                             <Col xs="12" sm="6">
-                                                <Button block className="mb-3" onClick={()=>this.updateCart(this.state)} variant="warning">Perbaharui</Button>
+                                                <Button block className="mb-3" onClick={() => this.props.updateCart(this.state)} variant="warning">Perbaharui</Button>
                                             </Col>
                                         </Row>
                                     </Card.Footer>

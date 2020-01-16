@@ -10,10 +10,6 @@ import Shipment from "../components/shipment";
 
 
 class Cart extends Component {
-    state = {
-        toggleRerender: false
-    };
-
     requestCart = async () => {
         store.setState({isLoading: true});
         await Axios.get("http://localhost:5000/api/user/cart", {
@@ -33,56 +29,65 @@ class Cart extends Component {
             if(error.response.status === 500) {
                 alert("Terdapat kesalahan pada koneksi")
             } else if(error.response.status === 404) {
-                alert("Keranjang belanja kosong, silahkan berbelanja terlebih dahulu");
+                alert("Keranjang belanja kosong, silahkan berbelanja terlebih dahulu.");
                 this.props.history.push("/all");
             } else {
                 localStorage.removeItem("isLogin");
+                localStorage.removeItem("admin");
                 localStorage.removeItem("token");
-                alert("Terdapat kesalahan pada proses verifikasi, silahkan masuk kembali");
+                alert("Terdapat kesalahan pada proses verifikasi, silahkan masuk kembali.");
                 this.props.history.push("/");
                 store.setState({modalShow: true});
             }
         });
-        // this.props.updateShipment();
     };
 
     componentDidMount = () => {
         this.requestCart();
+        this.props.updateShipmentGlobal()
     }
 
-    handleRouteSearch(event) {
+    handleSearch = (event) => {
         event.preventDefault();
-        this.props.categoryToPath();
-        console.log(store.getState().categoryPath);
-        this.props.history.replace(`/${store.getState().categoryPath}`);
-    }
+        this.props.categoryToPathGlobal(store.getState().category);
+        this.props.history.push(`/${store.getState().categoryPath}`);
+    };
 
-    rerenderParentCallback = () => {
-        // this.setState({ toggleRerender: !this.state.toggleRerender });
-        // this.forceUpdate();
-        this.requestCart();
-    }
+    handleLogin = () => {
+        this.props.handleLoginGlobal();
+        this.componentDidMount();
+    };
+
+    updateCart = (updated) => {
+        this.props.addToCartGlobal(updated);
+        this.componentDidMount();
+    };
 
     render() {
         const showResult = this.props.cartItems.map((eachResult, key) => {
             return (
-                <CartItem
+                <CartItem {...this.props}
                     productId={eachResult.product_id}
                     productName={eachResult.nama_produk}
                     pricePerItem={eachResult.harga_satuan}
                     productQuantity={eachResult.jumlah}
                     totalPricePerProduct={eachResult.subtotal}
-                    rerenderParentCallback={this.rerenderParentCallback}
+                    updateCart={this.updateCart}
                 />
             );
         });
 
         return (
             <Fragment>
-                <Navigation handleSearch={event => this.handleRouteSearch(event)}/>
+                <Navigation {...this.props}
+                    handleSearch={this.handleSearch}
+                    handleLogin={this.handleLogin}
+                />
                 <Row className="mx-auto mt-3">
                     <Col xs="12" lg="5" className="ml-auto mb-3">
-                        <Shipment status={true}/>
+                        <Shipment {...this.props}
+                            status={true}
+                        />
                     </Col>
                     <Col xs="12" lg="5" className="mr-auto">
                         {

@@ -8,13 +8,22 @@ import Navigation from "../components/navbar";
 import FilterBar from "../components/filterBar";
 
 
-class CategoryProduct extends Component {
+class SearchResult extends Component {
+    state = {
+        category: this.props.category,
+        keyword: this.props.keyword
+    };
+
     componentDidMount = (isSearchPage=false) => {
         if(!isSearchPage) {
             const categoryPath = this.props.match.params.category;
             this.props.pathToCategoryGlobal(categoryPath);
         }
         this.props.requestAllProducts();
+        this.setState({
+            category: this.props.category,
+            keyword: this.props.keyword
+        })
     }
     
     handleSetPerPage = (event) => {
@@ -25,13 +34,13 @@ class CategoryProduct extends Component {
     handleSearch = (event) => {
         if(event !== undefined) {event.preventDefault();}
         this.props.categoryToPathGlobal(store.getState().category);
-        this.props.history.replace(`/${store.getState().categoryPath}`);
+        this.props.history.push(`/${store.getState().categoryPath}`);
         this.componentDidMount(true);
     };
 
     handleLogin = () => {
         this.props.handleLoginGlobal();
-        this.forceUpdate();
+        this.componentDidMount(true);
     };
 
     handleFilterSideBar = (event) => {
@@ -73,9 +82,15 @@ class CategoryProduct extends Component {
                         </Col>
                         <Col xs="12" md="9" className="mt-4 pl-0">
                             {/* <Container> */}
+                                <Row className="align-items-center mr-0 ml-3 my-2">
+                                    <span className="h5">
+                                        Menampilkan {this.state.keyword === "" ? "semua entri" : ` kata kunci '${this.state.keyword}' `}
+                                        {this.state.category === "Semua Kategori" ? "" : ` di kategori ${this.state.category}`}
+                                    </span>
+                                </Row>
                                 <Row className="align-items-center bg-warning rounded mr-0 ml-3 mb-3">
                                     <Col xs="4" md="3" lg="2" className="p-2">
-                                        <small className="text-right">
+                                        <small className="">
                                             Total {this.props.totalEntry} produk
                                         </small>
                                     </Col>
@@ -106,4 +121,4 @@ class CategoryProduct extends Component {
 }
 
 
-export default connect("totalEntry, page, perPage, keyword, category, categoryPath, searchResult, isLoading", actions)(withRouter(CategoryProduct));
+export default connect("totalEntry, page, perPage, keyword, category, categoryPath, searchResult, isLoading", actions)(withRouter(SearchResult));

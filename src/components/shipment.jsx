@@ -6,14 +6,6 @@ import {Container, Row, Col, ListGroup, Card, Button} from "react-bootstrap";
 
 
 class Shipment extends Component {
-    state = {
-        toggleRender: this.props.status
-    };
-
-    componentDidMount = async () => {
-        await this.props.updateShipment();
-    };
-
     render() {
         const showAddress = () => {
             if (this.props.isLoadingShipment === false) {
@@ -33,10 +25,10 @@ class Shipment extends Component {
         };
 
         const selectShippingMethod = [
-            "JENI Yosh", "SangKodong Sehari", "Wahaha Reguler"
+            "JENI Yosh", "SangKodok Sehari", "Wahaha Reguler"
         ].map((shipping, index) => {
             return (
-                <option value={index+1} onClick={this.props.handleShipping}>
+                <option value={index+1} onClick={this.props.handleShippingGlobal}>
                     {shipping}
                 </option>
             )
@@ -46,7 +38,7 @@ class Shipment extends Component {
             "BINI", "BACA", "MANDORI"
         ].map((payment, index) => {
             return (
-                <option value={index+1} onClick={this.props.handlePayment}>
+                <option value={index+1} onClick={this.props.handlePaymentGlobal}>
                     {payment}
                 </option>
             )

@@ -156,7 +156,6 @@ export const actions = store => ({
     },
 
     handleLoginGlobal: async (state) => {
-        console.log("LOGINPRESSED GLOBAL");
         await Axios.put("http://localhost:5000/api/auth", {
                 email: store.getState().email,
                 password: store.getState().password
@@ -190,11 +189,14 @@ export const actions = store => ({
             }
         )
         .then((response) => {
-            alert("Berhasil ditambahkan ke keranjang");
+            if(inputBody.isAdd) {alert("Keranjang berhasil diperbaharui");}
+            else {console.log("INI UPDATE CART");}
         })
         .catch((error) => {
             if(error.response.status === 500) {
                 alert("Terdapat kesalahan pada koneksi")
+            } else if(error.response.status === 400) {
+                alert("Anda harus menyelesaikan pembayaran sebelumnya.");
             } else {
                 alert("Terdapat kesalahan pada proses verifikasi, silahkan masuk kembali");
                 localStorage.removeItem("isLogin");
@@ -204,9 +206,9 @@ export const actions = store => ({
         });
     },
 
-    updateShipmentGlobal: (state) => {
+    updateShipmentGlobal: async (state) => {
         store.setState({isLoadingShipment: true});
-        Axios.put("http://localhost:5000/api/user/shipment",
+        await Axios.put("http://localhost:5000/api/user/shipment",
             {
                 shipment_method_id: store.getState().shipmentMethod.id,
                 payment_method_id: store.getState().paymentMethod.id

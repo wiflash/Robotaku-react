@@ -46,7 +46,7 @@ class FilterBar extends Component {
                                                     <InputGroup.Text>Rp</InputGroup.Text>
                                                 </InputGroup.Prepend>
                                                 <FormControl type="number"
-                                                    placeholder="Harga minimum" name="minPrice"
+                                                    placeholder="Batas bawah" name="minPrice"
                                                     onChange={this.props.handleFilterSideBar}
                                                 />
                                             </InputGroup>
@@ -55,7 +55,7 @@ class FilterBar extends Component {
                                                     <InputGroup.Text>Rp</InputGroup.Text>
                                                 </InputGroup.Prepend>
                                                 <FormControl type="number"
-                                                    placeholder="Harga maksimum" name="maxPrice"
+                                                    placeholder="Batas atas" name="maxPrice"
                                                     onChange={this.props.handleFilterSideBar}
                                                 />
                                             </InputGroup>

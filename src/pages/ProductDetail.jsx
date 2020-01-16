@@ -12,7 +12,8 @@ import Navigation from "../components/navbar";
 class ProductDetail extends Component {
     state = {
         quantity: 1,
-        productDetail: {}
+        productDetail: {},
+        isAdd: true
     };
 
     handleRouteSearch(event) {
@@ -51,7 +52,7 @@ class ProductDetail extends Component {
             productId: this.state.productDetail.id
         }
         localStorage.getItem("isLogin") === "true" ?
-            this.props.addToCart(productDataToAdd)
+            this.props.addToCartGlobal(productDataToAdd)
             : this.props.setModal(true)
     }
 
