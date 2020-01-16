@@ -7,15 +7,10 @@ import {FormControl, Accordion, Card, Nav, InputGroup} from "react-bootstrap";
 
 
 class FilterBar extends Component {
-    handleFilterCategory = (category) => {
-        store.setState({category: category});
-        this.props.filterCategory();
-    };
-
     render () {
         const filterCategory = this.props.categories.map(category => {
             return (
-                <Nav.Link name={category} className="text-body px-0 py-1" onClick={()=>this.handleFilterCategory(category)}>
+                <Nav.Link name={category} className="text-body px-0 py-1" onClick={this.props.handleFilterSideBar}>
                     {category}
                 </Nav.Link>
             )
@@ -50,18 +45,18 @@ class FilterBar extends Component {
                                                 <InputGroup.Prepend>
                                                     <InputGroup.Text>Rp</InputGroup.Text>
                                                 </InputGroup.Prepend>
-                                                <FormControl
+                                                <FormControl type="number"
                                                     placeholder="Harga minimum" name="minPrice"
-                                                    onChange={this.props.handleSetGlobal}
+                                                    onChange={this.props.handleFilterSideBar}
                                                 />
                                             </InputGroup>
                                             <InputGroup className="my-1">
                                                 <InputGroup.Prepend>
                                                     <InputGroup.Text>Rp</InputGroup.Text>
                                                 </InputGroup.Prepend>
-                                                <FormControl
+                                                <FormControl type="number"
                                                     placeholder="Harga maksimum" name="maxPrice"
-                                                    onChange={this.props.handleSetGlobal}
+                                                    onChange={this.props.handleFilterSideBar}
                                                 />
                                             </InputGroup>
                                         </Card.Body>

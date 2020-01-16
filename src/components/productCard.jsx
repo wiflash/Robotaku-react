@@ -2,7 +2,7 @@ import React, {Component, Fragment} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {Image, Row, Col, Button, Card, InputGroup, Nav} from "react-bootstrap";
+import {Image, Row, Col, Button, Card, InputGroup, Nav, CardDeck} from "react-bootstrap";
 import {FiStar} from "react-icons/fi";
 import manipulator from "../images/manipulator.jpg";
 
@@ -32,7 +32,8 @@ class ProductCard extends Component {
     render() {
         return (
             <Fragment>
-                <Col xs="12" sm="6" lg="4" className="px-0">
+                <Col xs="12" sm="6" lg="4" className="px-2">
+                    <CardDeck>
                     <Card className="mt-3">
                         <Card.Img as={Image} className="rounded-top" fluid variant="top" src={manipulator} />
                         <Card.Body>
@@ -70,6 +71,7 @@ class ProductCard extends Component {
                             </Row>
                         </Card.Footer>
                     </Card>
+                    </CardDeck>
                 </Col>
             </Fragment>
         )

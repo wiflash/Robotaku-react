@@ -9,55 +9,62 @@ import logo from '../logo.svg';
 
 
 class Navigation extends Component {
-    signOut = () => {
+    handleLogin = (event) => {
+        event.preventDefault();
+        this.props.handleLogin();
+    };
+
+    handleSignOut = () => {
         localStorage.removeItem("isLogin");
         localStorage.removeItem("token");
-        this.props.history.replace("/");
-    }
+        localStorage.removeItem("admin");
+        this.props.history.push("/");
+    };
+
+    navbarLoginCheck = () => {
+        if (localStorage.getItem("isLogin") === "true") {
+            return (
+                <Fragment>
+                    <Button onClick={() => this.props.history.push("/profile")}
+                        className="ml-md-2 text-dark font-weight-bold" variant="warning"
+                    >
+                        Profil
+                    </Button>
+                    <Button className="ml-md-2" variant="outline-warning font-weight-bold"
+                        onClick={this.handleSignOut}
+                    >
+                        Keluar
+                    </Button>
+                </Fragment>
+            )
+        } else {
+            return (
+                <Fragment>
+                    <Button className="ml-md-2" variant="outline-warning font-weight-bold"
+                        onClick={() => this.props.setModalGlobal(true)}
+                    >
+                        Masuk
+                    </Button>
+                    <Button onClick={() => this.props.history.push("/register")}
+                        className="ml-md-2 text-dark font-weight-bold"
+                        variant="warning">
+                        Daftar
+                    </Button>
+                </Fragment>
+            )
+        }
+    };
 
     render() {
         const selectCategory = this.props.categories.map(category => {
+            const isSelected = category === store.getState().category ? true : false
             return (
-                <option value={category} onClick={this.props.handleSetGlobal}>
+                <option value={category} selected={isSelected} onClick={this.props.handleNavbarSeachGlobal}>
                     {category}
                 </option>
             )
         });
 
-        const LoginCheck = () => {
-            if (localStorage.getItem("isLogin") === "true") {
-                return (
-                    <Fragment>
-                        <Button onClick={() => this.props.history.push("/profile")}
-                            className="ml-md-2 text-dark font-weight-bold" variant="warning"
-                        >
-                            Profil
-                        </Button>
-                        <Button className="ml-md-2" variant="outline-warning font-weight-bold"
-                            onClick={this.signOut}
-                        >
-                            Keluar
-                        </Button>
-                    </Fragment>
-                )
-            } else {
-                return (
-                    <Fragment>
-                        <Button className="ml-md-2" variant="outline-warning font-weight-bold"
-                            onClick={() => this.props.setModal(true)}
-                        >
-                            Masuk
-                        </Button>
-                        <Button onClick={() => this.props.history.push("/register")}
-                            className="ml-md-2 text-dark font-weight-bold"
-                            variant="warning">
-                            Daftar
-                        </Button>
-                    </Fragment>
-                )
-            }
-        };
-        
         return (
             <Navbar expand="lg" bg="dark">
                 <Nav className="mr-auto">
@@ -75,7 +82,7 @@ class Navigation extends Component {
                             </InputGroup.Prepend>
                             <FormControl style={{width: "38vw"}}
                                 placeholder="Coba ketik motor" name="keyword"
-                                value={this.props.keyword} onChange={this.props.handleSetGlobal}
+                                value={this.props.keyword} onChange={this.props.handleNavbarSeachGlobal}
                             />
                             <InputGroup.Append>
                                 <Button variant="warning" type="submit">
@@ -86,21 +93,25 @@ class Navigation extends Component {
                     </Form>
                     <Nav className="mx-auto">
                         <Button onClick={() => localStorage.getItem("isLogin") === "true" ? 
-                            this.props.history.push("/cart") : this.props.setModal(true)}
+                            this.props.history.push("/cart") : this.props.setModalGlobal(true)}
                             className="ml-md-2 text-dark font-weight-bold" variant="warning"
                         >
                             <FaShoppingCart/>
                         </Button>
                         <Button onClick={() => localStorage.getItem("isLogin") === "true" ? 
-                            this.props.history.push("/transactions") : this.props.setModal(true)}
+                            this.props.history.push("/transactions") : this.props.setModalGlobal(true)}
                             className="ml-md-2 text-dark font-weight-bold" variant="warning"
                         >
                             <FaListUl/>
                         </Button>
                     </Nav>
                     <Nav className="ml-auto">
-                        <LoginCheck />
-                        <Login show={this.props.modalShow} onHide={() => this.props.setModal(false)}/>
+                        {this.navbarLoginCheck()}
+                        <Login {...this.props}
+                            show={this.props.modalShow}
+                            onHide={() => this.props.setModalGlobal(false)}
+                            handleLogin={this.handleLogin}
+                        />
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

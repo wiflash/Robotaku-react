@@ -1,5 +1,4 @@
 import React, {Component, Fragment} from "react";
-import Axios from "axios";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
@@ -9,66 +8,46 @@ import Navigation from "../components/navbar";
 import FilterBar from "../components/filterBar";
 
 
-class SearchProduct extends Component {
-    componentDidMount = async () => {
+class CategoryProduct extends Component {
+    componentDidMount = () => {
         const categoryPath = this.props.match.params.category;
-        console.log(categoryPath);
-        this.props.pathToCategory(categoryPath);
-        store.setState({isLoading: true});
-        await Axios.get("http://localhost:5000/api/product", {
-            params: {
-                keyword: store.getState().keyword,
-                kategori: store.getState().category === "Semua Kategori" ?
-                    "" : store.getState().category,
-                rp: store.getState().perPage
-            }
-        })
-        .then((response) => {
-            store.setState({
-                searchResult: response.data.data,
-                page: response.data.page,
-                perPage: response.data.per_page,
-                totalEntry: response.data.total_entry,
-                isLoading: false
-            });
-        })
-        .catch((error) => {
-            console.log(error);
-            alert("Terdapat kesalahan pada koneksi");
-        });
-        // console.log(this.props.searchResult);
-        // console.log(this.props.isLoading);
+        this.props.pathToCategoryGlobal(categoryPath);
+        this.props.requestAllProducts();
     }
     
     handleSetPerPage = (event) => {
-        store.setState({ perPage: event.target.value });
-        this.componentDidMount();
+        store.setState({ productPerPage: event.target.value });
+        this.props.requestAllProducts();
     };
 
-    handleRouteSearch = (event) => {
-        event.preventDefault();
-        this.props.categoryToPath();
+    handleSearch = (event) => {
+        if(event !== undefined) {event.preventDefault();}
+        this.props.categoryToPathGlobal(store.getState().category);
         this.props.history.replace(`/${store.getState().categoryPath}`);
         this.componentDidMount();
     };
 
-    handleFilterCategory = () => {
-        this.props.categoryToPath();
-        this.props.history.replace(`/${store.getState().categoryPath}`);
-        this.componentDidMount();
+    handleLogin = () => {
+        this.props.handleLoginGlobal();
+        this.forceUpdate();
+    };
+
+    handleFilterSideBar = (event) => {
+        this.props.handleFilterSideBarGlobal(event);
+        this.handleSearch();
     };
 
     render() {
         const selectPerPage = [12,24,32,48,60].map(perPage => {
+            const isSelected = perPage === store.getState().productPerPage ? true : false
             return (
-                <option value={perPage} onClick={this.handleSetPerPage}>
+                <option value={perPage} selected={isSelected} onClick={this.handleSetPerPage}>
                     {perPage}
                 </option>
             )
         });
 
         const showResult = this.props.searchResult.map((eachResult, key) => {
-            // console.log(key,eachResult);
             return (
                 <ProductCard
                     productName={eachResult.nama}
@@ -81,15 +60,18 @@ class SearchProduct extends Component {
 
         return (
             <Fragment>
-                <Navigation handleSearch={event => this.handleRouteSearch(event)}/>
+                <Navigation {...this.props}
+                    handleSearch={this.handleSearch}
+                    handleLogin={this.handleLogin}
+                />
                 <Container fluid>
                     <Row>
                         <Col xs="12" md="3" className="mt-4">
-                            <FilterBar filterCategory={() => this.handleFilterCategory()}/>
+                            <FilterBar handleFilterSideBar={this.handleFilterSideBar}/>
                         </Col>
                         <Col xs="12" md="9" className="mt-4">
                             {/* <Container> */}
-                                <Row className="align-items-center bg-warning rounded-top mx-auto">
+                                <Row className="align-items-center bg-warning rounded-top mx-2">
                                     <Col xs="4" md="3" lg="2" className="p-2">
                                         <small className="text-right">
                                             Total {this.props.totalEntry} produk
@@ -122,4 +104,4 @@ class SearchProduct extends Component {
 }
 
 
-export default connect("totalEntry, page, perPage, keyword, category, categoryPath, searchResult, isLoading", actions)(withRouter(SearchProduct));
+export default connect("totalEntry, page, perPage, keyword, category, categoryPath, searchResult, isLoading", actions)(withRouter(CategoryProduct));
