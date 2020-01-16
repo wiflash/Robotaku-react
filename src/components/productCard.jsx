@@ -32,9 +32,9 @@ class ProductCard extends Component {
     render() {
         return (
             <Fragment>
-                <Col xs="12" sm="6" lg="4" className="px-2">
+                <Col xs="12" sm="6" lg="4" className="pr-0 pl-3">
                     <CardDeck>
-                    <Card className="mt-3">
+                    <Card className="mb-3">
                         <Card.Img as={Image} className="rounded-top" fluid variant="top" src={manipulator} />
                         <Card.Body>
                             <Card.Title  style={{height: "48px"}}>

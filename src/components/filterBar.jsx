@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from "react";
-import Axios from "axios";
+import {FaStar} from "react-icons/fa";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
@@ -25,7 +25,7 @@ class FilterBar extends Component {
                     <Accordion.Collapse eventKey="filter">
                         <Card.Body className="p-0">
                             <Accordion defaultActiveKey="">
-                                <Card>
+                                <Card className="rounded-0">
                                     <Accordion.Toggle as={Card.Header} eventKey="category" className="font-weight-bold">
                                         Kategori
                                     </Accordion.Toggle>
@@ -68,9 +68,18 @@ class FilterBar extends Component {
                                     </Accordion.Toggle>
                                     <Accordion.Collapse eventKey="rating">
                                         <Card.Body className="py-2">
-                                        <Nav.Link className="text-body px-0 py-1">
-                                            Bintang Satu
-                                        </Nav.Link>
+                                            <Nav.Link className="text-body px-0 py-1">
+                                                <FaStar/>
+                                            </Nav.Link>
+                                            <Nav.Link className="text-body px-0 py-1">
+                                                <FaStar/><FaStar/>
+                                            </Nav.Link>
+                                            <Nav.Link className="text-body px-0 py-1">
+                                                <FaStar/><FaStar/><FaStar/>
+                                            </Nav.Link>
+                                            <Nav.Link className="text-body px-0 py-1">
+                                                <FaStar/><FaStar/><FaStar/><FaStar/>
+                                            </Nav.Link>
                                         </Card.Body>
                                     </Accordion.Collapse>
                                 </Card>

@@ -9,9 +9,11 @@ import FilterBar from "../components/filterBar";
 
 
 class CategoryProduct extends Component {
-    componentDidMount = () => {
-        const categoryPath = this.props.match.params.category;
-        this.props.pathToCategoryGlobal(categoryPath);
+    componentDidMount = (isSearchPage=false) => {
+        if(!isSearchPage) {
+            const categoryPath = this.props.match.params.category;
+            this.props.pathToCategoryGlobal(categoryPath);
+        }
         this.props.requestAllProducts();
     }
     
@@ -24,7 +26,7 @@ class CategoryProduct extends Component {
         if(event !== undefined) {event.preventDefault();}
         this.props.categoryToPathGlobal(store.getState().category);
         this.props.history.replace(`/${store.getState().categoryPath}`);
-        this.componentDidMount();
+        this.componentDidMount(true);
     };
 
     handleLogin = () => {
@@ -69,9 +71,9 @@ class CategoryProduct extends Component {
                         <Col xs="12" md="3" className="mt-4">
                             <FilterBar handleFilterSideBar={this.handleFilterSideBar}/>
                         </Col>
-                        <Col xs="12" md="9" className="mt-4">
+                        <Col xs="12" md="9" className="mt-4 pl-0">
                             {/* <Container> */}
-                                <Row className="align-items-center bg-warning rounded-top mx-2">
+                                <Row className="align-items-center bg-warning rounded mr-0 ml-3 mb-3">
                                     <Col xs="4" md="3" lg="2" className="p-2">
                                         <small className="text-right">
                                             Total {this.props.totalEntry} produk
