@@ -26,28 +26,28 @@ class SearchResult extends Component {
         })
     }
     
-    handleSetPerPage = (event) => {
-        store.setState({ productPerPage: event.target.value });
-        this.props.requestAllProducts();
-    };
-
     handleSearch = (event) => {
         if(event !== undefined) {event.preventDefault();}
         this.props.categoryToPathGlobal(store.getState().category);
         this.props.history.push(`/${store.getState().categoryPath}`);
         this.componentDidMount(true);
     };
-
+        
+    handleFilterSideBar = async (event) => {
+        await this.props.handleFilterSideBarGlobal(event);
+        this.handleSearch();
+    };
+    
+    handleSetPerPage = (event) => {
+        store.setState({ productPerPage: event.target.value });
+        this.props.requestAllProducts();
+    };
+    
     handleLogin = () => {
         this.props.handleLoginGlobal();
         this.componentDidMount(true);
     };
-
-    handleFilterSideBar = (event) => {
-        this.props.handleFilterSideBarGlobal(event);
-        this.handleSearch();
-    };
-
+    
     render() {
         const selectPerPage = [12,24,32,48,60].map(perPage => {
             const isSelected = perPage === store.getState().productPerPage ? true : false
@@ -107,7 +107,7 @@ class SearchResult extends Component {
                                 <Row className="align-items-center mx-auto">
                                     {
                                         this.props.isLoading ?
-                                            <p className="text-center font-weight-bold">Loading...</p> 
+                                            <p className="pr-0 pl-3 text-center font-weight-bold">Loading...</p> 
                                             : showResult
                                     }
                                 </Row>

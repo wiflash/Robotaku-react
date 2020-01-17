@@ -58,8 +58,9 @@ class Cart extends Component {
         this.componentDidMount();
     };
 
-    updateCart = (updated) => {
-        this.props.addToCartGlobal(updated);
+    updateCart = async (updated) => {
+        console.log("cart to be updated:", updated);
+        await this.props.addToCartGlobal(updated);
         this.componentDidMount();
     };
 

@@ -190,7 +190,7 @@ export const actions = store => ({
         )
         .then((response) => {
             if(inputBody.isAdd) {alert("Keranjang berhasil diperbaharui");}
-            else {console.log("INI UPDATE CART");}
+            // else {console.log("INI UPDATE CART");}
         })
         .catch((error) => {
             if(error.response.status === 500) {
@@ -226,7 +226,7 @@ export const actions = store => ({
                 shipmentDetails: response.data,
                 isLoadingShipment: false
             });
-            console.log(store.getState().shipmentDetails);
+            // console.log(store.getState().shipmentDetails);
         })
         .catch((error) => console.log("ERROR:",error));
     },

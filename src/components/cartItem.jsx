@@ -43,7 +43,7 @@ class CartItem extends Component {
                                         <Card.Text>
                                             <small>Kode Produk: 90{this.state.productId}1{this.state.productId}291{this.state.productId}</small><br/>
                                         </Card.Text>
-                                        <Card.Text className="m-0"><small>Total:</small></Card.Text>
+                                        <Card.Text className="m-0"><small>Subtotal:</small></Card.Text>
                                         <Card.Text>
                                             <span className="h4 pl-2 font-weight-bold warning">
                                                 {this.props.totalPricePerProduct}
@@ -68,7 +68,7 @@ class CartItem extends Component {
                                                 </InputGroup>
                                             </Col>
                                             <Col xs="12" sm="6">
-                                                <Button block className="mb-3" onClick={() => this.props.updateCart(this.state)} variant="warning">Perbaharui</Button>
+                                                <Button block className="mb-3" onClick={() => {this.props.updateCart(this.state)}} variant="warning">Perbaharui</Button>
                                             </Col>
                                         </Row>
                                     </Card.Footer>

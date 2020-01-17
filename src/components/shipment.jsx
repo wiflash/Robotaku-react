@@ -79,7 +79,7 @@ class Shipment extends Component {
                     <ListGroup.Item>
                         <div className="d-flex justify-content-between">
                             <span className="font-weight-bold">Total</span><br/>
-                            <span className="ml-auto">
+                            <span className="ml-auto h4 font-weight-bold">
                                 Rp {this.props.shipmentDetails.total_harga + this.props.paymentMethod.price + this.props.shipmentMethod.price}
                             </span><br/>
                         </div>

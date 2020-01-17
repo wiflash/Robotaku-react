@@ -12,8 +12,7 @@ import Navigation from "../components/navbar";
 class ProductDetail extends Component {
     state = {
         quantity: 1,
-        productDetail: {},
-        isAdd: true
+        productDetail: {}
     };
 
     handleRouteSearch(event) {
@@ -49,7 +48,8 @@ class ProductDetail extends Component {
     addToCart = () => {
         const productDataToAdd = {
             quantity: this.state.quantity,
-            productId: this.state.productDetail.id
+            productId: this.state.productDetail.id,
+            isAdd: true
         }
         localStorage.getItem("isLogin") === "true" ?
             this.props.addToCartGlobal(productDataToAdd)
