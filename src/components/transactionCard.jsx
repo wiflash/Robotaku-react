@@ -9,16 +9,16 @@ class TransactionCard extends Component {
     render() {
         return (
             <Card>
-                <Card.Header>Status pesanan</Card.Header>
+                <Card.Header>
+                    {this.props.status}
+                    <small>Terakhir diperbaharui: {this.props.updatedAt}</small>
+                </Card.Header>
                 <Card.Body>
-                    <Card.Title>Nama Barang</Card.Title>
                     <Card.Text>
-                        With supporting text below as a natural lead-in to additional content.
                     </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
                 </Card.Body>
                 <Card.Footer>
-                    Harga
+                    {this.props.totalPrice}
                 </Card.Footer>
             </Card>
         )

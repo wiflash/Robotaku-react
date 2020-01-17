@@ -2,10 +2,11 @@ import React, {Component, Fragment} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {Container, Row, Col, Nav, Button, Tab, Tabs, Card} from "react-bootstrap";
+import {Container, Row, Col, Tab, Tabs, Card} from "react-bootstrap";
 import Navigation from "../components/navbar";
 import UserProfileSummary from "../components/userProfileSummary";
 import Axios from "axios";
+import TransactionCard from "../components/transactionCard";
 
 
 class Profile extends Component {
@@ -16,7 +17,8 @@ class Profile extends Component {
     };
     
     requestTransactions = async (inputData) => {
-        this.setState({isLoading: true});
+        store.setState({isLoadingTransaction: true});
+        if(inputData.status !== "") {const path = `?status=${inputData.status}`;}
         await Axios.get("http://localhost:5000/api/user/transaction", {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -27,10 +29,9 @@ class Profile extends Component {
             }
         })
         .then((response) => {
-            console.log("response:",response.data);
             store.setState({
                 transactionLists: response.data,
-                isLoading: false
+                isLoadingTransaction: false
             });
         })
         .catch((error) => {
@@ -45,6 +46,7 @@ class Profile extends Component {
                 alert("Terdapat kesalahan pada koneksi");
             }
         });
+        console.log(this.props.transactionLists);
     };
 
     requestUserData = async () => {
@@ -76,8 +78,9 @@ class Profile extends Component {
     };
 
     componentDidMount = () => {
-        this.requestUserData();
         this.requestTransactions(this.state);
+        this.requestUserData();
+        console.log(this.props.transactionLists);
     };
     
     handleTransactions = async (event) => {
@@ -103,31 +106,16 @@ class Profile extends Component {
 
 
     render() {
-        const transactionStatus = [
-            "Semua", "Menunggu Konfirmasi", "Berhasil", "Ditolak"
-        ].map(status => {
-            // const isSelected = perPage === store.getState().productPerPage ? true : false
+        const showTransactions = this.props.transactionLists.map((eachResult, key) => {
             return (
-                <Nav.Item>
-                    <Nav.Link className="text-body" eventKey={status}
-                        name={status} onClick={this.handleTransactions}
-                    >
-                        {status}
-                    </Nav.Link>
-                </Nav.Item>
-            )
+                <TransactionCard {...this.props}
+                    status={eachResult.status}
+                    updatedAt={eachResult.updated_at}
+                    id={eachResult.id}
+                    totalPrice={eachResult.total_tagihan}
+                />
+            );
         });
-
-        // const showResult = this.props.searchResult.map((eachResult, key) => {
-        //     return (
-        //         <ProductCard
-        //             productName={eachResult.nama}
-        //             productId={eachResult.id}
-        //             productRating={eachResult.rating}
-        //             productPrice={eachResult.harga}
-        //         />
-        //     );
-        // });
 
         return (
             <Fragment>
@@ -149,9 +137,40 @@ class Profile extends Component {
                                     RIWAYAT TRANSAKSI
                                 </Card.Header>
                                 <Card.Body>
-                                    <Nav fill variant="tabs" defaultActiveKey="Semua">
-                                        {transactionStatus}
-                                    </Nav>
+                                    <Tabs defaultActiveKey="Semua">
+                                        <Tab eventKey="Semua" title="Semua"
+                                            name="Semua" onClick={this.handleTransactions}
+                                        >
+                                            {
+                                                this.props.isLoading === false ? showTransactions
+                                                    : <p className="text-body">Loading...</p>
+                                            }
+                                        </Tab>
+                                        <Tab eventKey="Menunggu Konfirmasi" title="Menunggu Konfirmasi"
+                                            name="Menunggu Konfirmasi" onClick={this.handleTransactions}
+                                        >
+                                            {
+                                                this.props.isLoading === false ? showTransactions
+                                                    : <p className="text-body">Loading...</p>
+                                            }
+                                        </Tab>
+                                        <Tab eventKey="Sukses" title="Sukses"
+                                            name="Sukses" onClick={this.handleTransactions}
+                                        >
+                                            {
+                                                this.props.isLoading === false ? showTransactions
+                                                    : <p className="text-body">Loading...</p>
+                                            }
+                                        </Tab>
+                                        <Tab eventKey="Dibatalkan" title="Dibatalkan"
+                                            name="Dibatalkan" onClick={this.handleTransactions}
+                                        >
+                                            {
+                                                this.props.isLoading === false ? showTransactions
+                                                    : <p className="text-body">Loading...</p>
+                                            }
+                                        </Tab>
+                                    </Tabs>
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -163,4 +182,4 @@ class Profile extends Component {
 }
 
 
-export default connect("isLoading", actions)(withRouter(Profile));
+export default connect("isLoading, transactionLists", actions)(withRouter(Profile));
