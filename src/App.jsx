@@ -9,7 +9,7 @@ import SearchResult from "./pages/SearchResult";
 import ProductDetail from "./pages/ProductDetail";
 import Profile from "./pages/Profile";
 import Cart from "./pages/Cart";
-import TransactionHistory from "./pages/TransactionHistory";
+import CurrentTransaction from "./pages/CurrentTransaction";
 
 
 class App extends Component {
@@ -22,7 +22,7 @@ class App extends Component {
                         <Route exact path="/register" component={Register}/>
                         <Route exact path="/profile" component={Profile}/>
                         <Route exact path="/cart" component={Cart}/>
-                        <Route exact path="/transactions" component={TransactionHistory}/>
+                        <Route exact path="/transaction" component={CurrentTransaction}/>
                         <Route path="/product/detail/:productId" component={ProductDetail}/>
                         <Route path="/:category" component={SearchResult}/>
                     </Switch>

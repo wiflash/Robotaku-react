@@ -43,7 +43,8 @@ const initialState = {
     cartItems: [],
     shipmentDetails: {},
     shipmentMethod: {id: 1, price: 18000},
-    paymentMethod: {id: 1, price: 100}
+    paymentMethod: {id: 1, price: 100},
+    transactionLists: {}
 };
 
 export const store = createStore(initialState);

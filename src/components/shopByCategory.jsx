@@ -43,7 +43,7 @@ class ShopByCategory extends Component {
                                 </h4>
                                 <Button variant="warning"
                                     onClick={() => this.handleToCategory(categories[index])}
-                                    className="text-white font-weight-bold">
+                                    className="font-weight-bold">
                                     Telusuri
                                 </Button>
                             </Card.Body>

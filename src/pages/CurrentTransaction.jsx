@@ -6,7 +6,7 @@ import {Container, Row, Col, Nav, Button, Tab, Tabs} from "react-bootstrap";
 import Navigation from "../components/navbar";
 
 
-class TransactionHistory extends Component {
+class CurrentTransaction extends Component {
     handleSearch = (event) => {
         event.preventDefault();
         this.props.categoryToPathGlobal(store.getState().category);
@@ -87,4 +87,4 @@ class TransactionHistory extends Component {
 }
 
 
-export default connect("", actions)(withRouter(TransactionHistory));
+export default connect("", actions)(withRouter(CurrentTransaction));
