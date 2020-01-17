@@ -8,9 +8,9 @@ import {Modal, Form, Button} from 'react-bootstrap';
 class Login extends Component {
     render() {
         return (
-            <Modal {...this.props} size="lg" centered>
+            <Modal {...this.props} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>
+                    <Modal.Title className="font-weight-bold">
                         Masuk
                     </Modal.Title>
                 </Modal.Header>

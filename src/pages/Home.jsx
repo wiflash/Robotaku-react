@@ -5,6 +5,7 @@ import {actions, store} from "../store";
 import Navigation from "../components/navbar";
 import SlideShow from "../components/carousel";
 import ShopByCategory from "../components/shopByCategory";
+import { Button, Container, Row, Col } from "react-bootstrap";
 
 
 class Home extends Component {
@@ -26,8 +27,19 @@ class Home extends Component {
                     handleLogin={this.handleLogin}
                 />
                 <SlideShow/>
-                <h3 className="mt-5 text-center font-weight-bold">Pilih Berdasarkan Kategori</h3>
-                <ShopByCategory className="mt-5"/>
+                <Container>
+                    <Row className="align-items-center">
+                        <Col xs="12" className="text-center">
+                            <Button className="my-5 font-weight-bold"
+                                variant="warning"
+                                onClick={() => this.props.history.push("/all")}
+                            >
+                                Pilih Berdasarkan Kategori
+                            </Button>
+                        </Col>
+                        <ShopByCategory/>
+                    </Row>
+                </Container>
             </Fragment>
         );
     }

@@ -44,7 +44,7 @@ class Register extends Component {
                 }
             })
         }
-        this.props.setValidated(true);
+        this.props.setValidatedGlobal(true);
     };
 
     render() {

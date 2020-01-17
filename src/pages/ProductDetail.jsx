@@ -15,13 +15,6 @@ class ProductDetail extends Component {
         productDetail: {}
     };
 
-    handleRouteSearch(event) {
-        event.preventDefault();
-        this.props.categoryToPath();
-        console.log(store.getState().categoryPath);
-        this.props.history.replace(`/${store.getState().categoryPath}`);
-    };
-
     requestDetailProduct = async () => {
         const productId = this.props.match.params.productId;
         store.setState({isLoading: true});
@@ -38,6 +31,17 @@ class ProductDetail extends Component {
 
     componentDidMount = () => {
         this.requestDetailProduct();
+    };
+
+    handleSearch = (event) => {
+        event.preventDefault();
+        this.props.categoryToPathGlobal(store.getState().category);
+        this.props.history.push(`/${store.getState().categoryPath}`);
+    };
+
+    handleLogin = () => {
+        this.props.handleLoginGlobal();
+        this.componentDidMount();
     };
     
     quantityUpdate = isIncrement => {
@@ -59,7 +63,10 @@ class ProductDetail extends Component {
     render() {
         return (
             <Fragment>
-                <Navigation handleSearch={event => this.handleRouteSearch(event)}/>
+                <Navigation {...this.props}
+                    handleSearch={this.handleSearch}
+                    handleLogin={this.handleLogin}
+                />
                 <Container fluid>
                     <Row className="align-items-center my-3">
                         <Col xs="12" md="6">

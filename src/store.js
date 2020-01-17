@@ -31,6 +31,7 @@ const initialState = {
     modalShow: false,
     isLoading: true,
     isLoadingShipment: true,
+    isLoadingTransaction: true,
     isLogin: false,
     emailRegex: '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
     newEmailRegex: "",
@@ -43,7 +44,8 @@ const initialState = {
     cartItems: [],
     shipmentDetails: {},
     shipmentMethod: {id: 1, price: 18000},
-    paymentMethod: {id: 1, price: 100}
+    paymentMethod: {id: 1, price: 100},
+    transactionLists: []
 };
 
 export const store = createStore(initialState);
