@@ -4,60 +4,67 @@ import {connect} from "unistore/react";
 import {actions, store} from "../store";
 import Login from "./login";
 import {Navbar, Nav, Form, Button, InputGroup, FormControl} from 'react-bootstrap';
-import {FaSearch} from "react-icons/fa"
+import {FaSearch, FaShoppingCart, FaListUl} from "react-icons/fa"
 import logo from '../logo.svg';
 
 
 class Navigation extends Component {
-    signOut = () => {
-        localStorage.removeItem("isLogin");;
+    handleLogin = (event) => {
+        event.preventDefault();
+        this.props.handleLogin();
+    };
+
+    handleSignOut = () => {
+        localStorage.removeItem("isLogin");
+        localStorage.removeItem("token");
+        localStorage.removeItem("admin");
         this.props.history.push("/");
-    }
+    };
+
+    navbarLoginCheck = () => {
+        if (localStorage.getItem("isLogin") === "true") {
+            return (
+                <Fragment>
+                    <Button onClick={() => this.props.history.push("/profile")}
+                        className="ml-md-2 text-dark font-weight-bold" variant="warning"
+                    >
+                        Profil
+                    </Button>
+                    <Button className="ml-md-2" variant="outline-warning font-weight-bold"
+                        onClick={this.handleSignOut}
+                    >
+                        Keluar
+                    </Button>
+                </Fragment>
+            )
+        } else {
+            return (
+                <Fragment>
+                    <Button className="ml-md-2" variant="outline-warning font-weight-bold"
+                        onClick={() => this.props.setModalGlobal(true)}
+                    >
+                        Masuk
+                    </Button>
+                    <Button onClick={() => this.props.history.push("/register")}
+                        className="ml-md-2 text-dark font-weight-bold"
+                        variant="warning">
+                        Daftar
+                    </Button>
+                </Fragment>
+            )
+        }
+    };
 
     render() {
-        const categories = [
-            "Semua Kategori",
-            "Aktuator & Power System",
-            "Baterai / Charger",
-            "Komponen & Peralatan",
-            "Robotik & Kit",
-            "UAV / Drone",
-            "UGV /RC Car"
-        ];
-        const selectCategory = categories.map(category => {
+        const selectCategory = this.props.categories.map(category => {
+            const isSelected = category === store.getState().category ? true : false
             return (
-                <option value={category} onClick={this.props.handleSetGlobal}>
+                <option value={category} selected={isSelected} onClick={this.props.handleNavbarSeachGlobal}>
                     {category}
                 </option>
             )
         });
 
-        const LoginCheck = () => {
-            if (localStorage.getItem("isLogin") === "true") {
-                return (
-                    <Fragment>
-                        <Button href="/profile" className="ml-md-2 text-dark font-weight-bold" variant="warning">
-                            Profil
-                        </Button>
-                        <Button className="ml-md-2" variant="outline-warning font-weight-bold" onClick={this.signOut}>
-                            Keluar
-                        </Button>
-                    </Fragment>
-                )
-            } else {
-                return (
-                    <Fragment>
-                        <Button className="ml-md-2" variant="outline-warning font-weight-bold" onClick={() => this.props.setModal(true)}>
-                            Masuk
-                        </Button>
-                        <Button href="/register" className="ml-md-2 text-dark font-weight-bold" variant="warning">
-                            Daftar
-                        </Button>
-                    </Fragment>
-                )
-            }
-        };
-        
         return (
             <Navbar expand="lg" bg="dark">
                 <Nav className="mr-auto">
@@ -70,12 +77,12 @@ class Navigation extends Component {
                 <Navbar.Collapse>
                     <Form onSubmit={(event) => this.props.handleSearch(event)} className="mx-auto">
                         <InputGroup>
-                            <InputGroup.Prepend as="select" className="custom-select">
+                            <InputGroup.Prepend as="select" className="custom-select" style={{maxWidth: "15rem"}}>
                                 {selectCategory}
                             </InputGroup.Prepend>
-                            <FormControl
+                            <FormControl style={{width: "38vw"}}
                                 placeholder="Coba ketik motor" name="keyword"
-                                value={this.props.keyword} onChange={this.props.handleSetGlobal}
+                                value={this.props.keyword} onChange={this.props.handleNavbarSeachGlobal}
                             />
                             <InputGroup.Append>
                                 <Button variant="warning" type="submit">
@@ -84,9 +91,27 @@ class Navigation extends Component {
                             </InputGroup.Append>
                         </InputGroup>
                     </Form>
+                    <Nav className="mx-auto">
+                        <Button onClick={() => localStorage.getItem("isLogin") === "true" ? 
+                            this.props.history.push("/cart") : this.props.setModalGlobal(true)}
+                            className="ml-md-2 text-dark font-weight-bold" variant="warning"
+                        >
+                            <FaShoppingCart/>
+                        </Button>
+                        <Button onClick={() => localStorage.getItem("isLogin") === "true" ? 
+                            this.props.history.push("/transactions") : this.props.setModalGlobal(true)}
+                            className="ml-md-2 text-dark font-weight-bold" variant="warning"
+                        >
+                            <FaListUl/>
+                        </Button>
+                    </Nav>
                     <Nav className="ml-auto">
-                        <LoginCheck />
-                        <Login show={this.props.modalShow} onHide={() => this.props.setModal(false)}/>
+                        {this.navbarLoginCheck()}
+                        <Login {...this.props}
+                            show={this.props.modalShow}
+                            onHide={() => this.props.setModalGlobal(false)}
+                            handleLogin={this.handleLogin}
+                        />
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
@@ -95,4 +120,4 @@ class Navigation extends Component {
 }
 
 
-export default connect("keyword, modalShow", actions)(withRouter(Navigation));
+export default connect("keyword, modalShow, categories", actions)(withRouter(Navigation));

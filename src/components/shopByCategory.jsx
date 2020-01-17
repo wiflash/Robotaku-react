@@ -26,9 +26,8 @@ const categories = [
 
 class ShopByCategory extends Component {
     handleToCategory(category) {
-        this.props.categoryToPath(category);
-        console.log(store.getState().categoryPath);
-        this.props.history.replace(`/${store.getState().categoryPath}/result`)
+        this.props.categoryToPathGlobal(category);
+        this.props.history.push(`/${store.getState().categoryPath}`)
     }
 
     render() {

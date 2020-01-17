@@ -5,8 +5,11 @@ import { Route, Switch, BrowserRouter } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Register from "./pages/Register";
-import SearchProduct from "./pages/SearchProduct";
+import SearchResult from "./pages/SearchResult";
 import ProductDetail from "./pages/ProductDetail";
+import Profile from "./pages/Profile";
+import Cart from "./pages/Cart";
+import TransactionHistory from "./pages/TransactionHistory";
 
 
 class App extends Component {
@@ -17,9 +20,11 @@ class App extends Component {
                     <Switch>
                         <Route exact path="/" component={Home}/>
                         <Route exact path="/register" component={Register}/>
-                        {/* <Route exact path="/profile" component={Profile}/> */}
-                        <Route path path="/product/detail/:productId" component={ProductDetail}/>
-                        <Route path="/:category" component={SearchProduct}/>
+                        <Route exact path="/profile" component={Profile}/>
+                        <Route exact path="/cart" component={Cart}/>
+                        <Route exact path="/transactions" component={TransactionHistory}/>
+                        <Route path="/product/detail/:productId" component={ProductDetail}/>
+                        <Route path="/:category" component={SearchResult}/>
                     </Switch>
                 </BrowserRouter>
             </Provider>

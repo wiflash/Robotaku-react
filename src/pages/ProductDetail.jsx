@@ -4,43 +4,57 @@ import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
 import {Container, Row, Col, CardGroup, InputGroup, Accordion, Card, Button} from "react-bootstrap";
+import {FaShoppingCart} from "react-icons/fa"
 import SlideShow from "../components/carousel";
 import Navigation from "../components/navbar";
 
 
 class ProductDetail extends Component {
     state = {
-        detail: {},
-        quantity: 1
-    }
+        quantity: 1,
+        productDetail: {}
+    };
 
     handleRouteSearch(event) {
         event.preventDefault();
         this.props.categoryToPath();
         console.log(store.getState().categoryPath);
         this.props.history.replace(`/${store.getState().categoryPath}`);
-    }
+    };
 
     requestDetailProduct = async () => {
         const productId = this.props.match.params.productId;
         store.setState({isLoading: true});
-        await Axios.get("http://localhost:5000/api/product/"+productId)
+        await Axios.get("http://localhost:5000/api/product/"+productId.slice(-1))
         .then((response) => {
+            this.setState({productDetail: response.data})
             store.setState({isLoading: false});
-            this.setState({
-                detail: response.data
-            });
         })
         .catch((error) => {
             console.log(error);
             alert("Terdapat kesalahan pada koneksi");
         })
-        // console.log(this.state.detail);
-    }
-    
+    };
+
     componentDidMount = () => {
         this.requestDetailProduct();
     };
+    
+    quantityUpdate = isIncrement => {
+        const updatedQuantity = isIncrement ? this.state.quantity+1 : this.state.quantity-1
+        this.setState({quantity: updatedQuantity <= 0 ? 1 : updatedQuantity})
+    }
+    
+    addToCart = () => {
+        const productDataToAdd = {
+            quantity: this.state.quantity,
+            productId: this.state.productDetail.id,
+            isAdd: true
+        }
+        localStorage.getItem("isLogin") === "true" ?
+            this.props.addToCartGlobal(productDataToAdd)
+            : this.props.setModal(true)
+    }
 
     render() {
         return (
@@ -56,18 +70,18 @@ class ProductDetail extends Component {
                             <Card>
                                 <Card.Body>
                                     <Card.Title>
-                                        {this.state.detail.nama}
+                                        {this.state.productDetail.nama}
                                         <Row className="align-items-center">
                                             <Col xs="6">
-                                                <small>Rating: {this.state.detail.rating}</small>
+                                                <small>Rating: {this.state.productDetail.rating}</small>
                                             </Col>
                                             <Col xs="6">
-                                                <small>Kode Produk: 90{this.state.detail.id}89{this.state.detail.id}291{this.state.detail.id}</small><br/>
+                                                <small>Kode Produk: 90{this.state.productDetail.id}89{this.state.productDetail.id}291{this.state.productDetail.id}</small><br/>
                                             </Col>
                                         </Row>
                                     </Card.Title>
                                     <Card.Text>
-                                        <span className="font-weight-bold">Rp {this.state.detail.harga}</span><br/>
+                                        <span className="font-weight-bold">Rp {this.state.productDetail.harga}</span><br/>
                                     </Card.Text>
                                 </Card.Body>
                                 <Card.Footer>
@@ -75,20 +89,25 @@ class ProductDetail extends Component {
                                         <Col xs="12" md="6">
                                             <InputGroup className="align-items-center">
                                                 <InputGroup.Prepend>
-                                                    <Button variant="outline-warning">-</Button>
+                                                    <Button onClick={()=>this.quantityUpdate(false)} variant="outline-warning">-</Button>
+                                                    {/* <Button variant="outline-warning">-</Button> */}
                                                 </InputGroup.Prepend>
-                                                <Button disabled variant="outline-warning rounded-0">
+                                                <InputGroup.Text variant="outline-warning" className="rounded-0">
                                                     <span className="text-body font-weight-bold">
                                                         {this.state.quantity}
                                                     </span>
-                                                </Button>
+                                                </InputGroup.Text>
                                                 <InputGroup.Append>
-                                                    <Button variant="outline-warning">+</Button>
+                                                    {/* <Button variant="outline-warning">+</Button> */}
+                                                    <Button onClick={()=>this.quantityUpdate(true)} variant="outline-warning">+</Button>
                                                 </InputGroup.Append>
                                             </InputGroup>
                                         </Col>
                                         <Col xs="12" md="6">
-                                            <Button block variant="warning">Tambah ke Keranjang</Button>
+                                            <Button block variant="warning" onClick={()=>this.addToCart()}>
+                                                <FaShoppingCart/>
+                                                <span className="ml-2">Tambah ke Keranjang</span>
+                                            </Button>
                                         </Col>
                                     </Row>
                                 </Card.Footer>
@@ -102,4 +121,4 @@ class ProductDetail extends Component {
 }
 
 
-export default connect("productId", actions)(withRouter(ProductDetail));
+export default connect("", actions)(withRouter(ProductDetail));
