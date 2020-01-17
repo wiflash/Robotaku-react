@@ -46,7 +46,7 @@ class CartItem extends Component {
                                         <Card.Text className="m-0"><small>Subtotal:</small></Card.Text>
                                         <Card.Text>
                                             <span className="h4 pl-2 font-weight-bold warning">
-                                                {this.props.totalPricePerProduct}
+                                                Rp {this.props.totalPricePerProduct}
                                             </span>
                                         </Card.Text>
                                     </Card.Body>

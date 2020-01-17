@@ -86,7 +86,12 @@ class Shipment extends Component {
                     </ListGroup.Item>
                 </ListGroup>
                 <Card.Footer>
-                        <Button block onClick={()=>this.props.payNow()} variant="warning">Bayar Sekarang</Button>
+                        <Button block onClick={()=>this.props.payNow()}
+                            className="font-weight-bold"
+                            variant="warning"
+                        >
+                            Bayar Sekarang
+                        </Button>
                 </Card.Footer>
             </Card>
         )

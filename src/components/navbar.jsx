@@ -5,7 +5,7 @@ import {actions, store} from "../store";
 import Login from "./login";
 import {Navbar, Nav, Form, Button, InputGroup, FormControl} from 'react-bootstrap';
 import {FaSearch, FaShoppingCart, FaListUl} from "react-icons/fa"
-import logo from '../logo.svg';
+import logo from '../images/arm-logo.png';
 
 
 class Navigation extends Component {
@@ -69,7 +69,7 @@ class Navigation extends Component {
             <Navbar expand="lg" bg="dark">
                 <Nav className="mr-auto">
                     <Navbar.Brand href="/">
-                        <img src={logo} width="50" height="50" alt="logo" className="d-inline-block"/>
+                        <img src={logo} width="50" height="50" alt="logo" className="d-inline-block mr-2"/>
                         <span className="h4 text-warning font-weight-bold align-middle m-0">RobotAku</span>
                     </Navbar.Brand>
                 </Nav>
