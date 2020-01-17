@@ -1,0 +1,47 @@
+import React, {Component, Fragment} from "react";
+import {withRouter} from "react-router-dom";
+import {connect} from "unistore/react";
+import {actions, store} from "../store";
+import {ListGroup, Card, Navbar} from "react-bootstrap";
+import profilePicture from "../images/robot-logo.svg";
+
+
+class UserProfileSummary extends Component {
+    render() {
+        return (
+            <Card>
+                <Card.Header className="bg-warning">
+                    <Card.Title className="m-0 font-weight-bold">RINGKASAN PROFIL</Card.Title>
+                </Card.Header>
+                <ListGroup variant="flush">
+                    <ListGroup.Item>
+                        <Navbar.Brand>
+                            <img src={profilePicture} width="75" height="75" alt="logo" className="d-inline-block mr-2"/>
+                            <span className="font-weight-bold align-middle m-0">
+                                {this.props.userData.nama_depan+" "+this.props.userData.nama_belakang}
+                            </span>
+                        </Navbar.Brand>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <span className="font-weight-bold">Alamat</span><br/>
+                        <span className="text-body">{this.props.userData.alamat}, </span>
+                        <span className="text-body">Kota {this.props.userData.kota}</span><br/>
+                        <span className="text-body">{this.props.userData.provinsi} </span>
+                        <span className="text-body">{this.props.userData.kode_pos}</span>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <span className="font-weight-bold">No. Telepon</span><br/>
+                        {this.props.userData.telepon}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <span className="font-weight-bold">Email</span><br/>
+                        {this.props.userData.email}
+                    </ListGroup.Item>
+                </ListGroup>
+            </Card>
+        )
+    }
+}
+
+
+export default connect("isLoading, userData", actions)(withRouter(UserProfileSummary));
