@@ -12,7 +12,7 @@ import Shipment from "../components/shipment";
 class Cart extends Component {
     requestCart = async () => {
         store.setState({isLoading: true});
-        await Axios.get("http://localhost:5000/api/user/cart", {
+        await Axios.get("https://robotaku.xyz/api/user/cart", {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"

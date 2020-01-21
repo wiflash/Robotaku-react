@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.carousel-caption-overlay {
+  right: 0;
+  left: 0;
+  bottom: 0;
+  /* padding-bottom: 40px; */
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,0.30);
+}

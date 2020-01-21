@@ -2,7 +2,7 @@ import React, {Component, Fragment} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {Container, Row, Col, Tab, Tabs, Card} from "react-bootstrap";
+import {Container, Row, Col, Nav, Tab, Tabs, Card} from "react-bootstrap";
 import Navigation from "../components/navbar";
 import UserProfileSummary from "../components/userProfileSummary";
 import Axios from "axios";
@@ -12,27 +12,21 @@ import TransactionCard from "../components/transactionCard";
 class Profile extends Component {
     state = {
         isLoading: true,
-        transactionStatus: "",
         transactionId: 1
     };
     
-    requestTransactions = async (inputData) => {
-        store.setState({isLoadingTransaction: true});
-        if(inputData.status !== "") {const path = `?status=${inputData.status}`;}
-        await Axios.get("http://localhost:5000/api/user/transaction", {
+    requestTransactions = async () => {
+        this.setState({isLoading: true});
+        const path = store.getState().transactionStatus !== "" ? `?status=${store.getState().transactionStatus}` : ""
+        await Axios.get("https://robotaku.xyz/api/user/transaction"+path, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
-            },
-            params: {
-                status: inputData.status
             }
         })
         .then((response) => {
-            store.setState({
-                transactionLists: response.data,
-                isLoadingTransaction: false
-            });
+            store.setState({transactionLists: response.data});
+            this.setState({isLoading: false});
         })
         .catch((error) => {
             if(error.response === undefined) {
@@ -46,12 +40,11 @@ class Profile extends Component {
                 alert("Terdapat kesalahan pada koneksi");
             }
         });
-        console.log(this.props.transactionLists);
     };
 
     requestUserData = async () => {
         store.setState({isLoading: true});
-        await Axios.get("http://localhost:5000/api/user/profile", {
+        await Axios.get("https://robotaku.xyz/api/user/profile", {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
@@ -78,19 +71,16 @@ class Profile extends Component {
     };
 
     componentDidMount = () => {
-        this.requestTransactions(this.state);
+        this.requestTransactions();
         this.requestUserData();
-        console.log(this.props.transactionLists);
     };
     
     handleTransactions = async (event) => {
-        console.log("value name:",event.target.name);
-        event.target.name === "Semua" ? this.setState({status: ""})
-            : event.target.name === "Menunggu Konfirmasi" ? this.setState({status: "waiting"})
-            : event.target.name === "Berhasil" ? this.setState({status: "complete"})
-            : this.setState({status: "failed"})
-        await this.requestTransactions(this.state);
-        this.componentDidMount();
+        const status = event.target.name === "Semua" ? store.setState({transactionStatus: ""})
+            : event.target.name === "Menunggu Konfirmasi" ? store.setState({transactionStatus: "waiting"})
+            : event.target.name === "Berhasil" ? store.setState({transactionStatus: "complete"})
+            : store.setState({transactionStatus: "failed"})
+        await this.requestTransactions();
     };
 
     handleSearch = (event) => {
@@ -104,9 +94,8 @@ class Profile extends Component {
         this.componentDidMount();
     };
 
-
     render() {
-        const showTransactions = this.props.transactionLists.map((eachResult, key) => {
+        const showTransactions = [store.getState().transactionLists].map((eachResult) => {
             return (
                 <TransactionCard {...this.props}
                     status={eachResult.status}
@@ -114,6 +103,14 @@ class Profile extends Component {
                     id={eachResult.id}
                     totalPrice={eachResult.total_tagihan}
                 />
+            );
+        });
+
+        const transactionStatus = ["Semua", "Menunggu Konfirmasi", "Berhasil", "Dibatalkan"].map((status) => {
+            return (
+                <Nav.Item>
+                    <Nav.Link name={status} eventKey={status} onClick={this.handleTransactions}>{status}</Nav.Link>
+                </Nav.Item>
             );
         });
 
@@ -137,40 +134,13 @@ class Profile extends Component {
                                     RIWAYAT TRANSAKSI
                                 </Card.Header>
                                 <Card.Body>
-                                    <Tabs defaultActiveKey="Semua">
-                                        <Tab eventKey="Semua" title="Semua"
-                                            name="Semua" onClick={this.handleTransactions}
-                                        >
-                                            {
-                                                this.props.isLoading === false ? showTransactions
-                                                    : <p className="text-body">Loading...</p>
-                                            }
-                                        </Tab>
-                                        <Tab eventKey="Menunggu Konfirmasi" title="Menunggu Konfirmasi"
-                                            name="Menunggu Konfirmasi" onClick={this.handleTransactions}
-                                        >
-                                            {
-                                                this.props.isLoading === false ? showTransactions
-                                                    : <p className="text-body">Loading...</p>
-                                            }
-                                        </Tab>
-                                        <Tab eventKey="Sukses" title="Sukses"
-                                            name="Sukses" onClick={this.handleTransactions}
-                                        >
-                                            {
-                                                this.props.isLoading === false ? showTransactions
-                                                    : <p className="text-body">Loading...</p>
-                                            }
-                                        </Tab>
-                                        <Tab eventKey="Dibatalkan" title="Dibatalkan"
-                                            name="Dibatalkan" onClick={this.handleTransactions}
-                                        >
-                                            {
-                                                this.props.isLoading === false ? showTransactions
-                                                    : <p className="text-body">Loading...</p>
-                                            }
-                                        </Tab>
-                                    </Tabs>
+                                    <Nav variant="tabs" defaultActiveKey="Semua">
+                                        {transactionStatus}
+                                    </Nav>
+                                    {
+                                        this.state.isLoading === false ? showTransactions
+                                            : <p className="text-body">Loading...</p>
+                                    }
                                 </Card.Body>
                             </Card>
                         </Col>
