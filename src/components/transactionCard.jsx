@@ -2,25 +2,21 @@ import React, {Component, Fragment} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {Container, Row, Col, Nav, Button, Tab, Tabs, Card} from "react-bootstrap";
+import {ListGroup} from "react-bootstrap";
 
 
 class TransactionCard extends Component {
     render() {
         return (
-            <Card>
-                <Card.Header>
-                    {this.props.status}
-                    <small>Terakhir diperbaharui: {this.props.updatedAt}</small>
-                </Card.Header>
-                <Card.Body>
-                    <Card.Text>
-                    </Card.Text>
-                </Card.Body>
-                <Card.Footer>
-                    {this.props.totalPrice}
-                </Card.Footer>
-            </Card>
+            <ListGroup.Item>
+                {
+                    this.props.status === "complete" ? <span className="font-weight-bold text-success">Selesai</span>
+                    : this.props.status === "failed" ? <span className="font-weight-bold text-danger">Dibatalkan</span>
+                    : <span className="font-weight-bold">Menunggu Konfirmasi</span>
+                }
+                <br/><small>Diperbaharui: {this.props.updatedAt}</small><br/>
+                Tagihan: <span className="font-weight-bold">Rp {this.props.totalPrice}</span>
+            </ListGroup.Item>
         )
     }
 }

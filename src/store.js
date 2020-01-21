@@ -45,7 +45,8 @@ const initialState = {
     shipmentDetails: {},
     shipmentMethod: {id: 1, price: 18000},
     paymentMethod: {id: 1, price: 100},
-    transactionLists: []
+    transactionHistory: [],
+    transactionStatus: ""
 };
 
 export const store = createStore(initialState);
@@ -107,7 +108,7 @@ export const actions = store => ({
             0 : store.getState().minPrice
         const maxPrice = store.getState().maxPrice === "" ?
             9999999999 : store.getState().maxPrice
-        await Axios.get("http://localhost:5000/api/product", {
+        await Axios.get("https://robotaku.xyz/api/product", {
             params: {
                 keyword: store.getState().keyword,
                 kategori: category,
@@ -158,7 +159,7 @@ export const actions = store => ({
     },
 
     handleLoginGlobal: async (state) => {
-        await Axios.put("http://localhost:5000/api/auth", {
+        await Axios.put("https://robotaku.xyz/api/auth", {
                 email: store.getState().email,
                 password: store.getState().password
             }
@@ -178,7 +179,7 @@ export const actions = store => ({
     },
 
     addToCartGlobal: async (state, inputBody) => {
-        await Axios.post("http://localhost:5000/api/user/cart",
+        await Axios.post("https://robotaku.xyz/api/user/cart",
             {
                 product_id: inputBody.productId,
                 jumlah: inputBody.quantity
@@ -210,7 +211,7 @@ export const actions = store => ({
 
     updateShipmentGlobal: async (state) => {
         store.setState({isLoadingShipment: true});
-        await Axios.put("http://localhost:5000/api/user/shipment",
+        await Axios.put("https://robotaku.xyz/api/user/shipment",
             {
                 shipment_method_id: store.getState().shipmentMethod.id,
                 payment_method_id: store.getState().paymentMethod.id
@@ -235,7 +236,7 @@ export const actions = store => ({
 
     payNowGlobal: async () => {
         store.setState({isLoading: true});
-        await Axios.post("http://localhost:5000/api/user/shipment",
+        await Axios.post("https://robotaku.xyz/api/user/shipment",
             {
                 shipment_method_id: store.getState().shipmentMethod.id,
                 payment_method_id: store.getState().paymentMethod.id

@@ -18,7 +18,7 @@ class ProductDetail extends Component {
     requestDetailProduct = async () => {
         const productId = this.props.match.params.productId;
         store.setState({isLoading: true});
-        await Axios.get("http://localhost:5000/api/product/"+productId.slice(-1))
+        await Axios.get("https://robotaku.xyz/api/product/"+productId.slice(-1))
         .then((response) => {
             this.setState({productDetail: response.data})
             store.setState({isLoading: false});
