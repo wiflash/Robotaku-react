@@ -21,3 +21,8 @@ code {
   width: 100%;
   background: rgba(0,0,0,0.30);
 }
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #ffc107;
+}

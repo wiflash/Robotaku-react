@@ -2,7 +2,7 @@ import React, {Component, Fragment} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {Container, Row, Col, Nav, Tab, Tabs, Card} from "react-bootstrap";
+import {Container, Row, Col, Nav, ListGroup, Card} from "react-bootstrap";
 import Navigation from "../components/navbar";
 import UserProfileSummary from "../components/userProfileSummary";
 import Axios from "axios";
@@ -12,6 +12,8 @@ import TransactionCard from "../components/transactionCard";
 class Profile extends Component {
     state = {
         isLoading: true,
+        page: 1,
+        perPage: 5,
         transactionId: 1
     };
     
@@ -22,11 +24,19 @@ class Profile extends Component {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
+            },
+            params: {
+                p: this.state.page,
+                rp: this.state.perPage
             }
         })
         .then((response) => {
-            store.setState({transactionLists: response.data});
-            this.setState({isLoading: false});
+            store.setState({transactionHistory: response.data.transaction});
+            this.setState({
+                isLoading: false,
+                page: response.data.page,
+                perPage: response.data.per_page
+            });
         })
         .catch((error) => {
             if(error.response === undefined) {
@@ -76,9 +86,9 @@ class Profile extends Component {
     };
     
     handleTransactions = async (event) => {
-        const status = event.target.name === "Semua" ? store.setState({transactionStatus: ""})
+        event.target.name === "Semua" ? store.setState({transactionStatus: ""})
             : event.target.name === "Menunggu Konfirmasi" ? store.setState({transactionStatus: "waiting"})
-            : event.target.name === "Berhasil" ? store.setState({transactionStatus: "complete"})
+            : event.target.name === "Selesai" ? store.setState({transactionStatus: "complete"})
             : store.setState({transactionStatus: "failed"})
         await this.requestTransactions();
     };
@@ -95,7 +105,8 @@ class Profile extends Component {
     };
 
     render() {
-        const showTransactions = [store.getState().transactionLists].map((eachResult) => {
+        const showTransactions = this.props.transactionHistory.map((eachResult, key) => {
+            console.log(key, eachResult);
             return (
                 <TransactionCard {...this.props}
                     status={eachResult.status}
@@ -106,10 +117,15 @@ class Profile extends Component {
             );
         });
 
-        const transactionStatus = ["Semua", "Menunggu Konfirmasi", "Berhasil", "Dibatalkan"].map((status) => {
+        const transactionStatus = ["Semua", "Menunggu Konfirmasi", "Selesai", "Dibatalkan"].map((status) => {
             return (
                 <Nav.Item>
-                    <Nav.Link name={status} eventKey={status} onClick={this.handleTransactions}>{status}</Nav.Link>
+                    <Nav.Link name={status} eventKey={status}
+                        className="text-body border border-warning m-2"
+                        onClick={this.handleTransactions}
+                    >
+                        {status}
+                    </Nav.Link>
                 </Nav.Item>
             );
         });
@@ -122,26 +138,30 @@ class Profile extends Component {
                 />
                 <Container>
                     <Row className="mt-5">
-                        <Col xs="5">
+                        <Col xs="12" lg="5" className="mb-3">
                             {
                                 this.props.isLoading === false ? <UserProfileSummary {...this.props}/>
                                     : <p className="text-body">Loading...</p>
                             }
                         </Col>
-                        <Col xs="7">
+                        <Col xs="12" lg="7" className="mb-3">
                             <Card>
-                                <Card.Header className="bg-warning font-weight-bold">
-                                    RIWAYAT TRANSAKSI
+                                <Card.Header className="bg-warning">
+                                    <Card.Title className="m-0 font-weight-bold">
+                                        RIWAYAT TRANSAKSI
+                                    </Card.Title>
                                 </Card.Header>
                                 <Card.Body>
-                                    <Nav variant="tabs" defaultActiveKey="Semua">
+                                    <Nav fill variant="pills" defaultActiveKey="Semua">
                                         {transactionStatus}
                                     </Nav>
+                                </Card.Body>
+                                <ListGroup variant="flush">
                                     {
                                         this.state.isLoading === false ? showTransactions
-                                            : <p className="text-body">Loading...</p>
+                                            : <ListGroup.Item>Loading...</ListGroup.Item>
                                     }
-                                </Card.Body>
+                                </ListGroup>
                             </Card>
                         </Col>
                     </Row>
@@ -152,4 +172,4 @@ class Profile extends Component {
 }
 
 
-export default connect("isLoading, transactionLists", actions)(withRouter(Profile));
+export default connect("isLoading, transactionHistory", actions)(withRouter(Profile));

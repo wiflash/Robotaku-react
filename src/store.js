@@ -45,7 +45,7 @@ const initialState = {
     shipmentDetails: {},
     shipmentMethod: {id: 1, price: 18000},
     paymentMethod: {id: 1, price: 100},
-    transactionLists: [],
+    transactionHistory: [],
     transactionStatus: ""
 };
 
