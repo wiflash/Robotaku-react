@@ -22,10 +22,12 @@ class SlideShow extends Component {
                 </Carousel.Item>
                 <Carousel.Item>
                     <Image fluid className="d-block w-100" style={slideStyle} src={drone} alt="Drone"/>
-                    <Carousel.Caption>
-                        <h3>Drone</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    </Carousel.Caption>
+                    {/* <Carousel.Caption className="carousel-caption-overlay"> */}
+                        <Carousel.Caption>
+                            <h3>Drone</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </Carousel.Caption>
+                    {/* </Carousel.Caption> */}
                 </Carousel.Item>
                 <Carousel.Item>
                     <Image fluid className="d-block w-100" style={slideStyle} src={arm} alt="Third slide"/>
