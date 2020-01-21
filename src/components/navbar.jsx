@@ -26,11 +26,11 @@ class Navigation extends Component {
             return (
                 <Fragment>
                     <Button onClick={() => this.props.history.push("/profile")}
-                        className="ml-md-2 text-dark font-weight-bold" variant="warning"
+                        className="ml-lg-2 text-dark font-weight-bold" variant="warning"
                     >
                         Profil
                     </Button>
-                    <Button className="ml-md-2" variant="outline-warning font-weight-bold"
+                    <Button className="ml-lg-2" variant="outline-warning font-weight-bold"
                         onClick={this.handleSignOut}
                     >
                         Keluar
@@ -40,13 +40,13 @@ class Navigation extends Component {
         } else {
             return (
                 <Fragment>
-                    <Button className="ml-md-2" variant="outline-warning font-weight-bold"
+                    <Button className="ml-lg-2" variant="outline-warning font-weight-bold"
                         onClick={() => this.props.setModalGlobal(true)}
                     >
                         Masuk
                     </Button>
                     <Button onClick={() => this.props.history.push("/register")}
-                        className="ml-md-2 text-dark font-weight-bold"
+                        className="ml-lg-2 text-dark font-weight-bold"
                         variant="warning">
                         Daftar
                     </Button>
@@ -73,7 +73,7 @@ class Navigation extends Component {
                         <span className="h4 text-warning font-weight-bold align-middle m-0">RobotAku</span>
                     </Navbar.Brand>
                 </Nav>
-                <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                <Navbar.Toggle className="border-warning" aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse>
                     <Form onSubmit={(event) => this.props.handleSearch(event)} className="mx-auto">
                         <InputGroup>
@@ -94,13 +94,13 @@ class Navigation extends Component {
                     <Nav className="mx-auto">
                         <Button onClick={() => localStorage.getItem("isLogin") === "true" ? 
                             this.props.history.push("/cart") : this.props.setModalGlobal(true)}
-                            className="ml-md-2 text-dark font-weight-bold" variant="warning"
+                            className="ml-lg-2 text-dark font-weight-bold" variant="warning"
                         >
                             <FaShoppingCart/>
                         </Button>
                         <Button onClick={() => localStorage.getItem("isLogin") === "true" ? 
                             this.props.history.push("/transactions") : this.props.setModalGlobal(true)}
-                            className="ml-md-2 text-dark font-weight-bold" variant="warning"
+                            className="ml-lg-2 text-dark font-weight-bold" variant="warning"
                         >
                             <FaListUl/>
                         </Button>

@@ -14,7 +14,7 @@ class Register extends Component {
         if (isValid === false) {
             event.stopPropagation();
         } else {
-            axios.post("http://localhost:5000/api/auth", {
+            axios.post("https://robotaku.xyz/api/auth", {
                 nama_depan: this.props.firstName,
                 nama_belakang: this.props.lastName,
                 email: this.props.email,
