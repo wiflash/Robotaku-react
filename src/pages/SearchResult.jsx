@@ -77,10 +77,10 @@ class SearchResult extends Component {
                 />
                 <Container fluid>
                     <Row>
-                        <Col xs="12" md="3" className="mt-4">
+                        <Col xs="12" lg="3" className="mt-4">
                             <FilterBar handleFilterSideBar={this.handleFilterSideBar}/>
                         </Col>
-                        <Col xs="12" md="9" className="mt-4 pl-0">
+                        <Col xs="12" lg="9" className="mt-4 pl-0">
                             {/* <Container> */}
                                 <Row className="align-items-center mr-0 ml-3 my-2">
                                     <span className="h5">

@@ -1,9 +1,9 @@
 import React, {Component, Fragment} from "react";
-import {FaStar} from "react-icons/fa";
+import {FaStar, FaRegStar} from "react-icons/fa";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {FormControl, Accordion, Card, Nav, InputGroup} from "react-bootstrap";
+import {FormControl, Accordion, Card, Nav, InputGroup, Form} from "react-bootstrap";
 
 
 class FilterBar extends Component {
@@ -68,18 +68,46 @@ class FilterBar extends Component {
                                     </Accordion.Toggle>
                                     <Accordion.Collapse eventKey="rating">
                                         <Card.Body className="py-2">
-                                            <Nav.Link className="text-body px-0 py-1">
-                                                <FaStar/>
-                                            </Nav.Link>
-                                            <Nav.Link className="text-body px-0 py-1">
-                                                <FaStar/><FaStar/>
-                                            </Nav.Link>
-                                            <Nav.Link className="text-body px-0 py-1">
-                                                <FaStar/><FaStar/><FaStar/>
-                                            </Nav.Link>
-                                            <Nav.Link className="text-body px-0 py-1">
-                                                <FaStar/><FaStar/><FaStar/><FaStar/>
-                                            </Nav.Link>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="rating" id="zeroStar" value="0"
+                                                    onClick={this.props.handleFilterSideBar}
+                                                />
+                                                <label class="form-check-label" for="zeroStar">
+                                                    <FaRegStar/><FaRegStar/><FaRegStar/><FaRegStar/><FaRegStar/> ke Atas
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="rating" id="oneStar" value="1"
+                                                    onClick={this.props.handleFilterSideBar}
+                                                />
+                                                <label class="form-check-label" for="oneStar">
+                                                    <FaStar/><FaRegStar/><FaRegStar/><FaRegStar/><FaRegStar/> ke Atas
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="rating" id="twoStar" value="2"
+                                                    onClick={this.props.handleFilterSideBar}
+                                                />
+                                                <label class="form-check-label" for="twoStar">
+                                                    <FaStar/><FaStar/><FaRegStar/><FaRegStar/><FaRegStar/> ke Atas
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="rating" id="threeStar" value="3"
+                                                    onClick={this.props.handleFilterSideBar}
+                                                />
+                                                <label class="form-check-label" for="threeStar">
+                                                    <FaStar/><FaStar/><FaStar/><FaRegStar/><FaRegStar/> ke Atas
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="rating" id="fourStar" value="4"
+                                                    onClick={this.props.handleFilterSideBar}
+                                                />
+                                                <label class="form-check-label" for="fourStar">
+                                                    <FaStar/><FaStar/><FaStar/><FaStar/><FaRegStar/> ke Atas
+                                                </label>
+                                            </div>
                                         </Card.Body>
                                     </Accordion.Collapse>
                                 </Card>
