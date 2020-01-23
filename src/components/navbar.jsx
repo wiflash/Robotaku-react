@@ -17,12 +17,12 @@ class Navigation extends Component {
     handleSignOut = () => {
         localStorage.removeItem("isLogin");
         localStorage.removeItem("token");
-        localStorage.removeItem("admin");
+        localStorage.removeItem("isAdmin");
         this.props.history.push("/");
     };
 
     navbarLoginCheck = () => {
-        if (localStorage.getItem("isLogin") === "true") {
+        if (localStorage.getItem("isLogin") === "true" && localStorage.getItem("isAdmin") === "false") {
             return (
                 <Fragment>
                     <Button onClick={() => this.props.history.push("/profile")}
