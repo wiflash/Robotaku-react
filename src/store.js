@@ -90,9 +90,10 @@ export const actions = store => ({
     },
 
     handleFilterSideBarGlobal: (state, event) => {
-        event.target.value === undefined ?
-            store.setState({category: event.target.name})
-            : store.setState({ [event.target.name]: event.target.value })
+        event.target.value === undefined ? store.setState({category: event.target.name})
+            : store.setState({
+                [event.target.name]: event.target.value < 0 ? 0 : event.target.value
+            })
         console.log("event name:",event.target.name);
         console.log("event value:",event.target.value);
         console.log("category:",store.getState().category);
@@ -167,7 +168,7 @@ export const actions = store => ({
         .then((response) => {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("isLogin", true);
-            localStorage.setItem("admin", response.data.admin);
+            localStorage.setItem("isAdmin", response.data.admin);
             store.setState({modalShow: false});
         })
         .catch((error) => {
@@ -200,6 +201,8 @@ export const actions = store => ({
                 alert("Terdapat kesalahan pada koneksi")
             } else if(error.response.status === 400) {
                 alert("Anda harus menyelesaikan pembayaran sebelumnya.");
+            } else if(error.response.status === 403) {
+                alert("Anda tidak bisa mengakses halaman ini.");
             } else {
                 alert("Terdapat kesalahan pada proses verifikasi, silahkan masuk kembali");
                 localStorage.removeItem("isLogin");

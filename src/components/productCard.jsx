@@ -32,7 +32,7 @@ class ProductCard extends Component {
     render() {
         return (
             <Fragment>
-                <Col xs="12" sm="6" lg="4" className="pr-0 pl-3">
+                <Col xs="12" sm="4" className="pr-0 pl-3">
                     <CardDeck>
                     <Card className="mb-3">
                         <Card.Img as={Image} className="rounded-top" fluid variant="top" src={manipulator} />
@@ -50,8 +50,8 @@ class ProductCard extends Component {
                         </Card.Body>
                         <Card.Footer>
                             <Row className="align-items-center">
-                                <Col xs="6">
-                                    <InputGroup>
+                                <Col xs="6" sm="12" lg="6">
+                                    <InputGroup className="mb-sm-3 mb-lg-0 justify-content-sm-center justify-content-lg-start">
                                         <InputGroup.Prepend>
                                             <Button onClick={()=>this.quantityUpdate(false)} variant="outline-warning">-</Button>
                                         </InputGroup.Prepend>
@@ -65,7 +65,7 @@ class ProductCard extends Component {
                                         </InputGroup.Append>
                                     </InputGroup>
                                 </Col>
-                                <Col xs="6">
+                                <Col xs="6" sm="12" lg="6">
                                     <Button block onClick={this.addToCart} variant="warning">Tambah</Button>
                                 </Col>
                             </Row>
