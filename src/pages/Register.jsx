@@ -24,6 +24,7 @@ class Register extends Component {
                 store.setState({
                     isEmailExists: false,
                     existedEmail: "",
+                    // eslint-disable-next-line
                     emailRegex: '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$'
                 })
                 alert("Berhasil mendaftarkan akun!");

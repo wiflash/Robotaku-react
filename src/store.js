@@ -33,6 +33,7 @@ const initialState = {
     isLoadingShipment: true,
     isLoadingTransaction: true,
     isLogin: false,
+    // eslint-disable-next-line
     emailRegex: '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
     newEmailRegex: "",
     isValidated: false,

@@ -22,6 +22,6 @@
         "react"
     ],
     "rules": {
-        "no-useless-escape": 0
+        "no-useless-escape": 1
     }
 }
