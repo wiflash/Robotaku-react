@@ -1,10 +1,9 @@
-import React, {Component, Fragment} from "react";
+import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
-import {actions, store} from "../store";
-import {Image, ListGroup, Row, Col, Button, Card, InputGroup, Nav, FormControl} from "react-bootstrap";
+import {actions} from "../store";
+import {Image, ListGroup, Row, Col, Button, Card, InputGroup, Nav} from "react-bootstrap";
 import manipulator from "../images/manipulator.jpg";
-import Axios from "axios";
 
 
 class CartItem extends Component {

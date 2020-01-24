@@ -1,9 +1,9 @@
-import React, {Component, Fragment} from "react";
+import React, {Component} from "react";
 import {FaStar, FaRegStar} from "react-icons/fa";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
-import {actions, store} from "../store";
-import {FormControl, Accordion, Card, Nav, InputGroup, Form} from "react-bootstrap";
+import {actions} from "../store";
+import {FormControl, Accordion, Card, Nav, InputGroup} from "react-bootstrap";
 
 
 class FilterBar extends Component {

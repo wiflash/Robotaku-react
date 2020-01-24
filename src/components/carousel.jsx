@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from "react";
+import React, {Component} from "react";
 import {Carousel, Image} from "react-bootstrap";
 
 import f1 from "../images/f1.jpg";

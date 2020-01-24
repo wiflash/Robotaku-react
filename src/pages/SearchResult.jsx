@@ -2,7 +2,7 @@ import React, {Component, Fragment} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {Container, Row, Col, Card} from "react-bootstrap";
+import {Container, Row, Col} from "react-bootstrap";
 import ProductCard from "../components/productCard";
 import Navigation from "../components/navbar";
 import FilterBar from "../components/filterBar";

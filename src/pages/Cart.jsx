@@ -3,7 +3,7 @@ import Axios from "axios";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {Container, Row, Col, ListGroup, Card, Button} from "react-bootstrap";
+import {Row, Col} from "react-bootstrap";
 import Navigation from "../components/navbar";
 import CartItem from "../components/cartItem";
 import Shipment from "../components/shipment";
