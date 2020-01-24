@@ -43,7 +43,7 @@ class Navigation extends Component {
                     <Button className="ml-lg-2" variant="outline-warning font-weight-bold"
                         onClick={() => this.props.setModalGlobal(true)}
                     >
-                        Masuk
+                        Login
                     </Button>
                     <Button onClick={() => this.props.history.push("/register")}
                         className="ml-lg-2 text-dark font-weight-bold"
