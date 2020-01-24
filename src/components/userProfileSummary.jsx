@@ -2,8 +2,9 @@ import React, {Component, Fragment} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {ListGroup, Card, Navbar} from "react-bootstrap";
+import {ListGroup, Card, Navbar, Row, Col, Button} from "react-bootstrap";
 import profilePicture from "../images/robot-logo.svg";
+import { FaUserEdit } from "react-icons/fa";
 
 
 class UserProfileSummary extends Component {
@@ -11,7 +12,16 @@ class UserProfileSummary extends Component {
         return (
             <Card>
                 <Card.Header className="bg-warning">
-                    <Card.Title className="m-0 font-weight-bold">RINGKASAN PROFIL</Card.Title>
+                    <Card.Title className="m-0 font-weight-bold">
+                        <Row className="align-items-center">
+                            <Col xs="8">
+                                RINGKASAN PROFIL
+                            </Col>
+                            <Col xs="4" className="text-right">
+                                <Button variant="outline-dark"><FaUserEdit/></Button>
+                            </Col>
+                        </Row>
+                    </Card.Title>
                 </Card.Header>
                 <ListGroup variant="flush">
                     <ListGroup.Item>
