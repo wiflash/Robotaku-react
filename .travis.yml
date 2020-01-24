@@ -8,6 +8,9 @@ services:
 env:
   global:
   - TRAVIS_ALLOW_FAILURE=false
+branches:
+  only:
+  - release
 install:
 - npm install
 before_script:
