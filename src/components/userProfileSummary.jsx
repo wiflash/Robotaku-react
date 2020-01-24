@@ -1,8 +1,8 @@
-import React, {Component, Fragment} from "react";
+import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
-import {actions, store} from "../store";
-import {ListGroup, Card, Navbar, Row, Col, Button} from "react-bootstrap";
+import {actions} from "../store";
+import {ListGroup, Card, Navbar, Row, Col} from "react-bootstrap";
 import profilePicture from "../images/robot-logo.svg";
 import { FaUserEdit } from "react-icons/fa";
 
@@ -18,7 +18,7 @@ class UserProfileSummary extends Component {
                                 RINGKASAN PROFIL
                             </Col>
                             <Col xs="4" className="text-right">
-                                <Button variant="outline-dark"><FaUserEdit/></Button>
+                                <FaUserEdit/>
                             </Col>
                         </Row>
                     </Card.Title>
