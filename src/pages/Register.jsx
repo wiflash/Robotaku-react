@@ -36,7 +36,7 @@ class Register extends Component {
                         store.setState({
                             isEmailExists: true,
                             existedEmail: this.props.email,
-                            emailRegex: `^(?!${this.props.email})`+`(${this.props.emailRegex})`
+                            emailRegex: `^(?!${this.props.email})(${this.props.emailRegex})`
                         });
                     }
                 } else {

@@ -14,7 +14,7 @@ class CartItem extends Component {
     };
 
     handleDetail = productId => {
-        this.props.history.push("/product/detail/"+`90${productId}1${productId}291${productId}`);
+        this.props.history.push(`/product/detail/90${productId}1${productId}291${productId}`);
     };
 
     quantityUpdate = isIncrement => {
