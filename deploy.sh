@@ -3,7 +3,6 @@ sudo docker build -f "Dockerfile" -t wiflash/robotaku-container:fe-$TRAVIS_BUILD
 # push apps image to docker hub
 sudo docker push wiflash/robotaku-container:fe-$TRAVIS_BUILD_ID
 # sudo docker tag wiflash/robotaku-container:fe-$TRAVIS_BUILD_ID wiflash/robotaku-container:fe-latest
-sudo docker push wiflash/robotaku-container:fe-$TRAVIS_BUILD_ID
 # sudo docker push wiflash/robotaku-container:fe-latest
 
 # go inside kubernetes Server
