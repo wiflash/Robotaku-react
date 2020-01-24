@@ -1,9 +1,9 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import axios from "axios";
-import {withRouter, Redirect} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {Jumbotron, Container, Form, Col, Button, Row, Alert} from 'react-bootstrap';
+import {Jumbotron, Container, Form, Col, Button, Row} from 'react-bootstrap';
 
 
 class Register extends Component {
