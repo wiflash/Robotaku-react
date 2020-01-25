@@ -106,10 +106,33 @@ class Profile extends Component {
         this.componentDidMount();
     };
 
-    handleUserProfileEdit = () => {
+    toProfileEdit = () => {
+        this.props.copyUserData();
+        this.props.requestAllProvinces();
         this.setState({isProfileEdit: true});
-        // console.log("profile edit: ",this.state.isProfileEdit);
-    }
+    };
+
+    handleProfileEdit = async (event) => {
+    //     event.preventDefault();
+    //     const form = event.currentTarget;
+    //     const isValid = this.props.password !== this.props.confirmPassword ? false : form.checkValidity()
+    //     if (isValid === false) {
+    //         event.stopPropagation();
+    //     } else {
+            await this.props.handleProfileEditGlobal();
+            this.requestUserData();
+            this.setState({isProfileEdit: false});
+    //     }
+    };
+
+    handleSetAddress = (event, isProvince) => {
+        if (isProvince) {
+            store.setState({province: event.target.label});
+            this.props.requestAllCities(event.target.value);
+        } else {
+            store.setState({city: event.target.label})
+        }
+    };
 
     render() {
         const showTransactions = this.props.transactionHistory.map((eachResult, key) => {
@@ -140,8 +163,11 @@ class Profile extends Component {
         const showOrEditProfile = () => {
             return (
                 this.state.isProfileEdit ?
-                    <UserProfileEdit {...this.props}/>
-                    : <UserProfileSummary {...this.props} handleUserProfileEdit={this.handleUserProfileEdit}/>
+                    <UserProfileEdit {...this.props}
+                        handleProfileEdit={this.handleProfileEdit}
+                        handleSetAddress={this.handleSetAddress}
+                    />
+                    : <UserProfileSummary {...this.props} toProfileEdit={this.toProfileEdit}/>
             );
         };
 

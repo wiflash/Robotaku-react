@@ -6,25 +6,33 @@ import {ListGroup, Card, Navbar, Row, Col, Form, Button} from "react-bootstrap";
 
 
 class UserProfileEdit extends Component {
-    componentDidMount = () => {
-        this.props.requestAllProvinces();
+    handleProfileEdit = async (event) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const isValid = this.props.password !== this.props.confirmPassword ? false : form.checkValidity()
+        if (isValid === false) {
+            event.stopPropagation();
+        } else {
+            await this.props.handleProfileEdit();
+        }
+        this.props.setValidatedGlobal(true);
     };
 
-    handleSetAddress = (event, isProvince) => {
-        if (isProvince) {
-            store.setState({province: event.target.label});
-            this.props.requestAllCities(event.target.value);
-        } else {
-            store.setState({city: event.target.label})
-        }
-    };
+    // handleSetAddress = (event, isProvince) => {
+    //     if (isProvince) {
+    //         store.setState({province: event.target.label});
+    //         this.props.requestAllCities(event.target.value);
+    //     } else {
+    //         store.setState({city: event.target.label})
+    //     }
+    // };
 
     render() {
         const showAllProvinces = store.getState().provinceList.map(province => {
             return (
                 <option value={province.id}
                     label={province.nama}
-                    onClick={(event) => this.handleSetAddress(event, true)}
+                    onClick={(event) => this.props.handleSetAddress(event, true)}
                 >
                     {province.nama}
                 </option>
@@ -35,7 +43,7 @@ class UserProfileEdit extends Component {
             return (
                 <option value={city.id}
                     label={city.nama}
-                    onClick={(event) => this.handleSetAddress(event, false)}
+                    onClick={(event) => this.props.handleSetAddress(event, false)}
                 >
                     {city.nama}
                 </option>
@@ -48,14 +56,14 @@ class UserProfileEdit extends Component {
                     <Card.Title className="m-0 font-weight-bold">
                         <Row className="align-items-center">
                             <Col>
-                                EDIT PROFIL
+                                SUNTING PROFIL
                             </Col>
                         </Row>
                     </Card.Title>
                 </Card.Header>
                 <ListGroup variant="flush">
                     <ListGroup.Item>
-                        <Form>
+                        <Form onSubmit={this.handleProfileEdit} noValidate validated={this.props.isValidated}>
                             <Form.Row>
                                 <Form.Group as={Col} md="6">
                                     <Form.Label>Nama Depan</Form.Label>
@@ -72,35 +80,77 @@ class UserProfileEdit extends Component {
                                         required/>
                                 </Form.Group>
                             </Form.Row>
+                            <Form.Group>
+                                <Form.Label>Alamat Email</Form.Label>
+                                <Form.Control name="email" type="email"
+                                    value={this.props.email}
+                                    onChange={this.props.handleSetGlobal}
+                                    pattern={this.props.emailRegex}
+                                    required/>
+                                <Form.Control.Feedback type="invalid">
+                                    {this.props.isEmailExists ? "Email sudah ada yang memakai" : "Email harus diisi"}
+                                </Form.Control.Feedback>
+                            </Form.Group>
                             <Form.Row>
-                                <Form.Group as={Col} xs="12">
-                                    <Form.Label>Alamat</Form.Label>
-                                    <Form.Control name="address"
-                                        value={this.props.address}
+                                <Form.Group as={Col} md="6">
+                                    <Form.Label>Kata sandi</Form.Label>
+                                    <Form.Control name="password" type="password"
+                                        placeholder="Masukkan kata sandi"
+                                        value={this.props.password}
                                         onChange={this.props.handleSetGlobal}
+                                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                                         required/>
+                                    <Form.Control.Feedback type="invalid">
+                                        Kata sandi harus minimal 8 karakter, terdapat huruf kapital, huruf kecil, angka, dan karakter spesial
+                                    </Form.Control.Feedback>
                                 </Form.Group>
-                                <Form.Group as={Col} xs="12">
-                                    <Form.Label>Provinsi</Form.Label>
-                                    <select className="custom-select" required>
-                                        {
-                                            this.props.isLoadingProvince ?
-                                                <option disabled>Pilih provinsi</option>
-                                                : showAllProvinces
-                                        }
-                                    </select>
-                                </Form.Group>
-                                <Form.Group as={Col} xs="12">
-                                    <Form.Label>Kabupaten / Kota</Form.Label>
-                                    <select className="custom-select" required>
-                                        {
-                                            this.props.isLoadingCity ?
-                                                <option disabled>Pilih kabupaten / kota</option>
-                                                : showAllCities
-                                        }
-                                    </select>
+                                <Form.Group as={Col} md="6">
+                                    <Form.Label>Konfirmasi kata sandi</Form.Label>
+                                    <Form.Control name="confirmPassword" type="password"
+                                        placeholder="Konfirmasi kata sandi"
+                                        value={this.props.confirmPassword}
+                                        onChange={this.props.handleSetGlobal}
+                                        pattern={`^${this.props.password}$`}
+                                        required/>
+                                    <Form.Control.Feedback type="invalid">
+                                        Konfirmasi kata sandi harus sama dengan kata sandi yang dimasukkan
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Form.Row>
+                            <Form.Group>
+                                <Form.Label>Alamat</Form.Label>
+                                <Form.Control name="address"
+                                    value={this.props.address}
+                                    onChange={this.props.handleSetGlobal}
+                                    required/>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Provinsi</Form.Label>
+                                <select className="custom-select" required>
+                                    {
+                                        this.props.isLoadingProvince ?
+                                            <option disabled>Pilih provinsi</option>
+                                            : showAllProvinces
+                                    }
+                                </select>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Kabupaten / Kota</Form.Label>
+                                <select className="custom-select" required>
+                                    {
+                                        this.props.isLoadingCity ?
+                                            <option disabled>Pilih kabupaten / kota</option>
+                                            : showAllCities
+                                    }
+                                </select>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Kode Pos</Form.Label>
+                                <Form.Control name="postalCode"
+                                    value={this.props.postalCode}
+                                    onChange={this.props.handleSetGlobal}
+                                    required/>
+                            </Form.Group>
                             <Button block variant="warning" type="submit">
                                 Perbaharui
                             </Button>
@@ -113,4 +163,7 @@ class UserProfileEdit extends Component {
 }
 
 
-export default connect("isLoadingProvince, isLoadingCity", actions)(withRouter(UserProfileEdit));
+export default connect(
+        "isLoadingProvince, isLoadingCity, firstName, lastName, province, city, postalCode, address, email, password, confirmPassword, phone, emailRegex, phoneRegex, isEmailExists, isPhoneExists, isValidated",
+        actions
+    )(withRouter(UserProfileEdit));

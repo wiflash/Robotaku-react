@@ -7,6 +7,7 @@ const initialState = {
     email: "",
     password: "",
     confirmPassword: "",
+    phone: "",
     firstName: "",
     lastName: "",
     address: "",
@@ -43,7 +44,7 @@ const initialState = {
     isLogin: false,
     // eslint-disable-next-line
     emailRegex: '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
-    newEmailRegex: "",
+    phoneRegex: '^08[0-9]{9,}$',
     isValidated: false,
     isEmailExists: false,
     existedEmail: "",
@@ -178,7 +179,11 @@ export const actions = store => ({
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("isLogin", true);
             localStorage.setItem("isAdmin", response.data.admin);
-            store.setState({modalShow: false});
+            store.setState({
+                modalShow: false,
+                email: "",
+                password: ""
+            });
         })
         .catch((error) => {
             console.log(error);
@@ -294,5 +299,43 @@ export const actions = store => ({
             // console.log(store.getState().cityList);
         })
         .catch((error) => console.log("ERROR:",error))
+    },
+
+    handleProfileEditGlobal: async () => {
+        await Axios.put("https://robotaku.xyz/api/user/profile",
+            {
+                nama_depan: store.getState().shipmentMethod.id,
+                nama_belakang: store.getState().paymentMethod.id,
+                alamat: store.getState().address,
+                provinsi: store.getState().province,
+                kota: store.getState().city,
+                kode_pos: store.getState().postalCode
+            },
+            {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json"
+                }
+            }
+        )
+        .then((response) => {
+            console.log(response.data);
+            store.setState({isLoading: false});
+            alert("Profil berhasil diperbaharui.");
+        })
+        .catch((error) => console.log("ERROR:",error));
+    },
+
+    copyUserData: (state) => {
+        store.setState({
+            firstName: store.getState().userData.nama_depan,
+            lastName: store.getState().userData.nama_belakang,
+            email: store.getState().userData.email,
+            isPhoneExists: store.getState().userData.telepon,
+            address: store.getState().userData.alamat,
+            province: store.getState().userData.provinsi,
+            city: store.getState().userData.kota,
+            postalCode: store.getState().userData.kode_pos
+        });
     }
 });

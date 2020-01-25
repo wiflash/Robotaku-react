@@ -41,7 +41,7 @@ class UserProfileSummary extends Component {
                         {this.props.userData.email}
                     </ListGroup.Item>
                     <ListGroup.Item>
-                        <Button block variant="warning" onClick={this.props.handleUserProfileEdit}>
+                        <Button block variant="warning" onClick={this.props.toProfileEdit}>
                             <FaUserEdit/>
                         </Button>
                     </ListGroup.Item>
