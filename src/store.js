@@ -9,6 +9,12 @@ const initialState = {
     confirmPassword: "",
     firstName: "",
     lastName: "",
+    address: "",
+    province: "",
+    provinceList: [],
+    city: "",
+    cityList: [],
+    postalCode: "",
     filterProduct: "",
     keyword: "",
     category: "Semua Kategori",
@@ -32,6 +38,8 @@ const initialState = {
     isLoading: true,
     isLoadingShipment: true,
     isLoadingTransaction: true,
+    isLoadingProvince: true,
+    isLoadingCity: true,
     isLogin: false,
     // eslint-disable-next-line
     emailRegex: '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
@@ -258,5 +266,33 @@ export const actions = store => ({
             alert("Pesanan berhasil dibuat! Silahkan lakukan pembayaran agar barang dapat diproses.");
         })
         .catch((error) => console.log("ERROR:",error));
+    },
+
+    requestAllProvinces: async () => {
+        store.setState({isLoadingProvince: true});
+        await Axios.get("https://dev.farizdotid.com/api/daerahindonesia/provinsi")
+        .then((response) => {
+            store.setState({
+                isLoadingProvince: false,
+                provinceList: response.data.semuaprovinsi
+            });
+            console.log(store.getState().provinceList);
+        })
+        .catch((error) => console.log("ERROR:",error))
+    },
+
+    requestAllCities: async (state, provinceId) => {
+        console.log(provinceId);
+        store.setState({isLoadingCity: true});
+        await Axios.get(`https://dev.farizdotid.com/api/daerahindonesia/provinsi/${provinceId}/kabupaten`)
+        .then((response) => {
+            console.log(response.data);
+            store.setState({
+                isLoadingCity: false,
+                cityList: response.data.kabupatens
+            });
+            // console.log(store.getState().cityList);
+        })
+        .catch((error) => console.log("ERROR:",error))
     }
 });

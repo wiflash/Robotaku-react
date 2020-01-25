@@ -34,7 +34,7 @@ class Home extends Component {
                                 variant="warning"
                                 onClick={() => this.props.history.push("/all")}
                             >
-                                Pilih Berdasarkan Kategori
+                                LIHAT SEMUA
                             </Button>
                         </Col>
                         <ShopByCategory/>

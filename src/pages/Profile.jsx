@@ -5,6 +5,7 @@ import {actions, store} from "../store";
 import {Container, Row, Col, Nav, ListGroup, Card} from "react-bootstrap";
 import Navigation from "../components/navbar";
 import UserProfileSummary from "../components/userProfileSummary";
+import UserProfileEdit from "../components/userProfileEdit";
 import Axios from "axios";
 import TransactionCard from "../components/transactionCard";
 
@@ -12,6 +13,7 @@ import TransactionCard from "../components/transactionCard";
 class Profile extends Component {
     state = {
         isLoading: true,
+        isProfileEdit: false,
         page: 1,
         perPage: 5,
         transactionId: 1
@@ -104,6 +106,11 @@ class Profile extends Component {
         this.componentDidMount();
     };
 
+    handleUserProfileEdit = () => {
+        this.setState({isProfileEdit: true});
+        // console.log("profile edit: ",this.state.isProfileEdit);
+    }
+
     render() {
         const showTransactions = this.props.transactionHistory.map((eachResult, key) => {
             console.log(key, eachResult);
@@ -130,6 +137,14 @@ class Profile extends Component {
             );
         });
 
+        const showOrEditProfile = () => {
+            return (
+                this.state.isProfileEdit ?
+                    <UserProfileEdit {...this.props}/>
+                    : <UserProfileSummary {...this.props} handleUserProfileEdit={this.handleUserProfileEdit}/>
+            );
+        };
+
         return (
             <Fragment>
                 <Navigation {...this.props}
@@ -140,14 +155,14 @@ class Profile extends Component {
                     <Row className="mt-5">
                         <Col xs="12" lg="5" className="mb-3">
                             {
-                                this.props.isLoading === false ? <UserProfileSummary {...this.props}/>
+                                !this.props.isLoading ? showOrEditProfile()
                                     : <p className="text-body">Loading...</p>
                             }
                         </Col>
                         <Col xs="12" lg="7" className="mb-3">
                             <Card>
                                 <Card.Header className="bg-warning">
-                                    <Card.Title className="m-0 font-weight-bold">
+                                    <Card.Title className="font-weight-bold">
                                         RIWAYAT TRANSAKSI
                                     </Card.Title>
                                 </Card.Header>

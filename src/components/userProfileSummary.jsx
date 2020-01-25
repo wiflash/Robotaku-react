@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions} from "../store";
-import {ListGroup, Card, Navbar, Row, Col} from "react-bootstrap";
+import {ListGroup, Card, Navbar, Row, Col, Button} from "react-bootstrap";
 import profilePicture from "../images/robot-logo.svg";
 import { FaUserEdit } from "react-icons/fa";
 
@@ -13,14 +13,7 @@ class UserProfileSummary extends Component {
             <Card>
                 <Card.Header className="bg-warning">
                     <Card.Title className="m-0 font-weight-bold">
-                        <Row className="align-items-center">
-                            <Col xs="8">
-                                RINGKASAN PROFIL
-                            </Col>
-                            <Col xs="4" className="text-right">
-                                <FaUserEdit/>
-                            </Col>
-                        </Row>
+                        RINGKASAN PROFIL
                     </Card.Title>
                 </Card.Header>
                 <ListGroup variant="flush">
@@ -33,7 +26,7 @@ class UserProfileSummary extends Component {
                         </Navbar.Brand>
                     </ListGroup.Item>
                     <ListGroup.Item>
-                        <span className="font-weight-bold">Alamat</span><br/>
+                        <span className="font-weight-bold">Alamat Lengkap</span><br/>
                         <span className="text-body">{this.props.userData.alamat}, </span>
                         <span className="text-body">Kota {this.props.userData.kota}</span><br/>
                         <span className="text-body">{this.props.userData.provinsi} </span>
@@ -46,6 +39,11 @@ class UserProfileSummary extends Component {
                     <ListGroup.Item>
                         <span className="font-weight-bold">Email</span><br/>
                         {this.props.userData.email}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <Button block variant="warning" onClick={this.props.handleUserProfileEdit}>
+                            <FaUserEdit/>
+                        </Button>
                     </ListGroup.Item>
                 </ListGroup>
             </Card>
