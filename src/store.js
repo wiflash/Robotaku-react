@@ -211,10 +211,41 @@ export const actions = store => ({
             // else {console.log("INI UPDATE CART");}
         })
         .catch((error) => {
-            if(error.response.status === 500) {
-                alert("Terdapat kesalahan pada koneksi")
+            if(error.response === undefined) {
+                alert("Terdapat kesalahan pada koneksi");
             } else if(error.response.status === 400) {
                 alert("Anda harus menyelesaikan pembayaran sebelumnya.");
+            } else if(error.response.status === 403) {
+                alert("Anda tidak bisa mengakses halaman ini.");
+            } else {
+                alert("Terdapat kesalahan pada proses verifikasi, silahkan masuk kembali");
+                localStorage.removeItem("isLogin");
+                localStorage.removeItem("token");
+                store.setState({modalShow: true});
+            }
+        });
+    },
+
+    deleteCartGlobal: async (state, cartId) => {
+        await Axios.delete("https://robotaku.xyz/api/user/cart/"+cartId,
+            {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json"
+                }
+            }
+        )
+        .then((response) => {
+            alert("Keranjang berhasil diperbaharui");
+        })
+        .catch((error) => {
+            if(error.response === undefined) {
+                alert("Terdapat kesalahan pada koneksi");
+            } else if(error.response.status === 400) {
+                alert("Gagal menghapus item.");
+            } else if(error.response.status === 404) {
+                alert("Item tidak ditemukan.");
             } else if(error.response.status === 403) {
                 alert("Anda tidak bisa mengakses halaman ini.");
             } else {
