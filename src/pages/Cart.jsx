@@ -64,16 +64,23 @@ class Cart extends Component {
         this.componentDidMount();
     };
 
+    deleteCart = async (cartId) => {
+        await this.props.deleteCartGlobal(cartId);
+        this.componentDidMount();
+    }
+
     render() {
         const showResult = this.props.cartItems.map((eachResult, key) => {
             return (
                 <CartItem {...this.props}
+                    cartId={eachResult.id}
                     productId={eachResult.product_id}
                     productName={eachResult.nama_produk}
                     pricePerItem={eachResult.harga_satuan}
                     productQuantity={eachResult.jumlah}
                     totalPricePerProduct={eachResult.subtotal}
                     updateCart={this.updateCart}
+                    deleteCart={this.deleteCart}
                 />
             );
         });
