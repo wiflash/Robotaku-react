@@ -301,11 +301,14 @@ export const actions = store => ({
         .catch((error) => console.log("ERROR:",error))
     },
 
-    handleProfileEditGlobal: async () => {
+    handleProfileEditGlobal: async (state, event) => {
         await Axios.put("https://robotaku.xyz/api/user/profile",
             {
-                nama_depan: store.getState().shipmentMethod.id,
-                nama_belakang: store.getState().paymentMethod.id,
+                nama_depan: store.getState().firstName,
+                nama_belakang: store.getState().lastName,
+                email: store.getState().email,
+                password: store.getState().password,
+                telepon: store.getState().phone,
                 alamat: store.getState().address,
                 provinsi: store.getState().province,
                 kota: store.getState().city,
@@ -320,10 +323,40 @@ export const actions = store => ({
         )
         .then((response) => {
             console.log(response.data);
-            store.setState({isLoading: false});
+            store.setState({
+                isEmailExists: false,
+                isPhoneExists: false,
+                email: "",
+                password: "",
+                confirmPassword: "",
+                existedEmail: "",
+                existedPhone: "",
+                // eslint-disable-next-line
+                emailRegex: '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
+                phoneRegex: '^08[0-9]{9,}$'
+            });
             alert("Profil berhasil diperbaharui.");
         })
-        .catch((error) => console.log("ERROR:",error));
+        .catch((error) => {
+            event.persist();
+            if (error.response) {
+                if (error.response.data.message === "Email already exists") {
+                    store.setState({
+                        isEmailExists: true,
+                        existedEmail: store.getState().email,
+                        emailRegex: `^(?!${store.getState().email})(${store.getState().emailRegex})`
+                    });
+                } else if (error.response.data.message === "Phone already exists") {
+                    store.setState({
+                        isPhoneExists: true,
+                        existedPhone: store.getState().phone,
+                        phoneRegex: `^(?!${store.getState().phone})(${store.getState().phoneRegex})`
+                    });
+                }
+            } else {
+                alert("Terdapat kesalahan pada koneksi");
+            }
+        });
     },
 
     copyUserData: (state) => {
@@ -331,7 +364,7 @@ export const actions = store => ({
             firstName: store.getState().userData.nama_depan,
             lastName: store.getState().userData.nama_belakang,
             email: store.getState().userData.email,
-            isPhoneExists: store.getState().userData.telepon,
+            phone: store.getState().userData.telepon,
             address: store.getState().userData.alamat,
             province: store.getState().userData.provinsi,
             city: store.getState().userData.kota,

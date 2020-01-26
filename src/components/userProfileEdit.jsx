@@ -6,27 +6,6 @@ import {ListGroup, Card, Navbar, Row, Col, Form, Button} from "react-bootstrap";
 
 
 class UserProfileEdit extends Component {
-    handleProfileEdit = async (event) => {
-        event.preventDefault();
-        const form = event.currentTarget;
-        const isValid = this.props.password !== this.props.confirmPassword ? false : form.checkValidity()
-        if (isValid === false) {
-            event.stopPropagation();
-        } else {
-            await this.props.handleProfileEdit();
-        }
-        this.props.setValidatedGlobal(true);
-    };
-
-    // handleSetAddress = (event, isProvince) => {
-    //     if (isProvince) {
-    //         store.setState({province: event.target.label});
-    //         this.props.requestAllCities(event.target.value);
-    //     } else {
-    //         store.setState({city: event.target.label})
-    //     }
-    // };
-
     render() {
         const showAllProvinces = store.getState().provinceList.map(province => {
             return (
@@ -63,7 +42,7 @@ class UserProfileEdit extends Component {
                 </Card.Header>
                 <ListGroup variant="flush">
                     <ListGroup.Item>
-                        <Form onSubmit={this.handleProfileEdit} noValidate validated={this.props.isValidated}>
+                        <Form onSubmit={this.props.handleProfileEdit} noValidate validated={this.props.isValidated}>
                             <Form.Row>
                                 <Form.Group as={Col} md="6">
                                     <Form.Label>Nama Depan</Form.Label>
@@ -117,6 +96,18 @@ class UserProfileEdit extends Component {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                             </Form.Row>
+                            <Form.Group>
+                                <Form.Label>Nomor telepon</Form.Label>
+                                <Form.Control name="phone"
+                                    placeholder="08xxxxxxxxxx"
+                                    value={this.props.phone}
+                                    onChange={this.props.handleSetGlobal}
+                                    pattern={this.props.phoneRegex}
+                                    required/>
+                                <Form.Control.Feedback type="invalid">
+                                    Nomor telepon harus sesuai format. Contoh: 081234567890
+                                </Form.Control.Feedback>
+                            </Form.Group>
                             <Form.Group>
                                 <Form.Label>Alamat</Form.Label>
                                 <Form.Control name="address"

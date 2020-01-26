@@ -89,7 +89,7 @@ class Profile extends Component {
     
     handleTransactions = async (event) => {
         event.target.name === "Semua" ? store.setState({transactionStatus: ""})
-            : event.target.name === "Menunggu Konfirmasi" ? store.setState({transactionStatus: "waiting"})
+            : event.target.name === "Menunggu" ? store.setState({transactionStatus: "waiting"})
             : event.target.name === "Selesai" ? store.setState({transactionStatus: "complete"})
             : store.setState({transactionStatus: "failed"})
         await this.requestTransactions();
@@ -109,20 +109,21 @@ class Profile extends Component {
     toProfileEdit = () => {
         this.props.copyUserData();
         this.props.requestAllProvinces();
-        this.setState({isProfileEdit: true});
+        this.setState({isProfileEdit: true, cityList: []});
     };
 
     handleProfileEdit = async (event) => {
-    //     event.preventDefault();
-    //     const form = event.currentTarget;
-    //     const isValid = this.props.password !== this.props.confirmPassword ? false : form.checkValidity()
-    //     if (isValid === false) {
-    //         event.stopPropagation();
-    //     } else {
-            await this.props.handleProfileEditGlobal();
-            this.requestUserData();
+        event.preventDefault();
+        const form = event.currentTarget;
+        const isValid = store.getState().password !== store.getState().confirmPassword ? false : form.checkValidity()
+        if (isValid === false) {
+            event.stopPropagation();
+        } else {
+            await this.props.handleProfileEditGlobal(event);
+            await this.requestUserData();
             this.setState({isProfileEdit: false});
-    //     }
+        }
+        this.props.setValidatedGlobal(true);
     };
 
     handleSetAddress = (event, isProvince) => {
@@ -147,7 +148,7 @@ class Profile extends Component {
             );
         });
 
-        const transactionStatus = ["Semua", "Menunggu Konfirmasi", "Selesai", "Dibatalkan"].map((status) => {
+        const transactionStatus = ["Semua", "Menunggu", "Selesai", "Dibatalkan"].map((status) => {
             return (
                 <Nav.Item>
                     <Nav.Link name={status} eventKey={status}
@@ -179,16 +180,16 @@ class Profile extends Component {
                 />
                 <Container>
                     <Row className="mt-5">
-                        <Col xs="12" lg="5" className="mb-3">
+                        <Col xs="12" lg="6" className="mb-3">
                             {
                                 !this.props.isLoading ? showOrEditProfile()
                                     : <p className="text-body">Loading...</p>
                             }
                         </Col>
-                        <Col xs="12" lg="7" className="mb-3">
+                        <Col xs="12" lg="6" className="mb-3">
                             <Card>
                                 <Card.Header className="bg-warning">
-                                    <Card.Title className="font-weight-bold">
+                                    <Card.Title className="font-weight-bold m-0">
                                         RIWAYAT TRANSAKSI
                                     </Card.Title>
                                 </Card.Header>
