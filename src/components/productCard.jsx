@@ -1,9 +1,8 @@
 import React, {Component, Fragment} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
-import {actions, store} from "../store";
+import {actions} from "../store";
 import {Image, Row, Col, Button, Card, InputGroup, Nav, CardDeck} from "react-bootstrap";
-import {FiStar} from "react-icons/fi";
 import manipulator from "../images/manipulator.jpg";
 
 
@@ -15,7 +14,7 @@ class ProductCard extends Component {
     };
 
     handleDetail = productId => {
-        this.props.history.push("/product/detail/"+`90${productId}1${productId}291${productId}`);
+        this.props.history.push(`/product/detail/90${productId}1${productId}291${productId}`);
     };
 
     quantityUpdate = isIncrement => {

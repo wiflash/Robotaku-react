@@ -1,8 +1,8 @@
-import React, {Component, Fragment} from "react";
+import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {Container, Row, Col, Image, ListGroup, Card, Button} from "react-bootstrap";
+import {Container, Row, Col, Card, Button} from "react-bootstrap";
 
 import actuator_default from "../images/actuator_default.jpg";
 import battery_default from "../images/battery_default.jpg";

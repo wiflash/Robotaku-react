@@ -2,7 +2,7 @@ import React, {Component, Fragment} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {Container, Row, Col, Nav, Button, Tab, Tabs} from "react-bootstrap";
+import {Container, Row, Col, Nav} from "react-bootstrap";
 import Navigation from "../components/navbar";
 
 

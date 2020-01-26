@@ -23,7 +23,11 @@ class Register extends Component {
             .then((response) => {
                 store.setState({
                     isEmailExists: false,
+                    email: "",
+                    password: "",
+                    confirmPassword: "",
                     existedEmail: "",
+                    // eslint-disable-next-line
                     emailRegex: '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$'
                 })
                 alert("Berhasil mendaftarkan akun!");
@@ -36,7 +40,7 @@ class Register extends Component {
                         store.setState({
                             isEmailExists: true,
                             existedEmail: this.props.email,
-                            emailRegex: `^(?!${this.props.email})`+`(${this.props.emailRegex})`
+                            emailRegex: `^(?!${this.props.email})(${this.props.emailRegex})`
                         });
                     }
                 } else {
@@ -123,5 +127,6 @@ class Register extends Component {
 
 
 export default connect(
-    "keyword, category, email, password, confirmPassword, firstName, lastName, isValidated, isEmailExists, existedEmail, emailRegex",
-    actions)(withRouter(Register));
+        "keyword, category, email, password, confirmPassword, firstName, lastName, isValidated, isEmailExists, existedEmail, emailRegex",
+        actions
+    )(withRouter(Register));
