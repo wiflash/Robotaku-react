@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions} from "../store";
-import {ListGroup, Card, Navbar, Row, Col, Button} from "react-bootstrap";
+import {ListGroup, Card, Navbar, Button} from "react-bootstrap";
 import profilePicture from "../images/robot-logo.svg";
 import { FaUserEdit } from "react-icons/fa";
 

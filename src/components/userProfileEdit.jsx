@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "unistore/react";
 import {actions, store} from "../store";
-import {ListGroup, Card, Navbar, Row, Col, Form, Button} from "react-bootstrap";
+import {ListGroup, Card, Row, Col, Form, Button} from "react-bootstrap";
 
 
 class UserProfileEdit extends Component {
