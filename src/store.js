@@ -237,7 +237,7 @@ export const actions = store => ({
             }
         )
         .then((response) => {
-            alert("Keranjang berhasil diperbaharui");
+            // alert("Keranjang berhasil diperbaharui");
         })
         .catch((error) => {
             if(error.response === undefined) {
